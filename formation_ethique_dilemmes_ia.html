@@ -1,59 +1,99 @@
 <!DOCTYPE html>
-<html lang="fr-CA">
+<html lang="fr-CA" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pourquoi la Gouvernance ? • Atelier Vidéo Interactif StephAI | SAAQ</title>
+  <title>Pourquoi la Gouvernance ? • Atelier Socratique & Mentor IA | SAAQ</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
+    /* ========================================================================== */
+    /* 1. SYSTÈME DE VARIABLES DE DESIGN - STYLE APPLE ÉPURÉ & THÈME CLAIR / SOMBRE*/
+    /* ========================================================================== */
     :root {
-      --bg-dark: #070d18;
-      --card-bg: rgba(15, 23, 42, 0.8);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --accent-cyan: #38bdf8;
-      --accent-blue: #0284c7;
-      --accent-gold: #fbbf24;
-      --accent-crimson: #a51c30;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg-app: #f8fafc;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #ffffff 0%, #f1f5f9 100%);
+      --card-bg: #ffffff;
+      --card-border: rgba(0, 0, 0, 0.08);
+      --card-border-subtle: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #475569;
       --text-dim: #64748b;
+      --accent-blue: #0071e3;
+      --accent-blue-hover: #0077ed;
+      --accent-blue-subtle: rgba(0, 113, 227, 0.08);
+      --accent-cyan: #0284c7;
+      --accent-emerald: #059669;
+      --accent-emerald-subtle: #ecfdf5;
+      --accent-amber: #d97706;
+      --accent-amber-subtle: #fffbeb;
+      --accent-crimson: #e11d48;
+      --accent-crimson-subtle: #fff1f2;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
       --radius-xl: 18px;
       --radius-lg: 14px;
       --radius-md: 10px;
+      --radius-pill: 9999px;
+    }
+
+    [data-theme="dark"] {
+      --bg-app: #070d18;
+      --bg-gradient: radial-gradient(circle at 50% 10%, #0e1d33 0%, #070d18 80%);
+      --card-bg: rgba(15, 23, 42, 0.9);
+      --card-border: rgba(255, 255, 255, 0.09);
+      --card-border-subtle: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-blue: #38bdf8;
+      --accent-blue-hover: #60a5fa;
+      --accent-blue-subtle: rgba(56, 189, 248, 0.15);
+      --accent-cyan: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-emerald-subtle: rgba(16, 185, 129, 0.15);
+      --accent-amber: #fbbf24;
+      --accent-amber-subtle: rgba(251, 191, 36, 0.15);
+      --accent-crimson: #f43f5e;
+      --accent-crimson-subtle: rgba(244, 63, 94, 0.15);
+      --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.5);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at 50% 10%, #0e1d33 0%, #070d18 80%);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-gradient);
       color: var(--text-main);
       width: 100vw;
       height: 100vh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: background 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* ========================================================================== */
-    /* 1. EN-TÊTE ÉPURÉ & MINIMALISTE                                             */
+    /* 2. EN-TÊTE ÉPURÉ STYLE APPLE                                               */
     /* ========================================================================== */
     .app-header {
-      height: 54px;
-      min-height: 54px;
-      background: rgba(7, 13, 24, 0.9);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      height: 52px;
+      min-height: 52px;
+      background: var(--card-bg);
       border-bottom: 1px solid var(--card-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 24px;
       z-index: 50;
+      box-shadow: var(--shadow-sm);
     }
 
     .header-left {
@@ -67,55 +107,51 @@
       align-items: center;
       gap: 6px;
       padding: 5px 12px;
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--accent-blue-subtle);
       border: 1px solid var(--card-border);
-      border-radius: 8px;
-      color: var(--text-muted);
+      border-radius: var(--radius-pill);
+      color: var(--accent-blue);
       text-decoration: none;
       font-size: 12px;
       font-weight: 600;
       transition: all 0.2s ease;
     }
     .btn-back:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background: var(--accent-blue);
       color: #ffffff;
+      transform: translateY(-1px);
     }
 
-    .header-title {
+    .header-title-zone {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .header-title h1 {
+    .header-title-zone h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 14.5px;
+      font-size: 15px;
       font-weight: 700;
-      color: #ffffff;
+      color: var(--text-main);
       letter-spacing: -0.2px;
     }
-    .theme-badge {
-      font-size: 10px;
+
+    .badge-mentor {
+      font-size: 11px;
       font-weight: 700;
-      color: var(--accent-gold);
-      background: rgba(251, 191, 36, 0.12);
-      border: 1px solid rgba(251, 191, 36, 0.28);
-      padding: 2px 8px;
-      border-radius: 10px;
-    }
-    .capsule-badge {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      padding: 2px 8px;
-      border-radius: 10px;
+      color: var(--accent-blue);
+      background: var(--accent-blue-subtle);
+      border: 1px solid var(--accent-blue);
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .header-btn {
@@ -123,1471 +159,1465 @@
       align-items: center;
       gap: 6px;
       padding: 5px 12px;
-      border-radius: 8px;
-      font-size: 11.5px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
       font-weight: 600;
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
     }
     .header-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--accent-blue-subtle);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+
+    /* ========================================================================== */
+    /* 3. ASSISTANT PROGRESSION (WIZARD TIMELINE)                                 */
+    /* ========================================================================== */
+    .wizard-bar {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--card-border);
+      padding: 6px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .wizard-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .wizard-progress-track {
+      width: 100%;
+      height: 4px;
+      background: var(--card-border-subtle);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .wizard-progress-fill {
+      height: 100%;
+      width: 14%;
+      background: linear-gradient(90deg, #0071e3, #38bdf8);
+      border-radius: var(--radius-pill);
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wizard-steps-scroll {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 0 2px 0;
+      scrollbar-width: none;
+    }
+    .wizard-steps-scroll::-webkit-scrollbar { display: none; }
+
+    .wizard-step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border-subtle);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .wizard-step-pill:hover {
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+      background: var(--accent-blue-subtle);
+    }
+    .wizard-step-pill.active {
+      background: var(--accent-blue);
       color: #ffffff;
+      border-color: var(--accent-blue);
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
     }
-    .header-btn.btn-summary {
-      background: rgba(56, 189, 248, 0.12);
-      border-color: rgba(56, 189, 248, 0.3);
-      color: #bae6fd;
+    .wizard-step-pill.completed {
+      background: var(--accent-emerald-subtle);
+      color: var(--accent-emerald);
+      border-color: var(--accent-emerald);
     }
-    .header-btn.btn-summary:hover {
-      background: rgba(56, 189, 248, 0.22);
+
+    .wizard-step-num {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 800;
+      background: rgba(0, 0, 0, 0.06);
+    }
+    .wizard-step-pill.active .wizard-step-num {
+      background: #ffffff;
+      color: var(--accent-blue);
+    }
+    .wizard-step-pill.completed .wizard-step-num {
+      background: var(--accent-emerald);
       color: #ffffff;
     }
 
     /* ========================================================================== */
-    /* 2. MAIN CENTRÉ : COLONNE UNIQUE ÉPURÉE                                     */
+    /* 4. MAIN CENTRÉ : COLONNE UNIQUE ÉPURÉE À LA APPLE                         */
     /* ========================================================================== */
     .main-center-wrapper {
       flex: 1;
       width: 100%;
-      max-width: 800px;
+      max-width: 860px;
       margin: 0 auto;
-      height: calc(100vh - 54px);
+      height: calc(100vh - 105px);
       display: flex;
       flex-direction: column;
-      padding: 12px 16px 14px 16px;
+      padding: 10px 18px 12px 18px;
       overflow: hidden;
       position: relative;
     }
 
     /* ========================================================================== */
-    /* 3. CAPSULE VIDÉO EN HAUT                                                   */
+    /* 5. STUDIO DU MENTOR : AVATAR + VISUALISATION ÉPURÉE                        */
     /* ========================================================================== */
-    .video-capsule-card {
-      background: #000000;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(2, 132, 199, 0.12);
-      flex-shrink: 0;
+    .studio-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
+      overflow: hidden;
       margin-bottom: 10px;
+      transition: all 0.3s ease;
     }
 
-    .video-frame {
-      position: relative;
-      width: 100%;
-      height: 215px;
-      background: radial-gradient(circle at center, #112035 0%, #050a12 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    #active-video-element {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
-    }
-
-    /* Avatar Virtuel Épuré */
-    .avatar-clean-stage {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding: 0 24px;
-    }
-
-    .avatar-halo-circle {
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      border: 2px solid rgba(56, 189, 248, 0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      background: #0a1524;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-      transition: transform 0.25s ease;
-      flex-shrink: 0;
-    }
-    .speaking .avatar-halo-circle {
-      animation: pulseClean 1.4s infinite ease-out;
-      border-color: #38bdf8;
-    }
-    @keyframes pulseClean {
-      0% { transform: scale(0.98); box-shadow: 0 0 15px rgba(56, 189, 248, 0.25); }
-      50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(56, 189, 248, 0.55); }
-      100% { transform: scale(0.98); box-shadow: 0 0 15px rgba(56, 189, 248, 0.25); }
-    }
-
-    .avatar-circle-text {
-      font-family: 'Outfit', sans-serif;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--accent-cyan);
-    }
-
-    .avatar-info-clean {
-      display: flex;
-      flex-direction: column;
-    }
-    .avatar-name-line {
-      font-family: 'Outfit', sans-serif;
-      font-size: 14.5px;
-      font-weight: 700;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .active-branch-chip {
-      font-size: 9.5px;
-      font-weight: 700;
-      color: #fbbf24;
-      background: rgba(251, 191, 36, 0.15);
-      border: 1px solid rgba(251, 191, 36, 0.3);
-      padding: 1px 7px;
-      border-radius: 10px;
-    }
-    .avatar-subtitle-line {
-      font-size: 12px;
-      color: var(--accent-cyan);
-      font-weight: 600;
-      margin-top: 3px;
-    }
-
-    .clean-audio-wave {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      height: 14px;
-      margin-top: 8px;
-    }
-    .wave-line {
-      width: 3px;
-      height: 3px;
-      background: var(--accent-cyan);
-      border-radius: 2px;
-      transition: height 0.12s;
-    }
-    .speaking .wave-line:nth-child(1) { animation: waveClean 0.6s infinite ease-in-out; }
-    .speaking .wave-line:nth-child(2) { animation: waveClean 0.6s infinite ease-in-out 0.12s; }
-    .speaking .wave-line:nth-child(3) { animation: waveClean 0.6s infinite ease-in-out 0.24s; }
-    .speaking .wave-line:nth-child(4) { animation: waveClean 0.6s infinite ease-in-out 0.36s; }
-    .speaking .wave-line:nth-child(5) { animation: waveClean 0.6s infinite ease-in-out 0.48s; }
-    @keyframes waveClean {
-      0%, 100% { height: 3px; }
-      50% { height: 16px; }
-    }
-
-    /* Barre de sous-titres épurée */
-    .video-subtitle-clean {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(5, 10, 18, 0.95) 45%, #050a12 100%);
-      padding: 10px 18px 8px 18px;
-      font-size: 12px;
-      line-height: 1.4;
-      color: #f1f5f9;
-      text-align: center;
-    }
-
-    /* Commandes vidéo simplifiées */
-    .video-bottom-controls {
-      height: 32px;
-      background: #08111e;
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 14px;
-    }
-    .ctrl-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .btn-play-pause-clean {
-      background: transparent;
-      border: none;
-      color: #e2e8f0;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .btn-play-pause-clean:hover { color: var(--accent-cyan); }
-    .btn-skip-to-question {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #bae6fd;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 10.5px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.2s;
-    }
-    .btn-skip-to-question:hover {
-      background: rgba(56, 189, 248, 0.25);
-      color: #ffffff;
-    }
-
-    .video-time-clean {
-      font-family: 'Fira Code', monospace;
-      font-size: 11px;
-      color: var(--text-dim);
-    }
-
-    .clean-progress-track {
-      position: absolute;
-      bottom: 32px;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.1);
-      cursor: pointer;
-    }
-    .clean-progress-fill {
-      height: 100%;
-      width: 0%;
-      background: var(--accent-cyan);
-      transition: width 0.1s linear;
-    }
-
-    /* ========================================================================== */
-    /* 4. FLUX DE CONVERSATION CENTRAL (STREAM)                                   */
-    /* ========================================================================== */
-    .conversation-stream {
-      flex: 1;
-      overflow-y: auto;
-      padding: 6px 4px 12px 4px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .conversation-stream::-webkit-scrollbar {
-      width: 5px;
-    }
-    .conversation-stream::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 4px;
-    }
-
-    .chat-row {
-      display: flex;
-      gap: 10px;
-      max-width: 94%;
-      animation: fadeIn 0.22s ease-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .chat-row.stephai-row { align-self: flex-start; }
-    .chat-row.user-row { align-self: flex-end; flex-direction: row-reverse; }
-
-    .msg-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 800;
-    }
-    .stephai-icon {
-      background: linear-gradient(135deg, #0284c7 0%, #091322 100%);
-      color: white;
-      border: 1px solid rgba(56, 189, 248, 0.4);
-    }
-    .user-icon {
-      background: #1e293b;
-      color: var(--accent-cyan);
-      border: 1px solid var(--card-border);
-    }
-
-    .msg-bubble-clean {
-      padding: 12px 16px;
-      border-radius: var(--radius-lg);
-      font-size: 13.5px;
-      line-height: 1.55;
-    }
-    .stephai-bubble {
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      color: #f1f5f9;
-      border-top-left-radius: 4px;
-    }
-    .stephai-bubble strong { color: #ffffff; }
-    .stephai-bubble em { color: #93c5fd; }
-
-    .user-bubble {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
-      border-top-right-radius: 4px;
-      font-weight: 500;
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
-    }
-
-    /* CARTE DE QUESTION & OPTIONS DÉBLOQUÉE APRÈS LA VIDÉO */
-    .question-card-stream {
-      background: linear-gradient(180deg, rgba(16, 29, 49, 0.95) 0%, rgba(9, 18, 32, 0.95) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: var(--radius-lg);
-      padding: 16px 18px;
-      margin: 6px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-      animation: popIn 0.3s ease-out;
-    }
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.97); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .question-header-tag {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent-gold);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .question-text-content {
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.5;
-      color: #ffffff;
-    }
-
-    .options-grid-clean {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .option-card-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 10px 14px;
-      color: #e2e8f0;
-      text-align: left;
-      font-size: 12.5px;
-      line-height: 1.45;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .option-card-btn:hover {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: var(--accent-cyan);
-      color: #ffffff;
-      transform: translateX(4px);
-    }
-    .option-card-btn .opt-badge {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--accent-cyan);
-      background: rgba(56, 189, 248, 0.15);
-      padding: 2px 7px;
-      border-radius: 6px;
-      white-space: nowrap;
-    }
-
-    /* BANNIÈRE DE TRANSITION VERS LA CAPSULE SUIVANTE */
-    .next-capsule-transition-card {
-      background: rgba(2, 132, 199, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: var(--radius-md);
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      animation: fadeIn 0.3s ease;
-    }
-    .trans-info {
-      font-size: 12px;
-      color: #bae6fd;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-launch-next {
-      background: var(--accent-blue);
-      border: none;
-      color: white;
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 11.5px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.2s;
-    }
-    .btn-launch-next:hover {
-      background: var(--accent-cyan);
-      color: #04101e;
-    }
-
-    .typing-clean {
-      display: none;
-      align-items: center;
-      gap: 6px;
-      align-self: flex-start;
-      margin-left: 42px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--card-border);
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 11px;
-      color: #93c5fd;
-    }
-    .dot-pulse {
-      width: 4px;
-      height: 4px;
-      background: var(--accent-cyan);
-      border-radius: 50%;
-      animation: blink 1.2s infinite ease-in-out;
-    }
-    .dot-pulse:nth-child(2) { animation-delay: 0.2s; }
-    .dot-pulse:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes blink {
-      0%, 100% { opacity: 0.2; transform: scale(0.8); }
-      50% { opacity: 1; transform: scale(1.1); }
-    }
-
-    /* ========================================================================== */
-    /* 5. ZONE D'INTERACTION BASSE (GRAND BOUTON MICRO + SAISIE)                  */
-    /* ========================================================================== */
-    .bottom-interactive-bar {
-      background: rgba(11, 20, 35, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-xl);
-      padding: 10px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      flex-shrink: 0;
-    }
-
-    .state-indicator-line {
-      font-size: 11px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 4px;
-    }
-    .state-indicator-line span.highlight {
-      color: var(--accent-cyan);
-      font-weight: 600;
-    }
-
-    .input-controls-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* GRAND BOUTON MICRO PRINCIPAL */
-    .btn-mic-main {
-      width: 44px;
-      height: 44px;
-      min-width: 44px;
-      border-radius: 50%;
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: var(--accent-cyan);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 19px;
-      transition: all 0.25s ease;
-      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.15);
-    }
-    .btn-mic-main:hover {
-      background: rgba(56, 189, 248, 0.25);
-      border-color: var(--accent-cyan);
-      color: #ffffff;
-      transform: scale(1.06);
-    }
-    .btn-mic-main.recording {
-      background: #ef4444;
-      border-color: #f87171;
-      color: #ffffff;
-      box-shadow: 0 0 20px rgba(239, 68, 68, 0.7);
-      animation: pulseMicBig 1s infinite;
-    }
-    @keyframes pulseMicBig {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
-    .input-box-clean {
-      flex: 1;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 8px 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: border-color 0.2s ease;
-    }
-    .input-box-clean:focus-within {
-      border-color: var(--accent-cyan);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
-    }
-
-    .clean-textarea {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 13px;
-      line-height: 1.4;
-      resize: none;
-      height: 22px;
-      max-height: 80px;
-    }
-    .clean-textarea::placeholder {
-      color: var(--text-dim);
-    }
-
-    .btn-send-clean {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      border: none;
-      color: white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      transition: all 0.2s;
-    }
-    .btn-send-clean:hover {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      transform: scale(1.05);
-    }
-
-    /* Modal Synthèse Exécutive */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.active { display: flex; }
-
-    .modal-card {
-      background: #0f1c30;
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: var(--radius-xl);
-      width: min(800px, 94vw);
-      max-height: 86vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-      overflow: hidden;
-    }
-    .modal-header {
-      padding: 16px 20px;
-      background: rgba(9, 19, 34, 0.9);
+    .studio-header-strip {
+      padding: 6px 14px;
+      background: rgba(0, 0, 0, 0.02);
       border-bottom: 1px solid var(--card-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-dim);
     }
-    .modal-header h2 { font-size: 15.5px; color: white; display: flex; align-items: center; gap: 8px; }
-    .btn-close-modal { background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
-    .modal-body { padding: 20px; overflow-y: auto; font-size: 13px; line-height: 1.6; color: #cbd5e1; }
-    .modal-footer {
-      padding: 12px 20px;
-      background: rgba(9, 19, 34, 0.9);
-      border-top: 1px solid var(--card-border);
+
+    .studio-stage {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      height: 230px;
+      background: var(--card-bg);
+      position: relative;
+    }
+
+    @media (max-width: 720px) {
+      .studio-stage {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+
+    /* Panneau de Gauche : Mentor HUD */
+    .mentor-pane {
+      padding: 12px 14px;
+      border-right: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--card-bg) 0%, rgba(0, 113, 227, 0.02) 100%);
+      position: relative;
+    }
+
+    .mentor-avatar-box {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 3px solid var(--card-border-subtle);
+      background: #0f172a;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0, 113, 227, 0.15);
+      transition: all 0.3s ease;
+    }
+    .mentor-pane.speaking .mentor-avatar-box {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 20px rgba(0, 113, 227, 0.35);
+      transform: scale(1.02);
+    }
+
+    .mentor-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mentor-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 6px;
+    }
+
+    .mentor-role {
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .mentor-pulse-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      background: var(--accent-blue-subtle);
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue);
+    }
+
+    .mentor-wave-bars {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      gap: 3px;
+      height: 12px;
+      margin-top: 6px;
+    }
+    .wave-bar {
+      width: 3px;
+      height: 4px;
+      background: var(--accent-blue);
+      border-radius: 2px;
+      transition: height 0.15s ease;
+    }
+    .mentor-pane.speaking .wave-bar:nth-child(1) { animation: waveAnim 0.7s infinite ease-in-out; }
+    .mentor-pane.speaking .wave-bar:nth-child(2) { animation: waveAnim 0.5s infinite ease-in-out 0.1s; }
+    .mentor-pane.speaking .wave-bar:nth-child(3) { animation: waveAnim 0.9s infinite ease-in-out 0.2s; }
+    .mentor-pane.speaking .wave-bar:nth-child(4) { animation: waveAnim 0.6s infinite ease-in-out 0.15s; }
+    @keyframes waveAnim {
+      0%, 100% { height: 4px; }
+      50% { height: 14px; }
+    }
+
+    .mentor-controls-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .btn-ctl-clean {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-ctl-clean:hover {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+    }
+
+    /* Panneau de Droite : Visualisation Interactive Épurée */
+    .slide-visual-pane {
+      flex: 1;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      background: var(--card-bg);
+      position: relative;
+    }
+
+    .slide-meta-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .slide-content-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4px 0;
+    }
+
+    .slide-footer-legend {
+      font-size: 10px;
+      color: var(--text-dim);
+      background: rgba(0, 0, 0, 0.02);
+      border: 1px dashed var(--card-border-subtle);
+      border-radius: 8px;
+      padding: 3px 8px;
+      text-align: center;
+    }
+
+    /* ========================================================================== */
+    /* 6. COMPOSANTS INTERACTIFS ÉPURÉS (STYLE APPLE)                             */
+    /* ========================================================================== */
+    /* Étape 1 : 3 Écoles */
+    .schools-trio-clean {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+    .school-card-clean {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .school-card-clean:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .school-card-clean.active {
+      border-color: var(--accent-blue);
+      background: var(--accent-blue-subtle);
+    }
+    .school-card-top {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .school-desc-clean {
+      font-size: 9.5px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+    .school-badge-clean {
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: var(--radius-pill);
+      align-self: flex-start;
+      margin-top: 2px;
+    }
+
+    /* Étape 2 : Pont de David Hume */
+    .hume-clean-stage {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
       gap: 10px;
     }
-    .btn-modal-action {
-      padding: 7px 14px;
-      border-radius: 8px;
+    .hume-block {
+      flex: 1;
+      padding: 8px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border-subtle);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-sm);
+    }
+    .hume-tag {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--accent-blue);
+      margin-bottom: 2px;
+    }
+    .hume-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+    .hume-bridge-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      min-width: 120px;
+    }
+    .hume-beam {
+      width: 100%;
+      height: 6px;
+      background: var(--card-border-subtle);
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hume-beam.deployed {
+      background: linear-gradient(90deg, #0071e3, #10b981);
+      box-shadow: 0 0 10px rgba(0, 113, 227, 0.4);
+    }
+
+    /* Étape 3 : Tramway Épuré */
+    .tram-canvas-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tram-svg {
+      width: 100%;
+      height: 85px;
+    }
+
+    /* Étape 5 : Freins F1 */
+    .f1-clean-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+    .f1-disc-pane {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 4px solid #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: var(--shadow-md);
+    }
+    .f1-caliper {
+      position: absolute;
+      right: -4px;
+      top: 20px;
+      width: 16px;
+      height: 40px;
+      border-radius: 4px;
+      background: #ef4444;
+      border: 1px solid #f87171;
+    }
+    .f1-speed-display {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+    .f1-quote-clean {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+    .f1-sub-clean {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Boutons d'Action sur Slide */
+    .btn-slide-clean {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: var(--card-bg);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      font-size: 10.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-slide-clean:hover {
+      background: var(--accent-blue);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* ========================================================================== */
+    /* 7. FLUX DE CONVERSATION & MENTORING SOCRATIQUE                             */
+    /* ========================================================================== */
+    .dialogue-stream {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 12px 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .msg-card {
+      display: flex;
+      gap: 10px;
+      max-width: 90%;
+      animation: msgFadeIn 0.25s ease-out;
+    }
+    @keyframes msgFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-mentor {
+      align-self: flex-start;
+    }
+    .msg-user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .msg-mentor .msg-avatar {
+      background: var(--accent-blue-subtle);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+    }
+    .msg-user .msg-avatar {
+      background: var(--card-border-subtle);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+    }
+
+    .msg-bubble {
+      padding: 9px 12px;
+      border-radius: var(--radius-lg);
+      font-size: 12px;
+      line-height: 1.45;
+      box-shadow: var(--shadow-sm);
+    }
+    .msg-mentor .msg-bubble {
+      background: #ffffff;
+      border: 1px solid var(--card-border-subtle);
+      color: var(--text-main);
+      border-top-left-radius: 3px;
+    }
+    [data-theme="dark"] .msg-mentor .msg-bubble {
+      background: rgba(30, 41, 59, 0.7);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .msg-user .msg-bubble {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-top-right-radius: 3px;
+    }
+
+    .subtitles-banner {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-style: italic;
+      background: rgba(0, 0, 0, 0.02);
+      border-left: 3px solid var(--accent-blue);
+      padding: 6px 10px;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+
+    /* Zone de Choix Interactifs (Pills Apple) */
+    .quick-options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 8px;
+    }
+    .btn-option-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border-subtle);
+      color: var(--text-main);
+      font-size: 11.5px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-option-pill:hover {
+      background: var(--accent-blue-subtle);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      transform: translateX(3px);
+    }
+
+    /* Carte de Passage à l'Étape Suivante (Apple Style) */
+    .next-step-card {
+      background: linear-gradient(135deg, rgba(0, 113, 227, 0.06) 0%, rgba(56, 189, 248, 0.06) 100%);
+      border: 1px solid var(--accent-blue);
+      border-radius: var(--radius-lg);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+    .next-step-title {
       font-size: 12px;
       font-weight: 700;
-      cursor: pointer;
+      color: var(--text-main);
+    }
+    .next-step-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+    .btn-launch-step {
+      background: var(--accent-blue);
+      color: #ffffff;
       border: none;
+      border-radius: var(--radius-pill);
+      padding: 7px 16px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.3);
+    }
+    .btn-launch-step:hover {
+      background: var(--accent-blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+    }
+
+    /* Bannière de transition Retour au Script (Mentor Intelligent) */
+    .offscript-bridge-banner {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: var(--accent-blue-subtle);
+      border: 1px dashed var(--accent-blue);
+      border-radius: var(--radius-md);
+      font-size: 11px;
+      color: var(--accent-blue);
+      line-height: 1.4;
+    }
+
+    /* ========================================================================== */
+    /* 8. BARRE DE SAISIE BASSE & GRAND MICROPHONE 44px                           */
+    /* ========================================================================== */
+    .bottom-bar {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .status-hint-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--text-dim);
+      padding: 0 4px;
+    }
+
+    .input-shell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-pill);
+      padding: 3px 6px 3px 6px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .input-shell:focus-within {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+    }
+
+    /* GRAND BOUTON MICROPHONE 44px */
+    .btn-mic-round {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border-subtle);
+      color: var(--accent-blue);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-mic-round:hover {
+      background: var(--accent-blue-subtle);
+      border-color: var(--accent-blue);
+      transform: scale(1.05);
+    }
+    .btn-mic-round.recording {
+      background: var(--accent-crimson);
+      color: #ffffff;
+      border-color: var(--accent-crimson);
+      animation: pulseMic 1.2s infinite ease-in-out;
+    }
+    @keyframes pulseMic {
+      0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+    }
+
+    .input-textarea {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 12.5px;
+      color: var(--text-main);
+      resize: none;
+      line-height: 1.4;
+      padding: 6px 8px;
+      max-height: 72px;
+    }
+    .input-textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    .btn-send-round {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      color: #ffffff;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-send-round:hover {
+      background: var(--accent-blue-hover);
+      transform: scale(1.04);
+    }
+
+    /* Modal Synthèse */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      max-width: 600px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: var(--shadow-lg);
+      max-height: 85vh;
+      overflow-y: auto;
     }
   </style>
 </head>
 <body>
 
   <!-- ======================================================================== -->
-  <!-- 1. EN-TÊTE ÉPURÉ & MINIMALISTE                                           -->
+  <!-- 1. EN-TÊTE ÉPURÉ AVEC THÈME CLAIR / SOMBRE                               -->
   <!-- ======================================================================== -->
   <header class="app-header">
     <div class="header-left">
-      <a href="/coach_playbook_agent.html" class="btn-back">
+      <a href="index.html" class="btn-back" title="Retourner au portail">
         <span>←</span>
-        <span>Playbook</span>
+        <span>Accueil</span>
       </a>
-      <div class="header-title">
-        <h1>StephAI • Atelier Socratique</h1>
-        <span class="theme-badge">🎯 Angle : Pourquoi la Gouvernance ?</span>
-        <span class="capsule-badge" id="header-branch-badge">Capsule VID-01</span>
+      <div class="header-title-zone">
+        <h1>Pourquoi la Gouvernance ?</h1>
+        <span class="badge-mentor">✨ Mentor Virtuel StephAI</span>
       </div>
     </div>
 
     <div class="header-right">
-      <button id="voice-toggle-btn" class="header-btn" onclick="toggleAudioOutput()">
-        <span id="voice-toggle-icon">🔊</span>
-        <span id="voice-toggle-label">Audio Activé</span>
+      <button class="header-btn" onclick="toggleTheme()" id="btn-theme" title="Basculer le thème">
+        <span id="theme-icon">☀️</span>
+        <span id="theme-text">Mode clair</span>
       </button>
-
-      <button class="header-btn btn-summary" onclick="openSummaryModal()">
-        <span>📄</span>
-        <span>Synthèse Exécutive</span>
-      </button>
-
-      <button class="header-btn" onclick="restartSession()" title="Réinitialiser l'atelier">
-        <span>🔄</span>
+      <button class="header-btn" onclick="openSummaryModal()" title="Consulter la synthèse des 7 étapes">
+        <span>📋</span>
+        <span>Synthèse</span>
       </button>
     </div>
   </header>
 
   <!-- ======================================================================== -->
-  <!-- 2. MAIN CENTRÉ : VIDÉO EN HAUT + STREAM DE DISCUSSION EN BAS               -->
+  <!-- 2. BARRE D'ASSISTANT WIZARD PAR ÉTAPES (7 ÉTAPES PROGRESSIVES)             -->
+  <!-- ======================================================================== -->
+  <div class="wizard-bar">
+    <div class="wizard-meta-row">
+      <span id="wizard-step-label">Étape 1 sur 7 • Les 3 Écoles Morales</span>
+      <span id="wizard-pct-label">14% complété</span>
+    </div>
+    <div class="wizard-progress-track">
+      <div class="wizard-progress-fill" id="wizard-progress-fill"></div>
+    </div>
+    <div class="wizard-steps-scroll" id="wizard-steps-scroll">
+      <button class="wizard-step-pill active" id="pill-VID-01" onclick="jumpToStep('VID-01')">
+        <span class="wizard-step-num">1</span>
+        <span>📜 3 Écoles</span>
+      </button>
+      <button class="wizard-step-pill" id="pill-VID-02" onclick="jumpToStep('VID-02')">
+        <span class="wizard-step-num">2</span>
+        <span>⚡ Pont de Hume</span>
+      </button>
+      <button class="wizard-step-pill" id="pill-VID-03" onclick="jumpToStep('VID-03')">
+        <span class="wizard-step-num">3</span>
+        <span>🚊 Tramway</span>
+      </button>
+      <button class="wizard-step-pill" id="pill-VID-04" onclick="jumpToStep('VID-04')">
+        <span class="wizard-step-num">4</span>
+        <span>🚗 Véhicule</span>
+      </button>
+      <button class="wizard-step-pill" id="pill-VID-05" onclick="jumpToStep('VID-05')">
+        <span class="wizard-step-num">5</span>
+        <span>🏎️ Freins F1</span>
+      </button>
+      <button class="wizard-step-pill" id="pill-VID-06" onclick="jumpToStep('VID-06')">
+        <span class="wizard-step-num">6</span>
+        <span>🛡️ Gardiens</span>
+      </button>
+      <button class="wizard-step-pill" id="pill-VID-07" onclick="jumpToStep('VID-07')">
+        <span class="wizard-step-num">7</span>
+        <span>🎯 Pitch 30s</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================================== -->
+  <!-- 3. MAIN CENTRÉ : STUDIO DU MENTOR + DIALOGUE SOCRATIQUE                   -->
   <!-- ======================================================================== -->
   <main class="main-center-wrapper">
 
-    <!-- CAPSULE VIDÉO EN HAUT -->
-    <div class="video-capsule-card" id="video-capsule-card">
-      <div class="video-frame">
+    <!-- STUDIO DU MENTOR (AVATAR HUD + VISUEL ÉPURÉ) -->
+    <div class="studio-container">
+      <div class="studio-header-strip">
+        <span id="studio-stage-title">Capsule Vidéo 1/7 • Les Fondations Morales de l'IA</span>
+        <span id="studio-status-tag">🔊 Narration en cours...</span>
+      </div>
+
+      <div class="studio-stage" id="studio-stage">
         
-        <!-- Lecteur Vidéo MP4 Synthesia (si configuré) -->
-        <video id="active-video-element" playsinline></video>
+        <!-- Pôle Gauche : Mentor StephAI -->
+        <div class="mentor-pane" id="mentor-pane">
+          <div class="mentor-avatar-box">
+            <!-- Avatar épuré SVG de StephAI -->
+            <svg class="mentor-avatar-img" viewBox="0 0 100 100" fill="none">
+              <rect width="100" height="100" fill="#0f172a"/>
+              <circle cx="50" cy="40" r="20" fill="#38bdf8" opacity="0.85"/>
+              <ellipse cx="50" cy="80" rx="30" ry="18" fill="#0284c7" opacity="0.9"/>
+              <circle cx="43" cy="38" r="2.5" fill="#ffffff"/>
+              <circle cx="57" cy="38" r="2.5" fill="#ffffff"/>
+              <path d="M 45 46 Q 50 50 55 46" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="50" cy="50" r="46" stroke="#38bdf8" stroke-width="2" stroke-dasharray="8 6"/>
+            </svg>
+          </div>
+          <div class="mentor-name">StephAI</div>
+          <div class="mentor-role">Conseillère & Mentor Éthique</div>
+          <div class="mentor-pulse-tag" id="mentor-pulse-tag">🎧 En écoute</div>
 
-        <!-- Scène Virtuelle Épurée avec Onde de Voix -->
-        <div class="avatar-clean-stage" id="avatar-clean-stage">
-          <div class="avatar-halo-circle">
-            <span class="avatar-circle-text">AI</span>
+          <div class="mentor-wave-bars">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
           </div>
 
-          <div class="avatar-info-clean">
-            <div class="avatar-name-line">
-              <span>StephAI • Conseillère en Éthique & Gouvernance</span>
-              <span class="active-branch-chip" id="capsule-chip-code">VID-01</span>
-            </div>
-            <div class="avatar-subtitle-line" id="capsule-title-line">Pourquoi la Gouvernance de l'IA est-elle Indispensable ?</div>
-            <div class="clean-audio-wave" id="clean-audio-wave">
-              <div class="wave-line"></div>
-              <div class="wave-line"></div>
-              <div class="wave-line"></div>
-              <div class="wave-line"></div>
-              <div class="wave-line"></div>
-            </div>
+          <div class="mentor-controls-row">
+            <button class="btn-ctl-clean" onclick="replayActiveAudio()">🔄 Rejouer</button>
+            <button class="btn-ctl-clean" onclick="toggleAudioMute()" id="btn-audio-mute">🔊 Son</button>
           </div>
         </div>
 
-        <!-- Sous-titres dynamiques épurés -->
-        <div class="video-subtitle-clean" id="video-subtitle-clean">
-          « Pourquoi la gouvernance de l'IA est-elle indispensable ? »
+        <!-- Pôle Droite : Visualisation Interactive Épurée -->
+        <div class="slide-visual-pane">
+          <div class="slide-meta-title" id="slide-meta-title">
+            <span>✨ DOCTRINE DE GOUVERNANCE IA</span>
+          </div>
+
+          <div class="slide-content-stage" id="slide-content-stage">
+            <!-- Injecté dynamiquement par renderSlideContent() -->
+          </div>
+
+          <div class="slide-footer-legend" id="slide-footer-legend">
+            💡 Manipulez les schémas interactifs pour comprendre l'arbitrage éthique en temps réel.
+          </div>
         </div>
 
-        <!-- Barre de progression vidéo discrète -->
-        <div class="clean-progress-track" id="clean-progress-track" onclick="seekVideo(event)">
-          <div class="clean-progress-fill" id="clean-progress-fill"></div>
-        </div>
-      </div>
-
-      <!-- Commandes vidéo simplifiées -->
-      <div class="video-bottom-controls">
-        <div class="ctrl-left">
-          <button class="btn-play-pause-clean" id="btn-play-pause-clean" onclick="togglePlayPauseVideo()">
-            <span id="play-pause-icon">▶</span>
-            <span id="play-pause-label">Lecture</span>
-          </button>
-          
-          <button class="btn-skip-to-question" id="btn-skip-to-question" onclick="triggerQuestionNow()">
-            <span>Aller à la question</span>
-            <span>⏩</span>
-          </button>
-        </div>
-        <div class="video-time-clean" id="video-time-clean">00:00 / 00:58</div>
       </div>
     </div>
 
-    <!-- FLUX DE DISCUSSION CENTRAL (STREAM) -->
-    <div class="conversation-stream" id="conversation-stream">
-      <!-- Les messages, cartes de questions et réponses s'injectent ici dynamiquement -->
+    <!-- DIALOGUE SOCRATIQUE AVEC LE MENTOR -->
+    <div class="dialogue-stream" id="dialogue-stream">
+      <!-- Les messages socratiques, sous-titres et options apparaîtront ici -->
     </div>
 
-    <!-- Indicateur de réflexion discret -->
-    <div class="typing-clean" id="typing-clean">
-      <div class="dot-pulse"></div>
-      <div class="dot-pulse"></div>
-      <div class="dot-pulse"></div>
-      <span id="typing-label">StephAI analyse votre perspective sur la gouvernance...</span>
-    </div>
-
-    <!-- ZONE D'INTERACTION BASSE (GRAND MICRO + SAISIE) -->
-    <div class="bottom-interactive-bar">
-      
-      <div class="state-indicator-line">
+    <!-- BARRE D'INTERACTION BASSE (GRAND MICROPHONE 44px + SAISIE) -->
+    <div class="bottom-bar">
+      <div class="status-hint-row">
         <span id="interaction-status-badge">🎧 Capsule vidéo en cours d'écoute...</span>
         <span id="mic-status-hint">Microphone prêt</span>
       </div>
 
-      <!-- Ligne de saisie avec le Grand Bouton Micro -->
-      <div class="input-controls-row">
-        
-        <!-- LE GRAND BOUTON MICRO PRINCIPAL (ÉPURÉ, ROND & PROÉMINENT) -->
-        <button id="mic-btn-main" class="btn-mic-main" onclick="toggleMicrophoneSTT()" title="Parler à StephAI (Dictée vocale)">
+      <div class="input-shell">
+        <button id="mic-btn-main" class="btn-mic-round" onclick="toggleMicrophoneSTT()" title="Prendre la parole (Dictée vocale)">
           🎤
         </button>
 
-        <div class="input-box-clean">
-          <textarea 
-            id="chat-input" 
-            class="clean-textarea" 
-            rows="1" 
-            placeholder="Écoutez la capsule, puis répondez ou utilisez le micro 🎤..."
-            onkeydown="handleInputKeydown(event)"
-            oninput="autoResize(this)"></textarea>
+        <textarea 
+          id="chat-input" 
+          class="input-textarea" 
+          rows="1" 
+          placeholder="Posez une question à StephAI ou répondez au micro 🎤..."
+          onkeydown="handleInputKeydown(event)"
+          oninput="autoResize(this)"></textarea>
 
-          <button id="btn-send" class="btn-send-clean" onclick="submitUserMessage()" title="Envoyer">
-            ➤
-          </button>
-        </div>
-
+        <button id="btn-send" class="btn-send-round" onclick="submitUserMessage()" title="Envoyer le message">
+          ➤
+        </button>
       </div>
-
     </div>
 
   </main>
 
-  <!-- ======================================================================== -->
-  <!-- 3. MODAL DE SYNTHÈSE EXÉCUTIVE                                           -->
-  <!-- ======================================================================== -->
-  <div class="modal-overlay" id="summary-modal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2>
-          <span>📜</span>
-          <span>Synthèse Exécutive • Pourquoi la Gouvernance de l'IA ?</span>
-        </h2>
-        <button class="btn-close-modal" onclick="closeSummaryModal()">×</button>
+  <!-- MODAL DE SYNTHÈSE EXÉCUTIVE -->
+  <div class="modal-overlay" id="summary-modal" onclick="closeSummaryModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-family:'Outfit',sans-serif; font-size:16px;">📋 Synthèse Exécutive • Pourquoi la Gouvernance ?</h2>
+        <button onclick="closeSummaryModal()" style="background:none; border:none; font-size:16px; cursor:pointer;">✕</button>
       </div>
-
-      <div class="modal-body">
-        <h3 style="color: #38bdf8; font-size: 14px; margin-bottom: 6px;">1. Pourquoi la Gouvernance ? (La Thèse Fondamentale)</h3>
-        <p>L'intelligence artificielle n'est jamais neutre. Le code et les modèles ne sont pas des arbitres moraux autonomes : laisser l'IA décider sans gouvernance, c'est laisser le hasard statistique ou les biais historiques décider de destins humains. La gouvernance est le cadre institutionnel qui garantit l'imputabilité, la légitimité et la confiance citoyenne.</p>
-
-        <h3 style="color: #38bdf8; font-size: 14px; margin: 14px 0 6px 0;">2. Dépasser le Piège de David Hume (Les Données ne Suffisent Pas)</h3>
-        <p>Les données décrivent ce qui a eu lieu (le passé). Elles ne peuvent jamais dicter ce qui est moralement juste (le futur). La gouvernance est la boussole humaine qui comble ce fossé entre la donnée brute et les valeurs de la société.</p>
-
-        <h3 style="color: #38bdf8; font-size: 14px; margin: 14px 0 6px 0;">3. L'Architecture des 3 Piliers Moraux de la Gouvernance</h3>
-        <div style="background: rgba(255, 255, 255, 0.04); border-left: 4px solid var(--accent-cyan); padding: 10px 14px; border-radius: 4px; font-style: italic; color: #f1f5f9;">
-          « Notre gouvernance combine la <strong>déontologie</strong> (50 % : conformité stricte, respect de la Loi 25 et protection des personnes), l'<strong>éthique de la vertu</strong> (30 % : préservation de la réputation et de la confiance institutionnelle), et l'<strong>utilitarisme</strong> (20 % : optimisation de la performance et des retombées concrètes). »
-        </div>
-
-        <h3 style="color: #38bdf8; font-size: 14px; margin: 14px 0 6px 0;">4. La Gouvernance comme Accélérateur (Les Freins de la Formule 1)</h3>
-        <p>On ne met pas des freins sur une Formule 1 pour la ralentir, mais pour lui permettre de rouler à 300 km/h en toute sécurité. La gouvernance n'est pas un frein bureaucratique : c'est le garant qui autorise une innovation audacieuse.</p>
-
-        <h3 style="color: #38bdf8; font-size: 14px; margin: 14px 0 6px 0;">5. Le Pitch Exécutif pour le Gestionnaire (30 secondes)</h3>
-        <div style="background: rgba(255, 255, 255, 0.04); border-left: 4px solid var(--accent-gold); padding: 10px 14px; border-radius: 4px; font-style: italic; color: #f1f5f9;">
-          « Pourquoi la gouvernance de l'IA ? Parce que les algorithmes ne sont pas neutres et que les données du passé ne suffisent pas à garantir un futur éthique. Notre gouvernance équilibre la <strong>déontologie</strong> (Loi 25), la <strong>vertu</strong> (confiance) et l'<strong>utilitarisme</strong> (valeur), sous la surveillance continue d'agents gardiens en parallèle et d'une supervision humaine souveraine dotée d'un droit de veto. »
-        </div>
+      <div style="font-size:12px; color:var(--text-muted); line-height:1.5; display:flex; flex-direction:column; gap:10px;">
+        <p><strong>1. Les 3 Écoles Morales :</strong> La déontologie (50% - respect de la Loi 25), la vertu (30% - réputation et confiance) et l'utilitarisme (20% - retombées mesurées) forment un trépied indissociable.</p>
+        <p><strong>2. Le Piège de Hume :</strong> Les données décrivent uniquement le passé (« ce qui est »). Seule la gouvernance humaine peut définir ce qui « devrait être ».</p>
+        <p><strong>3. Le Dilemme du Tramway :</strong> Le code doit arbitrer des situations critiques à froid. Ne pas gouverner revient à laisser le hasard décider.</p>
+        <p><strong>4. Le Véhicule Autonome :</strong> Les algorithmes doivent répondre à des doctrines explicites et auditables face à l'accident inévitable.</p>
+        <p><strong>5. Les Freins de Formule 1 :</strong> La gouvernance n'est pas un frein : c'est l'assurance technique qui permet d'aller vite à 300 km/h sans catastrophe.</p>
+        <p><strong>6. Les Agents Gardiens :</strong> Un pipeline R&D en temps réel qui filtre les anomalies et garantit le veto humain (Human-in-Command).</p>
+        <p><strong>7. Le Pitch 30s :</strong> « La gouvernance de l'IA ne nous ralentit pas : c'est notre moteur de confiance pour déployer vite et en toute sécurité. »</p>
       </div>
-
-      <div class="modal-footer">
-        <button class="btn-modal-action" style="background: rgba(56, 189, 248, 0.2); border: 1px solid var(--accent-cyan); color: white;" onclick="copyPitch()">
-          📋 Copier le Pitch Exécutif
-        </button>
-        <button class="btn-modal-action" style="background: #0284c7; color: white;" onclick="window.print()">
-          🖨️ Imprimer la Fiche
-        </button>
+      <div style="text-align:right; margin-top:14px;">
+        <button class="btn-launch-step" onclick="closeSummaryModal()">Fermer la synthèse</button>
       </div>
     </div>
   </div>
 
   <!-- ======================================================================== -->
-  <!-- 4. LOGIQUE SOCRATIQUE : VIDÉO -> QUESTION -> RÉPONSE IA -> VIDÉO SUIVANTE -->
+  <!-- 4. LOGIQUE SOCRATIQUE, WIZARD & GESTION INTELLIGENTE DU MENTOR              -->
   <!-- ======================================================================== -->
   <script>
-    // DÉFINITION COMPLÈTE DU FLUX MULTI-CAPSULES AVEC L'ANGLE « POURQUOI LA GOUVERNANCE ? »
-    const VIDEO_BRANCHES = {
+    // ÉTAT DE L'APPLICATION
+    const APP = {
+      currentStepId: 'VID-01',
+      isSpeaking: false,
+      isAudioMuted: false,
+      speechSynthesisUtterance: null,
+      theme: 'light',
+      tramLeverState: 'straight',
+      selectedSchool: null,
+      humeBridgeDeployed: false,
+      speedF1: 180
+    };
+
+    // DÉFINITION DES 7 CAPSULES DE FORMATION (WIZARD)
+    const WIZARD_STEPS = {
       'VID-01': {
-        title: "Pourquoi la Gouvernance de l'IA est-elle Indispensable ?",
-        durationSec: 58,
-        videoSrc: "",
-        videoScript: `Bonjour ! Je suis StephAI, votre conseillère numérique en éthique et gouvernance des technologies.
+        stepNum: 1,
+        title: "Les 3 Écoles Morales Fondamentales de la Gouvernance IA",
+        shortTitle: "3 Écoles",
+        slideType: "schools",
+        script: `Bonjour ! Je suis StephAI, votre conseillère numérique en éthique et gouvernance des technologies.
 
-Aujourd'hui, nous allons aborder une question fondamentale que tout leader et gestionnaire doit se poser : Pourquoi la gouvernance de l'IA est-elle indispensable ?
+Pourquoi la gouvernance de l'IA est-elle indispensable ? Parce que le code n'est jamais neutre : chaque modèle incorpore des choix moraux qui engagent des vies humaines. Pour guider ces décisions, nous devons nous appuyer sur les trois grandes écoles de philosophie morale :
 
-Trop souvent, on réduit l'IA à un défi d'ingénierie ou à un calcul de rentabilité. Mais dès qu'un algorithme trie des candidatures, octroie un crédit financier, ajuste une indemnisation ou guide un véhicule, ce n'est plus seulement du code : c'est un choix moral qui engage des vies humaines et la confiance de la société.
+Premièrement, la Déontologie, inspirée d'Emmanuel Kant : le respect strict des règles, du devoir et de la Loi 25. C'est le principe absolu selon lequel la fin ne justifie jamais les moyens.
 
-Si nous ne gouvernons pas l'IA, qui décide ? Le développeur au milieu de la nuit ? Le fournisseur du modèle ? Ou le hasard statistique des données passées ?`,
-        
-        questionPrompt: "Selon vous, pourquoi ne peut-on pas simplement laisser faire la technologie ou se fier à la neutralité du code ? Pourquoi avons-nous impérativement besoin d'un cadre de gouvernance ?",
-        
+Deuxièmement, l'Éthique de la Vertu, héritée d'Aristote : le caractère de l'organisation, la mission publique et la préservation de la confiance citoyenne.
+
+Et troisièmement, l'Utilitarisme, de Bentham et Mill : le calcul d'impact, l'optimisation des conséquences et la maximisation du bien commun pour la collectivité.
+
+Gouverner l'IA, c'est savoir arbitrer avec sagesse entre ces trois boussoles.`,
+        questionPrompt: "Parmi ces trois grandes écoles éthiques, laquelle devrait être selon vous la priorité d'une saine gouvernance de l'IA au sein de votre organisation, et pourquoi ?",
+        nextStepId: "VID-02",
         options: [
           {
-            label: "🛡️ Le code n'est jamais neutre : règles, supervision humaine & transparence",
-            text: "Parce que le code n'est jamais neutre : il faut des règles claires, une supervision humaine et de la transparence.",
-            nextBranch: "VID-02A",
-            aiReply: "Exactement. Vous mettez le doigt sur la raison d'être première de la gouvernance : le code et les modèles ne sont jamais neutres. Ils incorporent toujours, implicitement ou explicitement, des choix de société. C'est précisément pour cela que la gouvernance existe : pour combler le fossé entre la donnée brute et nos valeurs."
+            label: "📜 Déontologie d'abord (Conformité stricte, Loi 25 et lignes rouges)",
+            text: "Le premier pilier, c'est la déontologie : le respect strict des règles, la Loi 25 et la protection absolue des personnes avant tout gain.",
+            aiReply: "Une clarté exemplaire ! Vous placez la conformité et la protection des personnes au-dessus de toute optimisation. Les règles déontologiques constituent le socle non négociable de toute gouvernance sérieuse."
           },
           {
-            label: "⏳ Le passé n'est pas le futur : les données seules ne suffisent pas",
-            text: "Parce que les données reflètent le passé, alors que la gouvernance prépare un avenir juste et incertain.",
-            nextBranch: "VID-02A",
-            aiReply: "C'est une intuition philosophique majeure ! Les données racontent ce qui a été, mais jamais ce qui devrait être. Sans gouvernance, l'IA ne fait que reproduire et amplifier les biais du passé."
+            label: "🏛️ Éthique de la Vertu (Confiance citoyenne, intégrité et réputation)",
+            text: "L'éthique de la vertu me paraît prioritaire : préserver l'intégrité, la mission publique et le lien de confiance avec les citoyens.",
+            aiReply: "Très inspirant : la technique évolue et les règlements changent, mais la réputation et le lien de confiance avec les citoyens demeurent l'actif institutionnel le plus précieux."
           },
           {
-            label: "⚙️ Avec des modèles assez grands, la technique pourrait-elle s'auto-réguler ?",
-            text: "Avec des modèles suffisamment grands et bien entraînés, la technique pourrait-elle déduire elle-même les bons comportements ?",
-            nextBranch: "VID-02B",
-            aiReply: "C'est une tentation fréquente d'espérer que la masse de données produise d'elle-même la justice. Mais optimiser sans boussole morale ne produit qu'une répétition froide des schémas d'hier. Regardons pourquoi dans la capsule suivante."
-          }
-        ]
-      },
-
-      'VID-02A': {
-        title: "Pourquoi les Données ne Suffisent Pas ? (Le Piège de David Hume)",
-        durationSec: 68,
-        videoSrc: "",
-        videoScript: `Au dix-huitième siècle, le philosophe David Hume a mis en lumière un fossé logique infranchissable entre « ce qui est » et « ce qui devrait être ».
-
-Les données décrivent ce qui a eu lieu : nos comportements passés, nos succès, mais aussi nos biais historiques et nos discriminations. Or, la justice concerne ce qui devrait être.
-
-Aucune quantité de données statistiques ne pourra jamais déduire, par magie, ce qui est moralement juste. Voilà pourquoi la gouvernance existe : elle est la boussole humaine qui comble ce fossé entre la donnée brute et les valeurs démocratiques.`,
-        
-        questionPrompt: "Face à ce constat, quelle doit être selon vous la priorité d'une saine gouvernance pour combler ce fossé ?",
-        
-        options: [
-          {
-            label: "📜 Règles & Déontologie d'abord (Loi 25 et conformité stricte)",
-            text: "Le premier pilier, c'est la déontologie. C'est le plus important : les règles, la conformité légale et la Loi 25.",
-            nextBranch: "VID-03A",
-            aiReply: "Une clarté exemplaire ! Vous placez la conformité et la protection des personnes au-dessus de toute optimisation. Dans un service public, les règles déontologiques constituent le socle de base non négociable."
+            label: "⚖️ Utilitarisme (Maximiser la valeur et le bien du plus grand nombre)",
+            text: "L'utilitarisme : l'IA doit avant tout maximiser l'efficience, la performance et le bien commun pour la société.",
+            aiReply: "C'est l'approche pragmatique des retombées : une gouvernance doit permettre de créer un bénéfice concret tangible. Mais attention : sans garde-fous déontologiques, l'utilitarisme pur risque de sacrifier des minorités."
           },
           {
-            label: "⚖️ Triptyque équilibré (50% Déontologie / 30% Vertu / 20% Utilitarisme)",
+            label: "🧭 Triptyque équilibré (50% Déontologie / 30% Vertu / 20% Utilitarisme)",
             text: "C'est la combinaison équilibrée des trois : 50% Déontologie, 30% Éthique de la vertu et 20% Utilitarisme.",
-            nextBranch: "VID-03D",
-            aiReply: "Excellente architecture ! Vous refusez le piège du dogme unique pour proposer une doctrine équilibrée : la règle protège (50%), la vertu inspire la confiance (30%) et l'utilitarisme optimise l'efficience (20%)."
-          },
-          {
-            label: "🏛️ Incarner la vertu et la confiance citoyenne",
-            text: "L'éthique de la vertu me paraît prioritaire pour préserver l'intégrité et la confiance des citoyens.",
-            nextBranch: "VID-03B",
-            aiReply: "Très inspirant : la technique passe et les règlements changent, mais la réputation et le lien de confiance avec les citoyens demeurent l'actif le plus précieux."
+            aiReply: "Excellente vision architecturale ! Vous refusez le dogme d'une école unique : la règle protège (50%), la vertu inspire la confiance (30%) et l'utilitarisme optimise l'efficience (20%)."
           }
         ]
       },
 
-      'VID-02B': {
-        title: "Pourquoi l'Auto-Régulation Technique est une Illusion",
-        durationSec: 58,
-        videoSrc: "",
-        videoScript: `Un algorithme n'optimise que ce qu'on lui demande de maximiser. Si on le laisse s'optimiser seul sur des données historiques, il reproduira mécaniquement les inégalités d'hier avec une froide assurance mathématique.
+      'VID-02': {
+        stepNum: 2,
+        title: "Pourquoi les Données ne Suffisent Pas ? (Le Piège de David Hume)",
+        shortTitle: "Pont de Hume",
+        slideType: "hume",
+        script: `Au dix-huitième siècle, le philosophe David Hume a démontré un fossé logique infranchissable entre « ce qui est » et « ce qui devrait être ».
 
-Voilà pourquoi la gouvernance n'est pas négociable : une machine ne peut pas porter de responsabilité juridique ni morale. La gouvernance est le cadre légitime par lequel les humains définissent ce qui est acceptable et ce qui ne l'est pas.`,
-        
-        questionPrompt: "Prêt à découvrir comment formaliser ces principes dans nos architectures ?",
-        
+Ce principe est fondamental en IA : les données ne sont qu'un miroir descriptif du passé. Elles enregistrent nos biais historiques, nos inégalités et nos erreurs passées.
+
+Or, une politique publique ou une décision corporative cherche à construire ce qui « devrait être » : un avenir juste, équitable et transparent.
+
+Confier une décision à un modèle sans gouvernance, c'est tomber dans le piège de Hume : c'est déduire mécaniquement nos valeurs futures à partir des imperfections de nos données passées. C'est l'esprit critique humain qui doit construire le pont.`,
+        questionPrompt: "Comment s'assurer dans nos projets que nos algorithmes ne fassent pas que reproduire aveuglément les données du passé ?",
+        nextStepId: "VID-03",
         options: [
           {
-            label: "🧭 Explorer les 3 grands piliers moraux de la gouvernance",
-            text: "Explorons les trois piliers philosophiques qui fondent la gouvernance.",
-            nextBranch: "VID-03",
-            aiReply: "Parfait ! Regardons comment la philosophie morale nous fournit les trois boussoles indispensables pour gouverner l'IA."
+            label: "🌉 Construire des garde-fous explicites indépendants des données d'entraînement",
+            text: "Il faut concevoir des garde-fous de gouvernance indépendants des données, qui fixent nos valeurs à froid.",
+            aiReply: "Exactement ! Vous avez parfaitement saisi la leçon de Hume : les données décrivent ce qui a existé, mais ce sont nos règles d'éthique qui décident ce qui doit être toléré."
+          },
+          {
+            label: "🔍 Audits réguliers des biais et ré-échantillonnage continu",
+            text: "Il faut auditer continuellement les données pour détecter et corriger les biais historiques avant l'inférence.",
+            aiReply: "Très juste démarche technique ! Mais gardons en tête que même un jeu de données parfaitement propre ne peut jamais définir à lui seul le bien ou le juste sans décision politique et éthique."
           }
         ]
       },
 
       'VID-03': {
-        title: "Pourquoi ces 3 Piliers Moraux Fondent la Gouvernance ?",
-        durationSec: 75,
-        videoSrc: "",
-        videoScript: `Pourquoi parlons-nous de philosophie morale dans un atelier de gouvernance de l'IA ? Parce que chaque directive, chaque politique de risque et chaque seuil d'approbation découle directement de trois grandes traditions éthiques :
+        stepNum: 3,
+        title: "Le Dilemme du Tramway Appliqué à l'IA Autonome",
+        shortTitle: "Tramway",
+        slideType: "tramway",
+        script: `Le célèbre dilemme du tramway n'est plus une simple expérience de pensée philosophique : c'est aujourd'hui le quotidien des architectes de systèmes autonomes.
 
-1. La déontologie : le respect absolu des lois, des normes et des droits fondamentaux (comme la Loi 25).
-2. L'éthique de la vertu : l'alignement avec les valeurs, la mission publique et la réputation de l'organisation.
-3. L'utilitarisme : l'optimisation des conséquences et la maximisation de la valeur pour la société.
+Un tramway file à vive allure : sur la voie principale se trouvent 5 personnes. Vous pouvez actionner un levier pour dévier le tramway sur une voie secondaire où se trouve 1 seule personne.
 
-Gouverner l'IA, c'est arbitrer intelligemment entre ces trois regards pour chaque cas d'usage.`,
-        
-        questionPrompt: "Pour mettre ces piliers à l'épreuve du feu, passons au dilemme classique du tramway.",
-        
+L'utilitarisme vous dicte de tirer le levier pour sauver 5 vies en en sacrifiant une. Mais la déontologie kantienne réplique : en touchant au levier, vous devenez activement responsable de la mort d'un innocent.
+
+Dans un système d'IA autonome, ce choix doit être programmé avant même que la machine ne prenne la route. Gouverner l'IA, c'est assumer ces arbitrages au lieu de laisser le hasard décider.`,
+        questionPrompt: "Si vous deviez configurer l'algorithme d'un système autonome critique, quelle instruction le code devrait-il exécuter ?",
+        nextStepId: "VID-04",
         options: [
           {
-            label: "🚊 Lancer le dilemme du tramway et tester la gouvernance",
-            text: "Je suis prêt : voyons comment nos principes résistent au dilemme du tramway.",
-            nextBranch: "VID-04",
-            aiReply: "Excellent ! C'est le test par excellence pour comprendre pourquoi l'ingénierie seule est incapable de trancher sans gouvernance."
-          }
-        ]
-      },
-
-      'VID-03A': {
-        title: "Pourquoi la Déontologie Fixe les Lignes Rouges Inviolables",
-        durationSec: 50,
-        videoSrc: "",
-        videoScript: `Vous placez la déontologie en tête. Dans la gouvernance des technologies, cela signifie qu'aucun gain de productivité ne justifie d'enfreindre la loi, de compromettre des données personnelles ou d'ignorer la Loi 25. C'est le rempart contre l'adage dangereux selon lequel la fin justifierait les moyens.`,
-        
-        questionPrompt: "Voyons maintenant comment ce principe résiste lorsqu'il entre en collision avec une tragédie inévitable.",
-        
-        options: [
+            label: "🕹️ Actionner le levier (Minimiser les pertes totales : 1 vs 5)",
+            text: "J'ordonne au système de dévier pour sauver 5 personnes au détriment d'une seule : minimiser le bilan global.",
+            aiReply: "Vous adoptez la position utilitariste : minimiser les pertes globales. C'est souvent le choix intuitif d'optimisation, mais il impose d'assumer publiquement qu'un innocent a été délibérément ciblé pour en sauver cinq."
+          },
           {
-            label: "🚊 Lancer le dilemme du tramway",
-            text: "Passons au dilemme classique du tramway.",
-            nextBranch: "VID-04",
-            aiReply: "C'est parti pour le dilemme du tramway !"
-          }
-        ]
-      },
-
-      'VID-03D': {
-        title: "Pourquoi une Architecture Morale Équilibrée (50% / 30% / 20%) ?",
-        durationSec: 54,
-        videoSrc: "",
-        videoScript: `Votre formule est remarquable : 50 % Déontologie pour verrouiller la conformité légale et les garde-fous, 30 % Éthique de la vertu pour préserver la confiance et la réputation, et 20 % Utilitarisme pour maximiser la performance dans le périmètre autorisé. C'est exactement ce que doit produire un cadre unifié de gouvernance.`,
-        
-        questionPrompt: "Testons maintenant cette architecture dans une situation d'urgence extrême.",
-        
-        options: [
-          {
-            label: "🚊 Passer à l'épreuve du tramway",
-            text: "Voyons comment cette doctrine s'applique au dilemme du tramway.",
-            nextBranch: "VID-04",
-            aiReply: "Mettons immédiatement cette grille à l'épreuve !"
+            label: "🛑 Ne pas actionner le levier (Refus déontologique de sacrifier activement une vie)",
+            text: "Le système ne doit pas causer activement la mort d'un tiers qui n'était pas sur la trajectoire.",
+            aiReply: "Vous appliquez la déontologie stricte : interdiction morale de porter atteinte à une personne innocente. Cela préserve la règle morale, mais accepte le drame sur la trajectoire initiale."
           }
         ]
       },
 
       'VID-04': {
-        title: "Dilemme du Tramway : Pourquoi la Gouvernance Prévient la Paralysie ?",
-        durationSec: 72,
-        videoSrc: "",
-        videoScript: `Un tramway lancé à toute allure va frapper cinq personnes sur la voie. Vous pouvez actionner un aiguillage pour le dévier vers une voie où se trouve une seule personne.
+        stepNum: 4,
+        title: "Le Dilemme du Véhicule Autonome & la Mobilité",
+        shortTitle: "Véhicule",
+        slideType: "car",
+        script: `Considérons maintenant le cas direct du véhicule autonome ou connecté :
 
-Si vous ne faites rien, cinq personnes meurent par inaction. Si vous actionnez le levier, vous tuez activement un innocent pour en sauver cinq.
+Un obstacle imprévu surgit. Le véhicule n'a que deux options en 20 millisecondes : soit heurter un groupe de piétons traversant la chaussée, soit dévier violemment contre un mur de béton, ce qui blessera grièvement son propre passager.
 
-Pourquoi ce dilemme est-il au cœur de la gouvernance de l'IA ?
-Parce qu'il n'existe aucune solution mathématique parfaite. Si l'on confie cette décision à une machine sans gouvernance préalable, l'algorithme décide dans l'obscurité. La gouvernance, c'est l'acte collectif et transparent de définir à l'avance les principes d'arbitrage acceptables.`,
-        
-        questionPrompt: "Dans ce scénario tragique : actionnez-vous le levier pour sauver le plus grand nombre, ou vous abstenez-vous pour ne pas violer l'interdit de porter atteinte à un innocent ?",
-        
+Quelle est la responsabilité légale du constructeur ? Et surtout, quelle morale accepteriez-vous d'acheter comme client ?
+
+La gouvernance de l'IA n'est pas un luxe théorique : c'est le cadre de politique publique qui clarifie la responsabilité juridique et protège les citoyens.`,
+        questionPrompt: "Comment la gouvernance publique doit-elle trancher le dilemme du véhicule autonome ?",
+        nextStepId: "VID-05",
         options: [
           {
-            label: "🚊 Actionner le levier pour sauver le maximum de personnes",
-            text: "Bien sûr, j'actionne le levier pour minimiser l'impact global et sauver le maximum de vies.",
-            nextBranch: "VID-04A",
-            aiReply: "Vous optez pour l'arbitrage utilitariste du moindre mal : minimiser la perte globale de vies. Mais observez ce qui change quand c'est une machine qui doit exécuter ce calcul."
+            label: "🧱 Priorité absolue à la protection des usagers vulnérables (piétons)",
+            text: "La priorité absolue de la société doit aller à la protection des piétons, même si le véhicule doit se sacrifier.",
+            aiReply: "C'est la doctrine de sécurité publique la plus protectrice des usagers de la route. Elle responsabilise directement l'opérateur technologique au service du bien commun."
           },
           {
-            label: "🛑 Ne pas actionner le levier (interdit déontologique)",
-            text: "Je ne toucherais pas au levier : actionner activement le levier pour tuer un innocent viole une règle déontologique absolue.",
-            nextBranch: "VID-04A",
-            aiReply: "C'est la posture déontologique stricte : le refus de participer activement à la mort d'un innocent, même pour un résultat statistiquement meilleur."
-          }
-        ]
-      },
-
-      'VID-04A': {
-        title: "L'Arbitrage du Moindre Mal et l'Exigence de Traçabilité",
-        durationSec: 55,
-        videoSrc: "",
-        videoScript: `Dans un véhicule autonome, ce choix n'est pas un réflexe improvisé dans la panique d'une seconde. C'est une ligne de code écrite des mois à l'avance par des développeurs dans un bureau.
-
-Voilà pourquoi la gouvernance est vitale : qui a validé cette règle dans le système ? Le développeur ? Le chef de produit ? Le régulateur public ?
-Sans gouvernance, personne n'est imputable. Avec une gouvernance, le choix est documenté, audité et assumé institutionnellement.`,
-        
-        questionPrompt: "Voyons comment ce casse-tête devient une spécification produit dans le véhicule autonome.",
-        
-        options: [
-          {
-            label: "🚗 Analyser le cas du véhicule autonome",
-            text: "Passons au scénario du véhicule autonome et à ses choix programmés.",
-            nextBranch: "VID-05",
-            aiReply: "Regardons immédiatement le véhicule autonome et la question de la responsabilité des concepteurs."
+            label: "🛡️ Devoir contractuel de protection du passager à bord",
+            text: "Le système a une obligation fiduciaire et contractuelle envers son passager avant tout.",
+            aiReply: "C'est l'argument contractuel commercial. Mais au niveau sociétal, aucun gouvernement ne peut homologuer un système qui sacrifie sciemment des piétons pour protéger son client."
           }
         ]
       },
 
       'VID-05': {
-        title: "Véhicule Autonome : Pourquoi la Gouvernance Protège l'Humain ?",
-        durationSec: 75,
-        videoSrc: "",
-        videoScript: `Une voiture autonome sur une chaussée glissante doit choisir en quelques millisecondes : continuer tout droit et heurter cinq piétons, ou bifurquer vers une barrière de béton et blesser grièvement son propre passager.
+        stepNum: 5,
+        title: "La Gouvernance comme Accélérateur : L'Analogie de la F1",
+        shortTitle: "Freins F1",
+        slideType: "f1",
+        script: `Beaucoup perçoivent encore la gouvernance comme un fardeau bureaucratique ou un frein à l'innovation.
 
-Pourquoi la gouvernance est-elle indispensable ici ?
-Si le constructeur privilégie secrètement le passager pour maximiser ses ventes, ou s'il le sacrifie sans l'informer, la confiance s'effondre.
+Posez-vous cette question : « Pourquoi installe-t-on des freins ultra-performants en carbone-céramique sur une Formule 1 ? »
 
-La gouvernance impose la transparence des critères d'arbitrage. Elle oblige l'organisation à répondre à cette question : serions-nous prêts à défendre publiquement la règle de décision de notre algorithme devant un juge, un régulateur ou la population ?`,
-        
-        questionPrompt: "Comment cette exigence de transparence résonne-t-elle dans vos systèmes ?",
-        
+Certainement pas pour la ralentir ! C'est précisément parce qu'elle possède des freins exceptionnels que le pilote peut négocier les virages à 300 kilomètres-heure en toute sérénité. Sans freins fiables, la voiture ne dépasserait pas 40 kilomètres-heure par peur de s'écraser.
+
+La gouvernance de l'IA, c'est exactement cela : ce n'est pas un frein, c'est notre moteur de confiance qui permet de déployer l'IA rapidement et à grande échelle.`,
+        questionPrompt: "Comment faire comprendre aux équipes métiers que la gouvernance permet d'aller plus vite ?",
+        nextStepId: "VID-06",
         options: [
           {
-            label: "🚗 Vertu & Déontologie : transparence publique obligatoire",
-            text: "Oui, à ce niveau-ci, ça devient l'éthique de la vertu et la déontologie : la transparence publique est indispensable.",
-            nextBranch: "VID-06",
-            aiReply: "Exactement : la transparence n'est pas un confort, c'est l'oxygène de la confiance publique. Passons au triage médical."
+            label: "🏎️ Présenter les garde-fous comme des autorisations rapides pré-approuvées",
+            text: "La gouvernance offre des couloirs sécurisés où les projets validés peuvent rouler à fond sans blocage.",
+            aiReply: "Magnifique métaphore ! Une gouvernance claire évite les mois d'angoisse juridique en amont : quand la piste est balisée, les équipes peuvent innover à pleine vitesse."
           },
           {
-            label: "🛡️ Devoir fiduciaire de protéger d'abord le passager",
-            text: "Le véhicule a un devoir fiduciaire de protéger le passager qui lui confie sa vie.",
-            nextBranch: "VID-06",
-            aiReply: "C'est l'argument du contrat fiduciaire. Mais imaginez le scandale si le régulateur découvre que le véhicule privilégie ses clients au détriment des piétons sans cadre légal."
+            label: "📊 Mesurer le coût astronomique d'un incident réputationnel ou Loi 25",
+            text: "Démontrer que réparer une brèche de confiance coûte cent fois plus cher que d'instaurer des contrôles initiaux.",
+            aiReply: "Tout à fait ! La confiance est asymétrique : elle met des années à se construire, mais un seul incident algorithmique peut la détruire en quelques secondes."
           }
         ]
       },
 
       'VID-06': {
-        title: "Triage Médical : Pourquoi le Veto Humain est Non Négociable ?",
-        durationSec: 70,
-        videoSrc: "",
-        videoScript: `En situation de crise hospitalière, un système d'IA doit allouer un respirateur unique à deux patients : un jeune avec 90% de chances statistiques de rétablissement rapide, ou un père de famille plus âgé avec 65% de chances, dont dépendent plusieurs enfants.
+        stepNum: 6,
+        title: "L'Architecture des Agents Gardiens R&D en Temps Réel",
+        shortTitle: "Gardiens",
+        slideType: "agent",
+        script: `Comment concrétiser cette gouvernance au quotidien sans surcharger les comités d'approbation ?
 
-Si l'algorithme optimise purement sur la donnée statistique, il ignore toute la dimension humaine et familiale.
+La réponse réside dans l'architecture des Agents Gardiens : en parallèle de chaque agent d'IA qui produit du travail, un agent gardien spécialisé analyse les entrées et sorties en temps réel.
 
-Voilà pourquoi la gouvernance impose le principe du "Human-in-Command" : l'IA apporte un éclairage analytique, mais elle ne doit jamais signer la décision finale. Le jugement moral et l'imputabilité doivent demeurer entre les mains des professionnels humains.`,
-        
-        questionPrompt: "Quelle règle de gouvernance devrions-nous établir dans ce cas d'usage critique ?",
-        
+Cet agent vérifie la conformité avec la Loi 25, détecte les fuites de renseignements personnels et applique les filtres éthiques. En cas de doute ou d'anomalie critique, il active un veto et escalade immédiatement le dossier à un humain qualifié.
+
+C'est l'alliance parfaite : la rapidité de la machine alliée à la souveraineté du jugement humain.`,
+        questionPrompt: "Quel niveau d'autonomie donneriez-vous à un agent gardien d'IA en production ?",
+        nextStepId: "VID-07",
         options: [
           {
-            label: "👨‍👩‍👧 L'IA propose, l'humain décide avec pouvoir de veto souverain",
-            text: "L'IA ne doit jamais trancher seule : arbitrage humain multidisciplinaire obligatoire.",
-            nextBranch: "VID-07",
-            aiReply: "C'est le cœur de la doctrine éthique québécoise et internationale : l'IA assiste le diagnostic, mais le discernement humain conserve l'imputabilité suprême."
+            label: "⚖️ Veto suspensif immédiat avec arbitrage humain obligatoire",
+            text: "L'agent gardien doit pouvoir bloquer l'action en temps réel dès qu'une ligne rouge Loi 25 est franchie.",
+            aiReply: "C'est le standard d'or NIST AI RMF et MCN Québec : le principe du « Human-in-Command ». L'IA surveille à la milliseconde, mais c'est l'humain qui tranche la situation litigieuse."
           },
           {
-            label: "🫁 Maximiser les chances statistiques de survie globale",
-            text: "Maximiser les chances statistiques de survie tout en documentant les motifs.",
-            nextBranch: "VID-07",
-            aiReply: "C'est la logique d'optimisation médicale d'urgence. Mais elle montre pourquoi un cadre de gouvernance doit anticiper les critères d'évaluation pour éviter les biais discriminatoires."
+            label: "⚠️ Alerte passive en arrière-plan sans bloquer l'utilisateur",
+            text: "Enregistrer l'anomalie dans un journal d'audit sans interrompre l'expérience de l'usager.",
+            aiReply: "Prudence : pour des cas à faible risque, l'alerte passive suffit. Mais dès qu'il s'agit de données nominatives ou de décisions légales, le blocage préventif est indispensable."
           }
         ]
       },
 
       'VID-07': {
-        title: "Infrastructures Critiques : Pourquoi la Gouvernance Évite le Pire ?",
-        durationSec: 72,
-        videoSrc: "",
-        videoScript: `Un agent gardien automatisé gère un réseau électrique intelligent. Une surcharge massive menace de faire s'effondrer le réseau métropolitain et de priver un million de citoyens d'électricité.
+        stepNum: 7,
+        title: "Le Pitch Exécutif de 30 Secondes : L'Art de Convaincre la Direction",
+        shortTitle: "Pitch 30s",
+        slideType: "pitch",
+        script: `Nous voici à l'aboutissement de notre parcours. Comment résumer tout cela en 30 secondes chrono à un dirigeant ou au Conseil d'administration ?
 
-Pour sauver la ville, l'agent peut délester un quartier... mais ce secteur alimente un complexe hospitalier où des vies sont sous assistance.
+Voici la formule officielle de notre doctrine :
 
-Pourquoi la gouvernance des infrastructures critiques est-elle incontournable ?
-Parce qu'un système autonome rapide peut provoquer des effets de cascade catastrophiques en quelques millisecondes s'il n'est pas borné par des garde-fous stricts.`,
-        
-        questionPrompt: "Face à ce dilemme, quelle règle de gouvernance doit être gravée dans le système ?",
-        
+« La gouvernance de l'IA n'est pas un centre de coût ou un frein à l'innovation : c'est notre moteur de confiance institutionnelle.
+
+En équilibrant 50% de déontologie pour garantir la conformité à la Loi 25, 30% d'éthique de la vertu pour préserver la confiance publique, et 20% d'utilitarisme pour maximiser la productivité, nous donnons à nos équipes les freins de haute précision nécessaires pour innover à 300 kilomètres-heure en toute sécurité. »
+
+Félicitations pour votre engagement tout au long de cet atelier !`,
+        questionPrompt: "Êtes-vous prêt à porter ce pitch exécutif de gouvernance au sein de votre direction ?",
+        nextStepId: "VID-01",
         options: [
           {
-            label: "⚡ Protéger les patients vulnérables de l'hôpital en priorité",
-            text: "Actuellement, on pense plus pour protéger les plus vulnérables et le quartier hospitalier.",
-            nextBranch: "VID-08",
-            aiReply: "Cohérent avec le devoir moral absolu envers les plus fragiles. Cela illustre comment la gouvernance pré-programme les priorités sociétales."
+            label: "🎯 Absolument prêt : la formule des freins de F1 et des 3 piliers est imparable",
+            text: "Je suis prêt à porter cette vision : la gouvernance comme accélérateur de confiance et d'innovation.",
+            aiReply: "Bravo ! Vous disposez désormais d'un argumentaire clair, structuré et rigoureux pour transformer la culture de gouvernance de votre organisation. Merci pour cet échange passionnant !"
           },
           {
-            label: "🏙️ Éviter le blackout métropolitain de toute la ville",
-            text: "Privilégier le réseau global pour éviter l'effondrement de toute la ville, en prévenant les secours hospitaliers.",
-            nextBranch: "VID-08",
-            aiReply: "Le choix de la résilience systémique globale. Les deux options ont leur logique : voilà pourquoi des comités de gouvernance doivent trancher ces scénarios à froid."
-          }
-        ]
-      },
-
-      'VID-08': {
-        title: "Pourquoi la Gouvernance est un Accélérateur ? (La F1 & Les Agents Gardiens)",
-        durationSec: 80,
-        videoSrc: "",
-        videoScript: `Posons LA grande question que tout gestionnaire se pose : La gouvernance ralentit-elle l'innovation ?
-
-Prenez cette analogie : Pourquoi met-on des freins ultra-puissants sur une voiture de Formule 1 ?
-Certainement pas pour la ralentir ! C'est précisément parce qu'elle a des freins d'une précision absolue qu'elle peut rouler à 300 km/h dans les virages sans s'écraser !
-
-La gouvernance, ce sont les freins de la Formule 1 de l'IA : elle permet d'innover vite et avec audace, parce que les limites sont sécurisées.
-
-Et opérationnellement, nous l'incarnons par des agents R&D gardiens en parallèle qui surveillent en continu les dérives sans bloquer les métiers, avec escalade humaine uniquement sur les alertes critiques.`,
-        
-        questionPrompt: "Comment formulez-vous cette gouvernance pour vos équipes et gestionnaires ?",
-        
-        options: [
-          {
-            label: "🏛️ Gouvernance cas par cas selon les 3 piliers & Agents R&D",
-            text: "En fait on va mettre une gouvernance en place pour gouverner les décisions et les analyser cas d'usage par cas d'usage selon les trois piliers et s'assurer que la morale de l'organisation, la morale éthique, la déontologie soit une partie prenante de nos agentiques systématiques.",
-            nextBranch: "VID-09",
-            aiReply: "C'est la vision architecturale parfaite ! Découvrons ensemble comment condenser cela dans un pitch exécutif imparable de 30 secondes."
-          }
-        ]
-      },
-
-      'VID-09': {
-        title: "Le Pitch Exécutif : Pourquoi la Gouvernance en 30 Secondes ?",
-        durationSec: 62,
-        videoSrc: "",
-        videoScript: `Si vous aviez à expliquer à votre gestionnaire ou à votre direction en 30 secondes chrono POURQUOI LA GOUVERNANCE DE L'IA, voici le pitch idéal :
-
-« Pourquoi la gouvernance de l'IA ? Parce que les algorithmes ne sont pas neutres et que les données du passé ne suffisent pas à garantir un futur éthique.
-
-Nos décisions d’IA s’appuient sur une gouvernance qui combine la déontologie (respect strict des règles et de la Loi 25), l’éthique de la vertu (alignement avec nos valeurs institutionnelles) et l’utilitarisme (optimisation des conséquences et retombées concrètes).
-
-En pratique, la gouvernance n'est pas un frein : c'est notre moteur de confiance. Elle s'incarne par des agents R&D gardiens en parallèle qui surveillent les risques en continu, et une équipe humaine dotée d'un droit de veto souverain. »`,
-        
-        questionPrompt: "Comment cette formulation résonne-t-elle pour vous et vos collègues ?",
-        
-        options: [
-          {
-            label: "👍 Parfait, inclure explicitement les 3 piliers dans le message",
-            text: "Oui, ça doit inclure les trois, l'utilitarisme, l'éthique et la déontologie, dans la description pour que le message soit complet.",
-            nextBranch: "VID-10",
-            aiReply: "C'est exactement cela. Quand les trois dimensions sont articulées, la gouvernance cesse d'être vue comme un obstacle et devient un avantage stratégique d'affaires."
-          },
-          {
-            label: "🙏 Très satisfait, c'est limpide et prêt pour la direction",
-            text: "Très satisfait, c'est exactement le message exécutif qu'il nous faut.",
-            nextBranch: "VID-10",
-            aiReply: "Un grand bravo pour votre participation et votre vision d'une IA responsable et audacieuse !"
-          }
-        ]
-      },
-
-      'VID-10': {
-        title: "Bilan Moral & La Gouvernance comme Vecteur de Confiance",
-        durationSec: 46,
-        videoSrc: "",
-        videoScript: `Félicitations ! Vous venez de franchir avec succès cet atelier socratique sur la raison d'être de la gouvernance de l'IA.
-
-Vous l'avez expérimenté : face aux dilemmes moraux, aux biais statistiques et à la vitesse des modèles autonomes, la gouvernance n'est pas un luxe bureaucratique ni une contrainte réglementaire : c'est le fondement indispensable de toute innovation technologique digne de confiance.
-
-Vous pouvez télécharger votre Fiche de Synthèse Exécutive officielle directement depuis le bouton en haut de votre écran.
-
-Ce fut un réel honneur d'explorer ces questions fondamentales avec vous. À très bientôt pour bâtir une intelligence artificielle responsable, sûre et humaine !`,
-        
-        questionPrompt: "Session complétée avec succès ! Que souhaitez-vous faire maintenant ?",
-        
-        options: [
-          {
-            label: "📄 Télécharger la Synthèse Exécutive Officielle",
-            text: "Je souhaite télécharger la synthèse officielle de notre session.",
-            nextBranch: "VID-10",
-            aiReply: "Votre synthèse exécutive est disponible via le bouton 'Synthèse Exécutive' en haut à droite. Elle récapitule vos choix et l'architecture adoptée !"
-          },
-          {
-            label: "🔄 Recommencer l'atelier socratique",
-            text: "Je souhaite recommencer l'atelier socratique depuis le début.",
-            nextBranch: "VID-01",
-            aiReply: "Réinitialisation en cours... À tout de suite pour une nouvelle exploration !"
+            label: "📋 Je souhaite revoir les 7 étapes ou exporter la synthèse pour mon équipe",
+            text: "Je souhaite conserver cette synthèse pour animer un atelier de cadrage avec mes collègues.",
+            aiReply: "Excellente initiative ! Vous pouvez cliquer sur le bouton 'Synthèse' en haut pour consulter ou copier l'intégralité des points clés de notre session."
           }
         ]
       }
     };
 
-    // ÉTAT DE L'APPLICATION
-    const APP = {
-      activeBranchId: 'VID-01',
-      isPlaying: false,
-      isAudioEnabled: true,
-      audioObj: null,
-      recognition: null,
-      isRecording: false,
-      questionRevealed: false
-    };
+    // BASE DE CONNAISSANCES MENTOR SOCRATIQUE (RÉPONSES ÉPURÉES HORS-SCRIPT)
+    const MENTOR_KNOWLEDGE = [
+      {
+        patterns: ["pourquoi", "raison", "cause", "pourquoi la gouvernance"],
+        answer: "La gouvernance de l'IA est indispensable parce que le code informatique n'est jamais éthiquement neutre. Laisser des algorithmes prendre des décisions sans doctrine revient à déléguer nos responsabilités démocratiques et institutionnelles à des probabilités statistiques."
+      },
+      {
+        patterns: ["david hume", "hume", "est et doit", "ce qui est", "fossé", "fosse"],
+        answer: "David Hume a démontré qu'on ne peut pas déduire ce qui « devrait être » à partir de ce qui « est ». En IA, cela signifie que même si les données passées montrent une pratique fréquente, cela ne signifie absolument pas que cette pratique soit juste ou souhaitable pour demain."
+      },
+      {
+        patterns: ["loi 25", "rgpd", "confidentialité", "renseignement personnel"],
+        answer: "La Loi 25 au Québec impose la transparence, la minimisation des données et le droit à l'explication des décisions automatisées. Dans notre cadre éthique, elle relève de la déontologie stricte : c'est une ligne rouge infranchissable, quel que soit le gain d'efficacité espéré."
+      },
+      {
+        patterns: ["tramway", "5 contre 1", "levier", "dilemme"],
+        answer: "Le dilemme du tramway met en tension l'utilitarisme (sauver 5 vies en en sacrifiant une) et la déontologie (l'interdiction d'attenter activement à une vie innocente). En IA, la gouvernance sert à fixer ces arbitrages à froid au lieu de laisser l'algorithme improviser en 10 millisecondes."
+      },
+      {
+        patterns: ["formule 1", "f1", "frein", "ralentir", "vitesse"],
+        answer: "L'analogie de la Formule 1 démontre que des freins puissants ne servent pas à brider la voiture, mais à lui permettre de rouler à 300 km/h en virage avec une maîtrise absolue. La gouvernance offre aux équipes la sérénité juridique pour innover rapidement."
+      },
+      {
+        patterns: ["agent gardien", "agents gardiens", "veto", "temps réel", "surveillance"],
+        answer: "Un agent gardien est un modèle d'IA observateur qui tourne en parallèle de l'agent métier pour valider la conformité, bloquer les dérives en temps réel et escalader les cas ambigus à un être humain (Human-in-Command)."
+      },
+      {
+        patterns: ["vertu", "aristote", "confiance", "réputation"],
+        answer: "L'éthique de la vertu met l'accent sur le caractère et l'intégrité de l'institution. Dans le secteur public, la confiance des citoyens est un actif irremplaçable : perdre cette confiance coûte infiniment plus cher que n'importe quelle optimisation algorithmique."
+      },
+      {
+        patterns: ["utilitarisme", "bentham", "conséquence", "impact"],
+        answer: "L'utilitarisme évalue une décision selon le bilan net de ses conséquences (le plus grand bien pour le plus grand nombre). C'est le moteur de l'efficience, mais il doit toujours être encadré par la déontologie pour ne jamais sacrifier de personnes innocentes."
+      },
+      {
+        patterns: ["déontologie", "kant", "règle", "devoir"],
+        answer: "La déontologie kantienne pose que certains devoirs sont universels et absolus (respect de la personne, vérité, respect des lois). Pour une institution publique, c'est le respect indéfectible du cadre réglementaire et des droits fondamentaux."
+      }
+    ];
 
+    // ========================================================================
+    // 5. INITIALISATION DU STUDIO ET NAVIGATION DANS LE WIZARD
+    // ========================================================================
     window.addEventListener('DOMContentLoaded', () => {
-      initSpeechRecognition();
-      loadBranch('VID-01', true);
+      initTheme();
+      loadStep('VID-01', true);
     });
 
-    // ========================================================================
-    // 1. CHARGEMENT ET DÉROULEMENT D'UNE CAPSULE VIDÉO
-    // ========================================================================
-    function loadBranch(branchId, autoPlay = true) {
-      const branch = VIDEO_BRANCHES[branchId] || VIDEO_BRANCHES['VID-01'];
-      APP.activeBranchId = branchId;
-      APP.questionRevealed = false;
+    function initTheme() {
+      const savedTheme = localStorage.getItem('stephai_theme') || 'light';
+      applyTheme(savedTheme);
+    }
 
-      // 1. Mettre à jour l'en-tête et les badges
-      document.getElementById('header-branch-badge').innerText = `Capsule ${branchId}`;
-      document.getElementById('capsule-chip-code').innerText = branchId;
-      document.getElementById('capsule-title-line').innerText = branch.title;
-      document.getElementById('video-time-clean').innerText = `00:00 / ${formatSec(branch.durationSec)}`;
-      document.getElementById('video-subtitle-clean').innerText = branch.videoScript.split('\n\n')[0];
-      document.getElementById('interaction-status-badge').innerHTML = `🎧 <em>Capsule ${branchId} en cours d'écoute...</em>`;
-      document.getElementById('btn-skip-to-question').style.display = 'inline-flex';
+    function toggleTheme() {
+      const newTheme = APP.theme === 'light' ? 'dark' : 'light';
+      applyTheme(newTheme);
+    }
 
-      // 2. Lancer la lecture audio/vidéo
-      if (autoPlay && APP.isAudioEnabled) {
-        playNeuralAudio(branch.videoScript, branch.durationSec, () => {
-          // Quand la vidéo se termine, révéler la question et les options !
-          revealQuestionAndOptions(branch);
+    function applyTheme(t) {
+      APP.theme = t;
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('stephai_theme', t);
+      const icon = document.getElementById('theme-icon');
+      const text = document.getElementById('theme-text');
+      if (t === 'dark') {
+        icon.innerText = '🌙';
+        text.innerText = 'Mode sombre';
+      } else {
+        icon.innerText = '☀️';
+        text.innerText = 'Mode clair';
+      }
+    }
+
+    function jumpToStep(stepId) {
+      if (WIZARD_STEPS[stepId]) {
+        stopAudioSpeaking();
+        loadStep(stepId, true);
+      }
+    }
+
+    function updateWizardProgress(stepId) {
+      const step = WIZARD_STEPS[stepId];
+      if (!step) return;
+
+      const totalSteps = 7;
+      const currentNum = step.stepNum;
+      const pct = Math.round((currentNum / totalSteps) * 100);
+
+      document.getElementById('wizard-step-label').innerText = `Étape ${currentNum} sur ${totalSteps} • ${step.shortTitle}`;
+      document.getElementById('wizard-pct-label').innerText = `${pct}% complété`;
+      document.getElementById('wizard-progress-fill').style.width = `${pct}%`;
+      document.getElementById('studio-stage-title').innerText = `Capsule Vidéo ${currentNum}/7 • ${step.title}`;
+
+      // Mise à jour des badges dans la barre d'étape
+      Object.keys(WIZARD_STEPS).forEach(k => {
+        const pill = document.getElementById(`pill-${k}`);
+        if (!pill) return;
+        const sNum = WIZARD_STEPS[k].stepNum;
+        pill.classList.remove('active', 'completed');
+        if (sNum < currentNum) {
+          pill.classList.add('completed');
+        } else if (sNum === currentNum) {
+          pill.classList.add('active');
+        }
+      });
+    }
+
+    function loadStep(stepId, autoSpeak = true) {
+      APP.currentStepId = stepId;
+      const step = WIZARD_STEPS[stepId];
+      if (!step) return;
+
+      updateWizardProgress(stepId);
+      renderSlideVisual(step.slideType);
+
+      // Réinitialiser le flux de dialogue pour la capsule active
+      const stream = document.getElementById('dialogue-stream');
+      stream.innerHTML = '';
+
+      // Ajouter le message d'introduction de la capsule
+      appendMentorMessage(`🎬 <strong>Étape ${step.stepNum} : ${step.title}</strong>`);
+      
+      // Bannière de sous-titrage synchronisée
+      const subBanner = document.createElement('div');
+      subBanner.className = 'subtitles-banner';
+      subBanner.id = 'active-subtitles-banner';
+      subBanner.innerText = `« ${step.script.substring(0, 180)}... »`;
+      stream.appendChild(subBanner);
+
+      setMentorSpeakingState(true);
+      document.getElementById('interaction-status-badge').innerHTML = `🎧 Capsule en cours d'écoute...`;
+
+      if (autoSpeak && !APP.isAudioMuted) {
+        speakAudioText(step.script, () => {
+          onVideoFinished(stepId);
         });
       } else {
-        setPlayState(false);
-        // Si l'audio est désactivé, révéler directement la question
-        revealQuestionAndOptions(branch);
+        // Si muet, transition douce après 1.5s
+        setTimeout(() => {
+          onVideoFinished(stepId);
+        }, 1600);
       }
     }
 
-    // ========================================================================
-    // 2. LECTURE AUDIO NEURONALE / VIDÉO
-    // ========================================================================
-    async function playNeuralAudio(text, durationSec, onEndedCallback) {
-      stopPlayback();
-      setVisualSpeaking(true);
-      setPlayState(true);
+    function onVideoFinished(stepId) {
+      setMentorSpeakingState(false);
+      const step = WIZARD_STEPS[stepId];
+      if (!step) return;
 
-      const cleanText = text
-        .replace(/<[^>]*>?/gm, ' ')
-        .replace(/[\*\#\_\[\]\(\)]/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
+      document.getElementById('interaction-status-badge').innerHTML = `💬 <strong>À vous la parole :</strong> Répondez ou cliquez sur une option ci-dessous`;
 
-      try {
-        const resp = await fetch('/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: cleanText, voice: 'StephAI' })
-        });
+      // Afficher la question du Mentor
+      appendMentorMessage(`❓ <strong>Question de réflexion :</strong><br>${step.questionPrompt}`);
 
-        if (resp.ok) {
-          const blob = await resp.blob();
-          const audio = new Audio(URL.createObjectURL(blob));
-          APP.audioObj = audio;
-
-          audio.ontimeupdate = () => {
-            if (audio.duration) {
-              const pct = (audio.currentTime / audio.duration) * 100;
-              document.getElementById('clean-progress-fill').style.width = pct + '%';
-              document.getElementById('video-time-clean').innerText = `${formatSec(audio.currentTime)} / ${formatSec(audio.duration)}`;
-            }
-          };
-
-          audio.onended = () => {
-            setVisualSpeaking(false);
-            setPlayState(false);
-            if (onEndedCallback) onEndedCallback();
-          };
-
-          await audio.play();
-        } else {
-          fallbackSpeech(cleanText, onEndedCallback);
-        }
-      } catch (e) {
-        fallbackSpeech(cleanText, onEndedCallback);
-      }
+      // Afficher les options sous forme de boutons épurés
+      renderQuickOptions(step.options, step.nextStepId);
     }
 
-    function fallbackSpeech(text, onEndedCallback) {
-      if (!('speechSynthesis' in window)) {
-        setVisualSpeaking(false);
-        setPlayState(false);
-        if (onEndedCallback) onEndedCallback();
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'fr-CA';
-      utter.onend = () => { 
-        setVisualSpeaking(false); 
-        setPlayState(false); 
-        if (onEndedCallback) onEndedCallback();
-      };
-      utter.onerror = () => { 
-        setVisualSpeaking(false); 
-        setPlayState(false); 
-        if (onEndedCallback) onEndedCallback();
-      };
-      window.speechSynthesis.speak(utter);
-    }
+    function renderQuickOptions(options, nextStepId) {
+      const stream = document.getElementById('dialogue-stream');
+      const box = document.createElement('div');
+      box.className = 'quick-options-grid';
+      box.id = 'active-quick-options';
 
-    function stopPlayback() {
-      if (APP.audioObj) {
-        try { APP.audioObj.pause(); APP.audioObj.currentTime = 0; } catch (e) {}
-        APP.audioObj = null;
-      }
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      setVisualSpeaking(false);
-      setPlayState(false);
-    }
-
-    function togglePlayPauseVideo() {
-      const branch = VIDEO_BRANCHES[APP.activeBranchId];
-      if (APP.isPlaying) {
-        stopPlayback();
-      } else if (branch) {
-        playNeuralAudio(branch.videoScript, branch.durationSec, () => {
-          revealQuestionAndOptions(branch);
-        });
-      }
-    }
-
-    function triggerQuestionNow() {
-      stopPlayback();
-      const branch = VIDEO_BRANCHES[APP.activeBranchId];
-      revealQuestionAndOptions(branch);
-    }
-
-    function setPlayState(isPlaying) {
-      APP.isPlaying = isPlaying;
-      document.getElementById('play-pause-icon').innerText = isPlaying ? '⏸' : '▶';
-      document.getElementById('play-pause-label').innerText = isPlaying ? 'Pause' : 'Lecture';
-    }
-
-    function setVisualSpeaking(isSpeaking) {
-      document.getElementById('avatar-clean-stage').classList.toggle('speaking', isSpeaking);
-    }
-
-    // ========================================================================
-    // 3. RÉVÉLATION DE LA QUESTION ET DES OPTIONS APRÈS LA VIDÉO
-    // ========================================================================
-    function revealQuestionAndOptions(branch) {
-      if (APP.questionRevealed) return;
-      APP.questionRevealed = true;
-
-      document.getElementById('btn-skip-to-question').style.display = 'none';
-      document.getElementById('interaction-status-badge').innerHTML = `<span class="highlight">✨ À vous de jouer :</span> Choisissez une option ou parlez au micro 🎤`;
-
-      const container = document.getElementById('conversation-stream');
-
-      // Carte de question dans le flux de conversation
-      const card = document.createElement('div');
-      card.className = 'question-card-stream';
-      card.id = `qcard-${APP.activeBranchId}`;
-
-      card.innerHTML = `
-        <div class="question-header-tag">
-          <span>🎯 Question d'arbitrage • ${APP.activeBranchId}</span>
-        </div>
-        <div class="question-text-content">
-          ${branch.questionPrompt}
-        </div>
-        <div class="options-grid-clean" id="options-grid-${APP.activeBranchId}">
-        </div>
-      `;
-
-      container.appendChild(card);
-
-      // Injecter les options cliquables
-      const optGrid = card.querySelector(`#options-grid-${APP.activeBranchId}`);
-      branch.options.forEach((opt, idx) => {
+      options.forEach(opt => {
         const btn = document.createElement('button');
-        btn.className = 'option-card-btn';
+        btn.className = 'btn-option-pill';
         btn.innerHTML = `
           <span>${opt.label}</span>
-          <span class="opt-badge">→ ${opt.nextBranch}</span>
+          <span style="color:var(--accent-blue); font-weight:bold;">→</span>
         `;
-        btn.onclick = () => {
-          handleOptionSelection(opt);
-        };
-        optGrid.appendChild(btn);
+        btn.onclick = () => handleOptionSelected(opt, nextStepId);
+        box.appendChild(btn);
       });
 
-      container.scrollTop = container.scrollHeight;
+      stream.appendChild(box);
+      stream.scrollTop = stream.scrollHeight;
     }
 
-    // ========================================================================
-    // 4. RÉACTION DE L'UTILISATEUR & RÉPONSE SOCRATIQUE DE L'IA -> VIDÉO SUIVANTE
-    // ========================================================================
-    async function handleOptionSelection(opt) {
-      // 1. Ajouter le message de l'utilisateur au chat
-      appendUserMessage(opt.text);
+    function handleOptionSelected(option, nextStepId) {
+      // Retirer les options cliquées
+      const oldOptions = document.getElementById('active-quick-options');
+      if (oldOptions) oldOptions.remove();
 
-      // 2. Griser les options précédentes
-      const grid = document.getElementById(`options-grid-${APP.activeBranchId}`);
-      if (grid) {
-        grid.style.pointerEvents = 'none';
-        grid.style.opacity = '0.6';
-      }
+      // Ajouter le message utilisateur
+      appendUserMessage(option.text);
 
-      // 3. StephAI réagit d'abord dans le chat avec sa réponse socratique
-      showTyping(true, "StephAI analyse votre réponse...");
-      
+      // Réponse du Mentor StephAI
       setTimeout(() => {
-        showTyping(false);
-        appendStephAIMessage(opt.aiReply, APP.activeBranchId);
-
-        // 4. Afficher la bannière de transition vers la vidéo suivante
-        const stream = document.getElementById('conversation-stream');
-        const transCard = document.createElement('div');
-        transCard.className = 'next-capsule-transition-card';
-        transCard.innerHTML = `
-          <div class="trans-info">
-            <span>🎬</span>
-            <span>Prêt pour la capsule suivante : <strong>${opt.nextBranch}</strong></span>
-          </div>
-          <button class="btn-launch-next" onclick="loadBranch('${opt.nextBranch}', true)">
-            <span>Lancer la vidéo</span>
-            <span>▶</span>
-          </button>
-        `;
-        stream.appendChild(transCard);
-        stream.scrollTop = stream.scrollHeight;
-
-        // Auto-démarrage doux de la vidéo suivante après 3 secondes si pas de clic
-        setTimeout(() => {
-          if (APP.activeBranchId !== opt.nextBranch) {
-            loadBranch(opt.nextBranch, true);
-          }
-        }, 3200);
-
-      }, 1000);
+        appendMentorMessage(option.aiReply);
+        displayNextStepLauncher(nextStepId);
+      }, 400);
     }
 
+    function displayNextStepLauncher(nextStepId) {
+      const stream = document.getElementById('dialogue-stream');
+      const targetStep = WIZARD_STEPS[nextStepId] || WIZARD_STEPS['VID-01'];
+
+      const card = document.createElement('div');
+      card.className = 'next-step-card';
+      card.id = `next-launcher-card`;
+      card.innerHTML = `
+        <div>
+          <div class="next-step-title">Étape suivante : Étape ${targetStep.stepNum} • ${targetStep.shortTitle}</div>
+          <div class="next-step-sub">${targetStep.title}</div>
+        </div>
+        <button class="btn-launch-step" onclick="executeStepLaunch('${nextStepId}')">
+          <span>Lancer la capsule</span>
+          <span>▶</span>
+        </button>
+      `;
+      stream.appendChild(card);
+      stream.scrollTop = stream.scrollHeight;
+
+      document.getElementById('interaction-status-badge').innerHTML = `✅ <em>Échange complété ! Cliquez sur "Lancer la capsule" pour continuer le wizard.</em>`;
+    }
+
+    function executeStepLaunch(nextStepId) {
+      const card = document.getElementById('next-launcher-card');
+      if (card) card.remove();
+      loadStep(nextStepId, true);
+    }
+
+    // ========================================================================
+    // 6. GESTION INTELLIGENTE DU MENTOR : HORS-SCRIPT & RETOUR AU FIL CONDUCTEUR
+    // ========================================================================
     async function submitUserMessage() {
       const inputEl = document.getElementById('chat-input');
       const text = (inputEl.value || "").trim();
@@ -1597,219 +1627,590 @@ Ce fut un réel honneur d'explorer ces questions fondamentales avec vous. À tr�
       inputEl.value = "";
       autoResize(inputEl);
 
-      showTyping(true, "StephAI évalue votre réflexion sur la gouvernance...");
+      const currentStep = WIZARD_STEPS[APP.currentStepId];
 
-      try {
-        const resp = await fetch('/api/chat-ethique', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: text,
-            stageIndex: getStageIndex(APP.activeBranchId),
-            userName: "Mustapha"
-          })
-        });
+      // Vérifier si c'est une question hors-script
+      const isQuestionOrOffscript = checkIfOffscript(text, currentStep);
 
-        showTyping(false);
-
-        if (resp.ok) {
-          const data = await resp.json();
-          appendStephAIMessage(data.reply, APP.activeBranchId);
-          
-          const nextBranch = inferBranch(data, text);
-          scheduleNextVideoBanner(nextBranch);
-        } else {
-          fallbackLocalReply(text);
-        }
-      } catch (e) {
-        showTyping(false);
-        fallbackLocalReply(text);
+      if (isQuestionOrOffscript) {
+        handleSmartOffscriptDialogue(text, currentStep);
+      } else {
+        // Si c'est une réponse directe au dilemme
+        handleDirectMoralAnswer(text, currentStep);
       }
     }
 
-    function fallbackLocalReply(text) {
-      const branch = VIDEO_BRANCHES[APP.activeBranchId];
-      const defaultReply = branch.options[0]?.aiReply || "Votre réflexion touche un point capital de la gouvernance de l'IA.";
-      appendStephAIMessage(defaultReply, APP.activeBranchId);
-      const next = computeLocalNext(text, APP.activeBranchId);
-      scheduleNextVideoBanner(next);
+    function checkIfOffscript(text, step) {
+      const t = text.toLowerCase();
+      // Mots interrogatifs ou curiosité
+      if (t.includes('?') || t.includes('pourquoi') || t.includes('comment') || t.includes('qu'est-ce') || 
+          t.includes('c'est quoi') || t.includes('explique') || t.includes('différence') || t.includes('hume') ||
+          t.includes('aristote') || t.includes('kant') || t.includes('bentham') || t.includes('loi 25') ||
+          t.includes('f1') || t.includes('frein') || t.includes('gardien') || t.includes('pas compris') ||
+          t.includes('doute') || t.includes('exemple') || t.includes('définition')) {
+        return true;
+      }
+      return false;
     }
 
-    function scheduleNextVideoBanner(nextBranch) {
-      const stream = document.getElementById('conversation-stream');
-      const transCard = document.createElement('div');
-      transCard.className = 'next-capsule-transition-card';
-      transCard.innerHTML = `
-        <div class="trans-info">
-          <span>🎬</span>
-          <span>Capsule suivante : <strong>${nextBranch}</strong></span>
+    function handleSmartOffscriptDialogue(userText, step) {
+      const q = userText.toLowerCase();
+      let mentorAnswer = "";
+
+      // Recherche dans la base de connaissances socratique
+      for (const item of MENTOR_KNOWLEDGE) {
+        if (item.patterns.some(p => q.includes(p))) {
+          mentorAnswer = item.answer;
+          break;
+        }
+      }
+
+      if (!mentorAnswer) {
+        mentorAnswer = `C'est une excellente question sur la gouvernance de l'IA, et vous touchez un point capital. En pratique, cela démontre que la technique ne peut jamais être découplée de son impact humain et organisationnel : c'est précisément la raison pour laquelle nos cadres de contrôle (MCN Québec, NIST AI RMF) exigent une documentation explicite de nos critères moraux et juridiques.`;
+      }
+
+      // Construction de la réponse intelligente avec RETOUR AU FIL CONDUCTEUR DU WIZARD
+      const fullReply = `
+        ${mentorAnswer}
+        <div class="offscript-bridge-banner">
+          🧭 <strong>Poursuivons notre fil conducteur (Étape ${step.stepNum} • ${step.title}) :</strong><br>
+          <em>« ${step.questionPrompt} »</em>
         </div>
-        <button class="btn-launch-next" onclick="loadBranch('${nextBranch}', true)">
-          <span>Lancer la vidéo</span>
-          <span>▶</span>
-        </button>
       `;
-      stream.appendChild(transCard);
-      stream.scrollTop = stream.scrollHeight;
 
       setTimeout(() => {
-        if (APP.activeBranchId !== nextBranch) {
-          loadBranch(nextBranch, true);
-        }
-      }, 3500);
+        appendMentorMessage(fullReply);
+
+        // Ré-afficher les options de l'étape active ET un bouton de passage immédiat
+        const stream = document.getElementById('dialogue-stream');
+        const oldOptions = document.getElementById('active-quick-options');
+        if (oldOptions) oldOptions.remove();
+
+        renderQuickOptions(step.options, step.nextStepId);
+
+        // Bouton alternatif direct "Passer à la suite"
+        const bridgeCard = document.createElement('div');
+        bridgeCard.style.cssText = "display:flex; justify-content:flex-end; margin-top:6px;";
+        bridgeCard.innerHTML = `
+          <button class="btn-slide-clean" style="border-color:var(--text-dim); color:var(--text-dim);" onclick="displayNextStepLauncher('${step.nextStepId}')">
+            <span>Passer à l'étape suivante (${step.shortTitle} validé) →</span>
+          </button>
+        `;
+        stream.appendChild(bridgeCard);
+        stream.scrollTop = stream.scrollHeight;
+      }, 500);
     }
 
-    function inferBranch(data, userText) {
-      if (data.scenarioId) {
-        const map = {
-          'hume': 'VID-02A',
-          'frameworks': 'VID-03',
-          'weighting': 'VID-04',
-          'trolley': 'VID-04',
-          'car': 'VID-05',
-          'ventilator': 'VID-06',
-          'grid': 'VID-07',
-          'governance': 'VID-08',
-          'guardians': 'VID-08',
-          'pitch': 'VID-09',
-          'complete': 'VID-10'
-        };
-        if (map[data.scenarioId]) return map[data.scenarioId];
+    function handleDirectMoralAnswer(userText, step) {
+      const t = userText.toLowerCase();
+      let reply = "";
+
+      if (t.includes('levier') || t.includes('sauver') || t.includes('5') || t.includes('optimis')) {
+        reply = `Vous adoptez une posture utilitariste pragmatique : préserver le maximum de vies possibles. Mais en gouvernance publique, ce choix impose d'avoir documenté à l'avance la justification légale du sacrifice imposé.`;
+      } else if (t.includes('ne rien') || t.includes('règle') || t.includes('devoir') || t.includes('loi')) {
+        reply = `Vous réaffirmez le devoir déontologique strict : l'interdiction de causer intentionnellement du tort à un tiers. C'est le respect fondamental des droits individuels garanti par la Loi 25.`;
+      } else if (t.includes('vertu') || t.includes('confiance') || t.includes('réputation')) {
+        reply = `Vous placez la confiance institutionnelle au sommet. C'est l'essence de l'éthique de la vertu : aucun gain de court terme ne compense une rupture de lien avec les citoyens.`;
+      } else {
+        reply = `Votre analyse reflète toute la complexité des décisions d'intelligence artificielle : il n'y a pas de solution magique, mais une responsabilité humaine collective à assumer par des règles claires.`;
       }
-      return computeLocalNext(userText, APP.activeBranchId);
+
+      setTimeout(() => {
+        appendMentorMessage(reply);
+        displayNextStepLauncher(step.nextStepId);
+      }, 400);
     }
 
-    function computeLocalNext(text, currentBranch) {
-      const q = text.toLowerCase();
-      if (q.includes('gestionnaire') || q.includes('pitch')) return 'VID-09';
-      if (q.includes('r&d') || q.includes('gardiens') || q.includes('formule 1')) return 'VID-08';
-      if (q.includes('tramway') || q.includes('levier')) return 'VID-04A';
-      if (q.includes('voiture') || q.includes('piéton')) return 'VID-05';
-      if (q.includes('respirateur') || q.includes('santé')) return 'VID-06';
-      if (q.includes('réseau') || q.includes('blackout') || q.includes('hôpital')) return 'VID-07';
-
-      const seq = ['VID-01', 'VID-02A', 'VID-03', 'VID-04', 'VID-05', 'VID-06', 'VID-07', 'VID-08', 'VID-09', 'VID-10'];
-      const idx = seq.indexOf(currentBranch);
-      return (idx >= 0 && idx < seq.length - 1) ? seq[idx + 1] : 'VID-10';
-    }
-
-    function getStageIndex(branchId) {
-      const seq = ['VID-01', 'VID-02A', 'VID-03', 'VID-04', 'VID-05', 'VID-06', 'VID-07', 'VID-08', 'VID-09', 'VID-10'];
-      const idx = seq.indexOf(branchId);
-      return idx >= 0 ? idx : 0;
-    }
-
-    function appendStephAIMessage(text, branchId) {
-      const container = document.getElementById('conversation-stream');
-
-      const row = document.createElement('div');
-      row.className = 'chat-row stephai-row';
-
-      const icon = document.createElement('div');
-      icon.className = 'msg-icon stephai-icon';
-      icon.innerText = 'AI';
-
-      const bubble = document.createElement('div');
-      bubble.className = 'msg-bubble-clean stephai-bubble';
-
-      const formatted = text.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
-      bubble.innerHTML = formatted;
-
-      row.appendChild(icon);
-      row.appendChild(bubble);
-
-      container.appendChild(row);
-      container.scrollTop = container.scrollHeight;
+    // ========================================================================
+    // 7. COMPOSANTS D'AFFICHAGE SOCRATIQUE (BULLES DE MESSAGE)
+    // ========================================================================
+    function appendMentorMessage(htmlContent) {
+      const stream = document.getElementById('dialogue-stream');
+      const card = document.createElement('div');
+      card.className = 'msg-card msg-mentor';
+      card.innerHTML = `
+        <div class="msg-avatar">S</div>
+        <div class="msg-bubble">${htmlContent}</div>
+      `;
+      stream.appendChild(card);
+      stream.scrollTop = stream.scrollHeight;
     }
 
     function appendUserMessage(text) {
-      const container = document.getElementById('conversation-stream');
-
-      const row = document.createElement('div');
-      row.className = 'chat-row user-row';
-
-      const icon = document.createElement('div');
-      icon.className = 'msg-icon user-icon';
-      icon.innerText = 'MB';
-
-      const bubble = document.createElement('div');
-      bubble.className = 'msg-bubble-clean user-bubble';
-      bubble.innerText = text;
-
-      row.appendChild(icon);
-      row.appendChild(bubble);
-
-      container.appendChild(row);
-      container.scrollTop = container.scrollHeight;
+      const stream = document.getElementById('dialogue-stream');
+      const card = document.createElement('div');
+      card.className = 'msg-card msg-user';
+      card.innerHTML = `
+        <div class="msg-avatar">👤</div>
+        <div class="msg-bubble">${escapeHtml(text)}</div>
+      `;
+      stream.appendChild(card);
+      stream.scrollTop = stream.scrollHeight;
     }
 
-    function showTyping(show, label) {
-      const el = document.getElementById('typing-clean');
-      el.style.display = show ? 'flex' : 'none';
-      if (label) document.getElementById('typing-label').innerText = label;
-      if (show) {
-        const stream = document.getElementById('conversation-stream');
-        stream.scrollTop = stream.scrollHeight;
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+
+    // ========================================================================
+    // 8. VISUALISATIONS GRAPHIQUES ÉPURÉES (APPLE-STYLE)
+    // ========================================================================
+    function renderSlideVisual(type) {
+      const stage = document.getElementById('slide-content-stage');
+      const meta = document.getElementById('slide-meta-title');
+      const legend = document.getElementById('slide-footer-legend');
+
+      if (type === 'schools') {
+        meta.innerHTML = `<span>📜 ÉTAPE 1/7 • LES 3 ÉCOLES MORALES FONDAMENTALES</span>`;
+        legend.innerHTML = `💡 Cliquez sur une école éthique pour explorer son incidence sur l'IA.`;
+        stage.innerHTML = `
+          <div class="schools-trio-clean">
+            <div class="school-card-clean" id="card-deonto" onclick="selectSchoolVisual('deonto')">
+              <div class="school-card-top">
+                <span>📜</span>
+                <span>Déontologie</span>
+              </div>
+              <div class="school-desc-clean">Kant • Règles et devoirs stricts. La fin ne justifie jamais les moyens.</div>
+              <span class="school-badge-clean" style="background:var(--accent-crimson-subtle); color:var(--accent-crimson);">Loi 25 & Lignes Rouges</span>
+            </div>
+
+            <div class="school-card-clean" id="card-vertu" onclick="selectSchoolVisual('vertu')">
+              <div class="school-card-top">
+                <span>🏛️</span>
+                <span>Vertu</span>
+              </div>
+              <div class="school-desc-clean">Aristote • Caractère, intégrité et confiance citoyenne durable.</div>
+              <span class="school-badge-clean" style="background:var(--accent-amber-subtle); color:var(--accent-amber);">Confiance Publique</span>
+            </div>
+
+            <div class="school-card-clean" id="card-util" onclick="selectSchoolVisual('util')">
+              <div class="school-card-top">
+                <span>⚖️</span>
+                <span>Utilitarisme</span>
+              </div>
+              <div class="school-desc-clean">Bentham • Optimisation du bien commun et calcul d'impact net.</div>
+              <span class="school-badge-clean" style="background:var(--accent-emerald-subtle); color:var(--accent-emerald);">Efficience & Gains</span>
+            </div>
+          </div>
+        `;
+      } else if (type === 'hume') {
+        meta.innerHTML = `<span>⚡ ÉTAPE 2/7 • LE PONT DE DAVID HUME : LES DONNÉES NE SUFFISENT PAS</span>`;
+        legend.innerHTML = `💡 Cliquez sur le bouton pour déployer le pont de gouvernance humaine.`;
+        stage.innerHTML = `
+          <div class="hume-clean-stage">
+            <div class="hume-block">
+              <div class="hume-tag">CE QUI EST</div>
+              <div class="hume-desc">Données historiques & passées</div>
+              <div style="font-size:9px; color:var(--accent-crimson); margin-top:4px;">⚠️ Biais & iniquités d'hier</div>
+            </div>
+
+            <div class="hume-bridge-center">
+              <span style="font-size:9.5px; font-weight:700; color:var(--accent-blue);">Gouvernance IA</span>
+              <div class="hume-beam ${APP.humeBridgeDeployed ? 'deployed' : ''}" id="hume-beam-el"></div>
+              <button class="btn-slide-clean" onclick="deployHumeBridge()">
+                <span>${APP.humeBridgeDeployed ? '✅ Pont Déployé' : '🌉 Déployer le Pont'}</span>
+              </button>
+            </div>
+
+            <div class="hume-block">
+              <div class="hume-tag" style="color:var(--accent-emerald);">CE QUI DEVRAIT ÊTRE</div>
+              <div class="hume-desc">Valeurs humaines, justice & futur</div>
+              <div style="font-size:9px; color:var(--accent-emerald); margin-top:4px;">🎯 Ce qu'une machine ne sait pas inventer</div>
+            </div>
+          </div>
+        `;
+      } else if (type === 'tramway') {
+        meta.innerHTML = `<span>🚊 ÉTAPE 3/7 • LE DILEMME DU TRAMWAY</span>`;
+        legend.innerHTML = `💡 Cliquez sur le levier pour simuler l'arbitrage dans l'algorithme !`;
+        stage.innerHTML = `
+          <div class="tram-canvas-wrap">
+            <svg class="tram-svg" viewBox="0 0 460 85" fill="none">
+              <!-- Voie principale -->
+              <path d="M 20 42 L 180 42 L 300 20 L 440 20" stroke="var(--card-border-subtle)" stroke-width="4" stroke-dasharray="6 3"/>
+              <!-- Voie secondaire déviée -->
+              <path d="M 180 42 L 300 66 L 440 66" stroke="var(--card-border-subtle)" stroke-width="4" stroke-dasharray="6 3"/>
+
+              <!-- Tramway épuré -->
+              <g id="tram-cart" transform="translate(40, 31)">
+                <rect x="0" y="0" width="56" height="22" rx="6" fill="var(--accent-blue)" stroke="#ffffff" stroke-width="1.5"/>
+                <circle cx="12" cy="22" r="3" fill="#334155"/>
+                <circle cx="44" cy="22" r="3" fill="#334155"/>
+                <rect x="8" y="4" width="10" height="9" rx="2" fill="#ffffff" opacity="0.8"/>
+                <rect x="23" y="4" width="10" height="9" rx="2" fill="#ffffff" opacity="0.8"/>
+                <rect x="38" y="4" width="10" height="9" rx="2" fill="#ffffff" opacity="0.8"/>
+              </g>
+
+              <!-- Aiguillage cliquable -->
+              <g onclick="toggleTramwaySwitch()" style="cursor:pointer;" title="Actionner le levier">
+                <circle cx="180" cy="42" r="6" fill="var(--accent-blue)"/>
+                <line id="lever-line" x1="180" y1="42" x2="180" y2="20" stroke="var(--accent-amber)" stroke-width="3" stroke-linecap="round"/>
+                <circle id="lever-knob" cx="180" cy="20" r="4.5" fill="var(--accent-amber)"/>
+                <text x="160" y="12" fill="var(--accent-amber)" font-size="7.5" font-weight="bold">🕹️ LEVIER</text>
+              </g>
+
+              <!-- 5 personnes sur voie 1 -->
+              <g transform="translate(370, 12)">
+                <circle cx="0" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <circle cx="10" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <circle cx="20" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <circle cx="30" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <circle cx="40" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <text x="-6" y="-6" fill="var(--accent-crimson)" font-size="7.5" font-weight="bold">⚠️ 5 PERSONNES</text>
+              </g>
+
+              <!-- 1 personne sur voie 2 -->
+              <g transform="translate(400, 66)">
+                <circle cx="0" cy="0" r="3.5" fill="var(--accent-amber)"/>
+                <text x="-32" y="16" fill="var(--accent-amber)" font-size="7.5" font-weight="bold">👤 1 PERSONNE</text>
+              </g>
+            </svg>
+
+            <div style="display:flex; justify-content:center; gap:8px; margin-top:4px;">
+              <button class="btn-slide-clean" onclick="toggleTramwaySwitch('divert')">
+                <span>🕹️ Actionner (Dévier : 1 vs 5)</span>
+              </button>
+              <button class="btn-slide-clean" onclick="toggleTramwaySwitch('straight')">
+                <span>🛑 Ne rien toucher (Trajectoire directe)</span>
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (type === 'car') {
+        meta.innerHTML = `<span>🚗 ÉTAPE 4/7 • LE VÉHICULE CONNECTÉ & AUTONOME</span>`;
+        legend.innerHTML = `💡 Quel choix le code doit-il opérer en 20 millisecondes ?`;
+        stage.innerHTML = `
+          <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <svg style="width:100%; height:75px;" viewBox="0 0 440 75" fill="none">
+              <rect x="10" y="12" width="420" height="52" rx="8" fill="var(--bg-app)" stroke="var(--card-border-subtle)"/>
+              <line x1="10" y1="38" x2="430" y2="38" stroke="var(--card-border-subtle)" stroke-width="2" stroke-dasharray="6 4"/>
+              
+              <!-- Véhicule SAAQ -->
+              <g transform="translate(30, 26)">
+                <rect x="0" y="0" width="50" height="24" rx="5" fill="var(--accent-blue)"/>
+                <circle cx="12" cy="24" r="3.5" fill="#334155"/>
+                <circle cx="38" cy="24" r="3.5" fill="#334155"/>
+                <text x="6" y="-4" fill="var(--accent-blue)" font-size="7.5" font-weight="bold">📡 LiDAR</text>
+              </g>
+
+              <!-- Faisceau LiDAR doux -->
+              <path d="M 80 38 L 220 18 L 220 58 Z" fill="var(--accent-blue)" opacity="0.12"/>
+
+              <!-- Piétons -->
+              <g transform="translate(240, 32)">
+                <circle cx="0" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <circle cx="10" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <circle cx="20" cy="0" r="3.5" fill="var(--accent-crimson)"/>
+                <text x="-6" y="-6" fill="var(--accent-crimson)" font-size="7.5" font-weight="bold">⚠️ Piétons</text>
+              </g>
+
+              <!-- Muret -->
+              <rect x="360" y="16" width="14" height="20" rx="3" fill="var(--card-border-subtle)" stroke="var(--accent-amber)"/>
+              <text x="340" y="48" fill="var(--text-dim)" font-size="7.5">Muret</text>
+            </svg>
+
+            <div style="display:flex; justify-content:center; gap:8px;">
+              <button class="btn-slide-clean" onclick="handleOptionSelected({text:'Dérivation vers le muret pour protéger les piétons', aiReply:'Vous priorisez la protection des piétons les plus vulnérables. C\'est la doctrine de sécurité publique.'}, 'VID-05')">
+                <span>🧱 Dérivation muret</span>
+              </button>
+              <button class="btn-slide-clean" onclick="handleOptionSelected({text:'Freinage direct pour préserver le passager', aiReply:'Vous privilégiez la protection de l\'usager à bord du véhicule.'}, 'VID-05')">
+                <span>🛑 Freinage direct</span>
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (type === 'f1') {
+        meta.innerHTML = `<span>🏎️ ÉTAPE 5/7 • L'ANALOGIE DES FREINS DE FORMULE 1</span>`;
+        legend.innerHTML = `💡 La gouvernance n'est pas un frein : c'est notre moteur de confiance pour innover vite.`;
+        stage.innerHTML = `
+          <div class="f1-clean-wrap">
+            <div class="f1-disc-pane">
+              <div class="f1-caliper"></div>
+              <div class="f1-speed-display" id="f1-speed-val">${APP.speedF1} km/h</div>
+            </div>
+            <div style="flex:1;">
+              <div class="f1-quote-clean">« Pourquoi met-on des freins sur une Formule 1 ? »</div>
+              <div class="f1-sub-clean">Certainement pas pour la ralentir ! C'est parce qu'elle possède des freins d'une précision absolue qu'elle peut aborder les virages à <strong>300 km/h en toute sérénité</strong>.</div>
+              <div style="margin-top:8px;">
+                <button class="btn-slide-clean" onclick="accelerateF1Clean()">
+                  <span>🏁 Tester l'accélération sécurisée (300 km/h)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (type === 'agent') {
+        meta.innerHTML = `<span>🛡️ ÉTAPE 6/7 • L'ARCHITECTURE DES AGENTS GARDIENS R&D</span>`;
+        legend.innerHTML = `💡 Surveillance continue sans ralentir les équipes, avec arbitrage humain souverain.`;
+        stage.innerHTML = `
+          <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; width:100%; max-width:440px;">
+              <div class="hume-block" style="text-align:center;">
+                <div style="font-size:16px;">🤖</div>
+                <div style="font-size:10px; font-weight:700;">Agent Métier</div>
+                <div style="font-size:8.5px; color:var(--text-dim);">Génération rapide</div>
+              </div>
+
+              <span style="color:var(--accent-blue); font-weight:bold;">➔</span>
+
+              <div class="hume-block" style="text-align:center; border-color:var(--accent-amber); background:var(--accent-amber-subtle);">
+                <div style="font-size:16px;">🛡️</div>
+                <div style="font-size:10px; font-weight:700; color:var(--accent-amber);">Agent Gardien</div>
+                <div style="font-size:8.5px; color:var(--text-dim);">Filtre Loi 25 / NIST</div>
+              </div>
+
+              <span style="color:var(--accent-blue); font-weight:bold;">➔</span>
+
+              <div class="hume-block" style="text-align:center; border-color:var(--accent-emerald); background:var(--accent-emerald-subtle);">
+                <div style="font-size:16px;">⚖️</div>
+                <div style="font-size:10px; font-weight:700; color:var(--accent-emerald);">Veto Humain</div>
+                <div style="font-size:8.5px; color:var(--text-dim);">Arbitrage souverain</div>
+              </div>
+            </div>
+
+            <button class="btn-slide-clean" onclick="triggerGuardianVetoClean()">
+              <span>🧪 Simuler une requête non-conforme (Test Veto en direct)</span>
+            </button>
+          </div>
+        `;
+      } else if (type === 'pitch') {
+        meta.innerHTML = `<span>🎯 ÉTAPE 7/7 • PITCH EXÉCUTIF OFFICIEL (30 SECONDES)</span>`;
+        legend.innerHTML = `💡 La formule équilibrée officielle prête à être présentée à votre direction générale.`;
+        stage.innerHTML = `
+          <div style="width:100%; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px;">
+              <span style="width:110px; font-weight:600;">📜 Déontologie (Loi 25)</span>
+              <div style="flex:1; height:6px; background:var(--card-border-subtle); border-radius:3px; overflow:hidden;">
+                <div style="width:50%; height:100%; background:var(--accent-crimson);"></div>
+              </div>
+              <span style="font-weight:700; color:var(--accent-crimson);">50%</span>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px;">
+              <span style="width:110px; font-weight:600;">🏛️ Vertu (Confiance)</span>
+              <div style="flex:1; height:6px; background:var(--card-border-subtle); border-radius:3px; overflow:hidden;">
+                <div style="width:30%; height:100%; background:var(--accent-amber);"></div>
+              </div>
+              <span style="font-weight:700; color:var(--accent-amber);">30%</span>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; font-size:10px;">
+              <span style="width:110px; font-weight:600;">⚖️ Utilitarisme (Impact)</span>
+              <div style="flex:1; height:6px; background:var(--card-border-subtle); border-radius:3px; overflow:hidden;">
+                <div style="width:20%; height:100%; background:var(--accent-emerald);"></div>
+              </div>
+              <span style="font-weight:700; color:var(--accent-emerald);">20%</span>
+            </div>
+
+            <div style="display:flex; justify-content:center; gap:8px; margin-top:4px;">
+              <button class="btn-slide-clean" onclick="copyExecutivePitch()">
+                <span>📋 Copier le Pitch Exécutif</span>
+              </button>
+              <button class="btn-slide-clean" onclick="openSummaryModal()">
+                <span>📄 Synthèse Complète</span>
+              </button>
+            </div>
+          </div>
+        `;
       }
     }
 
     // ========================================================================
-    // 5. RECONNAISSANCE VOCALE (STT) - GRAND BOUTON MICRO
+    // 9. INTERACTIONS DANS LES SLIDES
     // ========================================================================
-    function initSpeechRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        document.getElementById('mic-btn-main').style.display = 'none';
-        document.getElementById('mic-status-hint').innerText = "Dictée non supportée sur ce navigateur";
+    function selectSchoolVisual(schoolKey) {
+      ['deonto', 'vertu', 'util'].forEach(k => {
+        const el = document.getElementById(`card-${k}`);
+        if (el) el.classList.remove('active');
+      });
+      const target = document.getElementById(`card-${schoolKey}`);
+      if (target) target.classList.add('active');
+    }
+
+    function deployHumeBridge() {
+      APP.humeBridgeDeployed = !APP.humeBridgeDeployed;
+      const beam = document.getElementById('hume-beam-el');
+      if (beam) beam.classList.toggle('deployed', APP.humeBridgeDeployed);
+    }
+
+    function toggleTramwaySwitch(forceState) {
+      if (forceState) {
+        APP.tramLeverState = forceState;
+      } else {
+        APP.tramLeverState = APP.tramLeverState === 'straight' ? 'divert' : 'straight';
+      }
+      const knob = document.getElementById('lever-knob');
+      const line = document.getElementById('lever-line');
+      const cart = document.getElementById('tram-cart');
+
+      if (APP.tramLeverState === 'divert') {
+        if (knob) knob.setAttribute('cx', '194');
+        if (line) { line.setAttribute('x2', '194'); line.setAttribute('stroke', '#10b981'); }
+        if (cart) cart.setAttribute('transform', 'translate(140, 48)');
+      } else {
+        if (knob) knob.setAttribute('cx', '180');
+        if (line) { line.setAttribute('x2', '180'); line.setAttribute('stroke', 'var(--accent-amber)'); }
+        if (cart) cart.setAttribute('transform', 'translate(40, 31)');
+      }
+    }
+
+    function accelerateF1Clean() {
+      const disp = document.getElementById('f1-speed-val');
+      let s = 180;
+      const intv = setInterval(() => {
+        s += 20;
+        if (s >= 300) {
+          s = 300;
+          clearInterval(intv);
+        }
+        if (disp) disp.innerText = `${s} km/h`;
+      }, 50);
+    }
+
+    function triggerGuardianVetoClean() {
+      appendMentorMessage(`🛡️ <strong>Alerte Agent Gardien :</strong> Une tentative d'extraction de données protégées par la Loi 25 a été interceptée en 12 millisecondes. L'action est suspendue et transmise à l'analyste responsable.`);
+    }
+
+    function copyExecutivePitch() {
+      const pitchText = `« La gouvernance de l'IA n'est pas un centre de coût ou un frein à l'innovation : c'est notre moteur de confiance institutionnelle. En équilibrant 50% de déontologie (Loi 25), 30% d'éthique de la vertu (confiance publique) et 20% d'utilitarisme (valeur métier), nous donnons à nos équipes les freins de haute précision nécessaires pour innover à 300 km/h en toute sécurité. »`;
+      navigator.clipboard.writeText(pitchText);
+      alert("✅ Pitch exécutif copié dans le presse-papier !");
+    }
+
+    // ========================================================================
+    // 10. SYNTHÈSE VOCALE (TTS) & RECONNAISSANCE VOCALE (STT 44px)
+    // ========================================================================
+    function setMentorSpeakingState(isSpeaking) {
+      APP.isSpeaking = isSpeaking;
+      const pane = document.getElementById('mentor-pane');
+      const tag = document.getElementById('mentor-pulse-tag');
+      if (pane) pane.classList.toggle('speaking', isSpeaking);
+      if (tag) tag.innerText = isSpeaking ? "🗣️ Parle..." : "🎧 En écoute";
+    }
+
+    function speakAudioText(text, onComplete) {
+      if (!('speechSynthesis' in window)) {
+        if (onComplete) onComplete();
         return;
       }
+      window.speechSynthesis.cancel();
+      const cleanText = text.replace(/<[^>]*>/g, '').trim();
+      const utter = new SpeechSynthesisUtterance(cleanText);
+      utter.lang = 'fr-CA';
+      utter.rate = 1.05;
 
-      const rec = new SpeechRecognition();
-      rec.lang = 'fr-CA';
-      rec.continuous = false;
-      rec.interimResults = false;
-
-      rec.onstart = () => {
-        APP.isRecording = true;
-        document.getElementById('mic-btn-main').classList.add('recording');
-        document.getElementById('mic-status-hint').innerText = "🔴 En écoute... Parlez maintenant";
+      utter.onend = () => {
+        setMentorSpeakingState(false);
+        if (onComplete) onComplete();
+      };
+      utter.onerror = () => {
+        setMentorSpeakingState(false);
+        if (onComplete) onComplete();
       };
 
-      rec.onresult = (e) => {
-        const transcript = e.results[0][0].transcript;
-        const inputEl = document.getElementById('chat-input');
-        inputEl.value = (inputEl.value ? inputEl.value + ' ' : '') + transcript;
-        autoResize(inputEl);
+      APP.speechSynthesisUtterance = utter;
+      setMentorSpeakingState(true);
+      window.speechSynthesis.speak(utter);
+    }
+
+    function stopAudioSpeaking() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      setMentorSpeakingState(false);
+    }
+
+    function replayActiveAudio() {
+      const step = WIZARD_STEPS[APP.currentStepId];
+      if (step) {
+        stopAudioSpeaking();
+        speakAudioText(step.script);
+      }
+    }
+
+    function toggleAudioMute() {
+      APP.isAudioMuted = !APP.isAudioMuted;
+      const btn = document.getElementById('btn-audio-mute');
+      if (APP.isAudioMuted) {
+        stopAudioSpeaking();
+        if (btn) btn.innerText = "🔇 Muet";
+      } else {
+        if (btn) btn.innerText = "🔊 Son";
+      }
+    }
+
+    // RECONNAISSANCE VOCALE (STT) SUR GRAND BOUTON 44px
+    let recognition = null;
+    let isRecording = false;
+
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return null;
+      const r = new SpeechRecognition();
+      r.lang = 'fr-CA';
+      r.continuous = false;
+      r.interimResults = false;
+
+      r.onstart = () => {
+        isRecording = true;
+        const btn = document.getElementById('mic-btn-main');
+        const hint = document.getElementById('mic-status-hint');
+        if (btn) btn.classList.add('recording');
+        if (hint) hint.innerText = "🔴 En écoute... Parlez";
       };
 
-      rec.onerror = () => {
-        APP.isRecording = false;
-        document.getElementById('mic-btn-main').classList.remove('recording');
-        document.getElementById('mic-status-hint').innerText = "Microphone en veille";
+      r.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const input = document.getElementById('chat-input');
+        if (input) {
+          input.value = transcript;
+          autoResize(input);
+        }
+        submitUserMessage();
       };
 
-      rec.onend = () => {
-        APP.isRecording = false;
-        document.getElementById('mic-btn-main').classList.remove('recording');
-        document.getElementById('mic-status-hint').innerText = "Microphone en veille";
+      r.onerror = () => {
+        stopMicRecording();
       };
 
-      APP.recognition = rec;
+      r.onend = () => {
+        stopMicRecording();
+      };
+
+      return r;
     }
 
     function toggleMicrophoneSTT() {
-      if (!APP.recognition) return;
-      if (APP.isRecording) {
-        APP.recognition.stop();
+      if (!recognition) {
+        recognition = initSpeechRecognition();
+      }
+      if (!recognition) {
+        alert("La reconnaissance vocale n'est pas prise en charge sur ce navigateur. Veuillez utiliser le champ texte.");
+        return;
+      }
+
+      if (isRecording) {
+        recognition.stop();
+        stopMicRecording();
       } else {
-        stopPlayback();
-        APP.recognition.start();
+        stopAudioSpeaking();
+        try {
+          recognition.start();
+        } catch(e) {
+          console.warn("STT déjà en cours", e);
+        }
       }
     }
 
-    // ========================================================================
-    // 6. UTILITAIRES & MODAL
-    // ========================================================================
+    function stopMicRecording() {
+      isRecording = false;
+      const btn = document.getElementById('mic-btn-main');
+      const hint = document.getElementById('mic-status-hint');
+      if (btn) btn.classList.remove('recording');
+      if (hint) hint.innerText = "Microphone prêt";
+    }
+
     function handleInputKeydown(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
@@ -1819,58 +2220,15 @@ Ce fut un réel honneur d'explorer ces questions fondamentales avec vous. À tr�
 
     function autoResize(el) {
       el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+      el.style.height = (el.scrollHeight) + 'px';
     }
 
-    function toggleAudioOutput() {
-      APP.isAudioEnabled = !APP.isAudioEnabled;
-      const icon = document.getElementById('voice-toggle-icon');
-      const label = document.getElementById('voice-toggle-label');
-      if (APP.isAudioEnabled) {
-        icon.innerText = '🔊';
-        label.innerText = 'Audio Activé';
-      } else {
-        icon.innerText = '🔇';
-        label.innerText = 'Audio Muet';
-        stopPlayback();
-      }
-    }
-
-    function seekVideo(e) {
-      const track = document.getElementById('clean-progress-track');
-      const rect = track.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const pct = Math.max(0, Math.min(1, clickX / rect.width));
-      if (APP.audioObj && APP.audioObj.duration) {
-        APP.audioObj.currentTime = pct * APP.audioObj.duration;
-      }
-    }
-
-    function formatSec(sec) {
-      const s = Math.round(sec || 0);
-      const m = Math.floor(s / 60);
-      const rem = s % 60;
-      return `${String(m).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
-    }
-
+    // MODAL SYNTHÈSE
     function openSummaryModal() {
-      document.getElementById('summary-modal').classList.add('active');
+      document.getElementById('summary-modal').classList.add('open');
     }
-
     function closeSummaryModal() {
-      document.getElementById('summary-modal').classList.remove('active');
-    }
-
-    function copyPitch() {
-      const quote = `« Pourquoi la gouvernance de l'IA ? Parce que les algorithmes ne sont pas neutres et que les données du passé ne suffisent pas à garantir un futur éthique. Notre gouvernance équilibre la déontologie (Loi 25), l'éthique de la vertu (confiance) et l'utilitarisme (valeur), sous la surveillance continue d'agents gardiens en parallèle et d'une supervision humaine avec droit de veto. »`;
-      navigator.clipboard.writeText(quote).then(() => alert("Pitch exécutif copié !"));
-    }
-
-    function restartSession() {
-      if (confirm("Réinitialiser l'atelier socratique ?")) {
-        document.getElementById('conversation-stream').innerHTML = '';
-        loadBranch('VID-01', true);
-      }
+      document.getElementById('summary-modal').classList.remove('open');
     }
   </script>
 </body>
