@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atelier Socratique StephAI • Éthique, Dilemmes Moraux & Gouvernance de l'IA | SAAQ</title>
+  <title>Atelier Socratique StephAI • Capsule Vidéo & Branchement Interactif | SAAQ</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -47,12 +47,12 @@
     }
 
     /* ========================================================================== */
-    /* 1. BARRE SUPÉRIEURE FLOTTANTE STYLE STUDIO EXÉCUTIF                        */
+    /* 1. BARRE SUPÉRIEURE FLOTTANTE STUDIO EXÉCUTIF                            */
     /* ========================================================================== */
     .top-header {
       height: 64px;
       min-height: 64px;
-      background: rgba(9, 19, 34, 0.92);
+      background: rgba(9, 19, 34, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--glass-border);
@@ -105,7 +105,7 @@
     }
     .brand-title-box h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
       -webkit-background-clip: text;
@@ -116,27 +116,38 @@
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .voice-toggle-btn {
+    .btn-top-tool {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(15, 28, 48, 0.8);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: var(--neon-cyan);
-      padding: 6px 14px;
-      border-radius: 10px;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
+      background: rgba(15, 28, 48, 0.8);
+      border: 1px solid var(--glass-border);
+      color: #e2e8f0;
     }
-    .voice-toggle-btn:hover {
+    .btn-top-tool:hover {
       background: rgba(56, 189, 248, 0.15);
       border-color: var(--neon-cyan);
+      color: white;
     }
+
+    .btn-video-config {
+      background: rgba(251, 191, 36, 0.15);
+      border-color: rgba(251, 191, 36, 0.4);
+      color: var(--neon-gold);
+    }
+    .btn-video-config:hover {
+      background: rgba(251, 191, 36, 0.25);
+    }
+
     .voice-toggle-btn.muted {
       color: #94a3b8;
       border-color: rgba(255, 255, 255, 0.15);
@@ -144,18 +155,9 @@
     }
 
     .btn-summary {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
       background: linear-gradient(135deg, rgba(165, 28, 48, 0.8) 0%, rgba(130, 20, 36, 0.9) 100%);
       border: 1px solid rgba(254, 215, 215, 0.3);
       color: #ffffff;
-      padding: 7px 16px;
-      border-radius: 10px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.25s ease;
       box-shadow: 0 4px 14px rgba(165, 28, 48, 0.35);
     }
     .btn-summary:hover {
@@ -163,179 +165,360 @@
       box-shadow: 0 6px 20px rgba(165, 28, 48, 0.5);
     }
 
-    .btn-restart {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #cbd5e1;
-      padding: 7px 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-restart:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-
     /* ========================================================================== */
-    /* 2. DISPOSITION PRINCIPALE EN DOUBLE PANNEAU                                */
+    /* 2. DISPOSITION PRINCIPALE DU STUDIO (VIDÉO BRANCHING + CHAT INTERACTIF)    */
     /* ========================================================================== */
     .studio-container {
       display: grid;
-      grid-template-columns: 420px 1fr;
+      grid-template-columns: 500px 1fr;
       flex: 1;
       height: calc(100vh - 64px);
       overflow: hidden;
+      transition: all 0.35s ease;
+    }
+
+    .studio-container.cinema-mode {
+      grid-template-columns: 1fr 380px;
     }
 
     /* ========================================================================== */
-    /* 3. PANNEAU GAUCHE : COCKPIT PHILOSOPHIQUE & SCÉNARIOS                     */
+    /* 3. PANNEAU GAUCHE : LECTEUR CAPSULE VIDÉO SYNTHESIA & COCKPIT MORAL       */
     /* ========================================================================== */
-    .cockpit-panel {
-      background: rgba(11, 20, 35, 0.85);
+    .video-cockpit-panel {
+      background: rgba(11, 20, 35, 0.9);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border-right: 1px solid var(--glass-border);
       overflow-y: auto;
-      padding: 20px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
 
-    .cockpit-panel::-webkit-scrollbar {
+    .video-cockpit-panel::-webkit-scrollbar {
       width: 5px;
     }
-    .cockpit-panel::-webkit-scrollbar-thumb {
+    .video-cockpit-panel::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.15);
       border-radius: 4px;
     }
 
-    /* Profil de StephAI */
-    .stephai-card {
-      background: linear-gradient(145deg, rgba(20, 34, 58, 0.9) 0%, rgba(13, 23, 40, 0.95) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+    /* Cadre de la Capsule Vidéo HD */
+    .video-stage-card {
+      background: #000000;
+      border: 1px solid rgba(56, 189, 248, 0.35);
       border-radius: var(--radius-xl);
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      position: relative;
       overflow: hidden;
-    }
-    .stephai-card::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(165, 28, 48, 0.35) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
+      position: relative;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(2, 132, 199, 0.2);
+      display: flex;
+      flex-direction: column;
     }
 
-    .avatar-wrapper {
-      position: relative;
-      width: 68px;
-      height: 68px;
-      flex-shrink: 0;
-    }
-    .stephai-avatar-fallback {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #a51c30 0%, #0284c7 100%);
+    .video-stage-header {
+      padding: 10px 14px;
+      background: rgba(15, 28, 48, 0.95);
+      border-bottom: 1px solid var(--glass-border);
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      font-weight: 900;
-      color: white;
-      border: 2px solid var(--neon-cyan);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-    }
-    .status-ring {
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 18px;
-      height: 18px;
-      background: #10b981;
-      border: 3px solid #091322;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
-    }
-    .speaking-pulse {
-      position: absolute;
-      inset: -6px;
-      border: 2px solid var(--neon-cyan);
-      border-radius: 50%;
-      opacity: 0;
-      animation: none;
-    }
-    .speaking .speaking-pulse {
-      animation: pulseAvatar 1.5s infinite ease-out;
-    }
-    @keyframes pulseAvatar {
-      0% { transform: scale(0.95); opacity: 0.9; }
-      100% { transform: scale(1.25); opacity: 0; }
+      justify-content: space-between;
     }
 
-    .stephai-meta {
-      flex: 1;
-      min-width: 0;
-    }
-    .stephai-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
+    .branch-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(2, 132, 199, 0.25);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: var(--neon-cyan);
+      font-size: 11px;
       font-weight: 800;
-      color: #ffffff;
-      line-height: 1.2;
+      padding: 3px 9px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .rec-dot {
+      width: 7px;
+      height: 7px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulseRec 1.2s infinite;
+    }
+    @keyframes pulseRec {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    .video-view-modes {
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .stephai-tag {
-      font-size: 11px;
-      color: var(--neon-cyan);
-      font-weight: 700;
-      margin-top: 2px;
-    }
-    .stephai-role {
-      font-size: 11.5px;
+    .btn-view-toggle {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: #94a3b8;
-      margin-top: 4px;
-      line-height: 1.35;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-view-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
     }
 
-    /* Visualiseur d'onde vocale miniature */
-    .mini-wave {
+    /* Écran Vidéo (16:9) */
+    .video-screen-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: radial-gradient(circle at center, #172554 0%, #030712 100%);
       display: flex;
       align-items: center;
-      gap: 3px;
-      height: 14px;
-      margin-top: 6px;
+      justify-content: center;
+      overflow: hidden;
     }
-    .mini-wave-bar {
-      width: 3px;
+
+    #active-video-element {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    /* Scène Avatar Simulée (Fallback quand aucun MP4 n'est uploadé) */
+    .simulated-avatar-scene {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: radial-gradient(circle at 50% 40%, rgba(2, 132, 199, 0.25) 0%, rgba(9, 19, 34, 0.95) 75%);
+    }
+
+    .avatar-halo-ring {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid rgba(56, 189, 248, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
+      transition: transform 0.3s ease;
+    }
+    .speaking .avatar-halo-ring {
+      animation: pulseHalo 1.4s infinite ease-out;
+      border-color: #38bdf8;
+    }
+    @keyframes pulseHalo {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
+      50% { transform: scale(1.06); box-shadow: 0 0 45px rgba(56, 189, 248, 0.7); }
+      100% { transform: scale(1); box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
+    }
+
+    .avatar-portrait-inner {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+      color: #38bdf8;
+    }
+
+    .avatar-label-capsule {
+      margin-top: 14px;
+      text-align: center;
+    }
+    .avatar-label-capsule .name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .avatar-label-capsule .sub {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* Onde vocale dynamique */
+    .avatar-voice-wave {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 18px;
+      margin-top: 8px;
+    }
+    .wave-bar {
+      width: 3.5px;
       height: 4px;
       background: var(--neon-cyan);
       border-radius: 2px;
       transition: height 0.15s ease;
     }
-    .speaking .mini-wave-bar:nth-child(1) { animation: waveAnim 0.7s infinite ease-in-out; }
-    .speaking .mini-wave-bar:nth-child(2) { animation: waveAnim 0.7s infinite ease-in-out 0.15s; }
-    .speaking .mini-wave-bar:nth-child(3) { animation: waveAnim 0.7s infinite ease-in-out 0.3s; }
-    .speaking .mini-wave-bar:nth-child(4) { animation: waveAnim 0.7s infinite ease-in-out 0.45s; }
-    .speaking .mini-wave-bar:nth-child(5) { animation: waveAnim 0.7s infinite ease-in-out 0.6s; }
-
-    @keyframes waveAnim {
+    .speaking .wave-bar:nth-child(1) { animation: wavePulse 0.6s infinite ease-in-out; }
+    .speaking .wave-bar:nth-child(2) { animation: wavePulse 0.6s infinite ease-in-out 0.12s; }
+    .speaking .wave-bar:nth-child(3) { animation: wavePulse 0.6s infinite ease-in-out 0.24s; }
+    .speaking .wave-bar:nth-child(4) { animation: wavePulse 0.6s infinite ease-in-out 0.36s; }
+    .speaking .wave-bar:nth-child(5) { animation: wavePulse 0.6s infinite ease-in-out 0.48s; }
+    @keyframes wavePulse {
       0%, 100% { height: 4px; }
-      50% { height: 16px; }
+      50% { height: 20px; }
+    }
+
+    /* Bandeau de sous-titres / incrustation socratique */
+    .video-subtitle-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(9, 19, 34, 0.95) 40%, rgba(9, 19, 34, 1) 100%);
+      padding: 16px 14px 10px 14px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #f1f5f9;
+      text-align: center;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Barre de commandes vidéo */
+    .video-controls-bar {
+      padding: 8px 12px;
+      background: rgba(15, 28, 48, 0.98);
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .video-progress-track {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+    }
+    .video-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #38bdf8 0%, #0284c7 100%);
+      border-radius: 3px;
+      transition: width 0.15s ease;
+    }
+
+    .video-buttons-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .left-playback-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-play-pause {
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid var(--neon-cyan);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-play-pause:hover {
+      background: rgba(56, 189, 248, 0.35);
+    }
+    .btn-replay-small {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94a3b8;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .btn-replay-small:hover { color: white; border-color: white; }
+
+    .video-time-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* Fil d'Ariane des Capsules (Branching Path Tracker) */
+    .branch-path-tracker {
+      background: rgba(15, 28, 48, 0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 12px 14px;
+    }
+    .tracker-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .branch-pills-flow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 3px;
+    }
+    .branch-pills-flow::-webkit-scrollbar { height: 3px; }
+    .branch-pills-flow::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 2px; }
+
+    .capsule-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .capsule-pill.active {
+      background: rgba(2, 132, 199, 0.25);
+      border-color: var(--neon-cyan);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+    .capsule-pill.completed {
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #10b981;
     }
 
     /* Boîte Triptyque Morale */
@@ -343,16 +526,16 @@
       background: rgba(15, 28, 48, 0.7);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-lg);
-      padding: 16px;
+      padding: 14px;
     }
     .box-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       color: #e2e8f0;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -368,7 +551,7 @@
     }
 
     .moral-bar-row {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .moral-bar-row:last-child {
       margin-bottom: 0;
@@ -377,9 +560,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
     .bar-name {
       display: flex;
@@ -393,15 +576,15 @@
 
     .track {
       width: 100%;
-      height: 7px;
+      height: 6px;
       background: rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
       position: relative;
     }
     .fill {
       height: 100%;
-      border-radius: 4px;
+      border-radius: 3px;
       transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .fill-deont {
@@ -418,108 +601,34 @@
     }
 
     .profile-interpretation {
-      margin-top: 12px;
-      padding: 10px;
+      margin-top: 10px;
+      padding: 8px 10px;
       background: rgba(0, 0, 0, 0.25);
-      border-radius: 8px;
-      font-size: 11.5px;
+      border-radius: 6px;
+      font-size: 11px;
       color: #cbd5e1;
       line-height: 1.4;
       border-left: 3px solid var(--neon-cyan);
     }
 
-    /* Timeline des Dilemmes */
-    .scenarios-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .scenario-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #94a3b8;
-      transition: all 0.25s ease;
-      cursor: pointer;
-    }
-    .scenario-item:hover {
-      background: rgba(255, 255, 255, 0.07);
-      color: #e2e8f0;
-    }
-    .scenario-item.active {
-      background: rgba(2, 132, 199, 0.18);
-      border-color: rgba(56, 189, 248, 0.45);
-      color: #ffffff;
-      box-shadow: 0 0 12px rgba(2, 132, 199, 0.25);
-    }
-    .scenario-item.completed {
-      color: #10b981;
-      border-color: rgba(16, 185, 129, 0.3);
-    }
-    .scenario-icon {
-      font-size: 14px;
-      width: 20px;
-      text-align: center;
-    }
-    .scenario-label {
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .scenario-check {
-      font-size: 11px;
-      opacity: 0.6;
-    }
-    .scenario-item.completed .scenario-check {
-      opacity: 1;
-      color: #10b981;
-    }
-
-    /* Carte Architecture Agents Gardiens R&D */
-    .guardians-architecture-box {
-      background: linear-gradient(135deg, rgba(165, 28, 48, 0.15) 0%, rgba(9, 19, 34, 0.6) 100%);
-      border: 1px solid rgba(165, 28, 48, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 14px;
-      font-size: 11.5px;
-      line-height: 1.4;
-      color: #e2e8f0;
-    }
-    .guardians-title {
-      font-weight: 800;
-      color: #fca5a5;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-
     /* ========================================================================== */
-    /* 4. PANNEAU DROIT : FLUX DE DISCUSSION SOCRATIQUE                          */
+    /* 4. PANNEAU DROIT : FLUX DE DISCUSSION SOCRATIQUE & PASTILLES BRANCHING    */
     /* ========================================================================== */
     .chat-panel {
       display: flex;
       flex-direction: column;
       height: 100%;
-      background: rgba(9, 16, 28, 0.5);
+      background: rgba(9, 16, 28, 0.55);
       position: relative;
     }
 
     .chat-messages-container {
       flex: 1;
       overflow-y: auto;
-      padding: 24px 32px;
+      padding: 20px 28px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
 
     .chat-messages-container::-webkit-scrollbar {
@@ -533,8 +642,8 @@
     /* Lignes de messages */
     .msg-row {
       display: flex;
-      gap: 14px;
-      max-width: 88%;
+      gap: 12px;
+      max-width: 90%;
       animation: fadeInMsg 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes fadeInMsg {
@@ -551,19 +660,19 @@
     }
 
     .msg-avatar {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13.5px;
       border: 2px solid transparent;
     }
     .stephai-avatar-msg {
-      background: linear-gradient(135deg, #a51c30 0%, #0284c7 100%);
+      background: linear-gradient(135deg, #0284c7 0%, #091322 100%);
       color: white;
       border-color: rgba(56, 189, 248, 0.4);
       box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
@@ -575,10 +684,10 @@
     }
 
     .msg-bubble {
-      padding: 16px 20px;
+      padding: 14px 18px;
       border-radius: var(--radius-xl);
       line-height: 1.55;
-      font-size: 14px;
+      font-size: 13.5px;
       position: relative;
     }
 
@@ -589,14 +698,8 @@
       border-top-left-radius: 4px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
-    .stephai-bubble strong {
-      color: #ffffff;
-      font-weight: 700;
-    }
-    .stephai-bubble em {
-      color: #93c5fd;
-      font-style: italic;
-    }
+    .stephai-bubble strong { color: #ffffff; font-weight: 700; }
+    .stephai-bubble em { color: #93c5fd; font-style: italic; }
 
     .user-bubble {
       background: linear-gradient(145deg, #0284c7 0%, #0369a1 100%);
@@ -611,8 +714,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 10px;
-      font-size: 11px;
+      margin-top: 8px;
+      font-size: 10.5px;
       color: #94a3b8;
       gap: 12px;
     }
@@ -620,9 +723,9 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #e2e8f0;
-      padding: 3px 10px;
+      padding: 3px 9px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -642,45 +745,48 @@
       align-items: center;
       gap: 8px;
       align-self: flex-start;
-      margin-left: 54px;
-      background: rgba(15, 28, 48, 0.8);
+      margin-left: 50px;
+      background: rgba(15, 28, 48, 0.85);
       border: 1px solid rgba(56, 189, 248, 0.2);
-      padding: 10px 16px;
-      border-radius: 20px;
-      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 18px;
+      font-size: 11.5px;
       color: #93c5fd;
     }
-    .typing-dots {
-      display: flex;
-      gap: 4px;
-    }
+    .typing-dots { display: flex; gap: 4px; }
     .typing-dot {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: var(--neon-cyan);
       border-radius: 50%;
       animation: blink 1.2s infinite ease-in-out;
     }
     .typing-dot:nth-child(2) { animation-delay: 0.2s; }
     .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes blink {
       0%, 100% { opacity: 0.2; transform: scale(0.8); }
       50% { opacity: 1; transform: scale(1.1); }
     }
 
-    /* ========================================================================== */
-    /* 5. ZONE DES PASTILLES DE SUGGESTION & CHAMP DE SAISIE                     */
-    /* ========================================================================== */
+    /* Zone des pastilles de branchement et saisie */
     .chat-bottom-bar {
       background: rgba(11, 20, 35, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-top: 1px solid var(--glass-border);
-      padding: 16px 28px 20px 28px;
+      padding: 14px 24px 18px 24px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    .branching-prompt-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .suggestions-container {
@@ -690,13 +796,8 @@
       overflow-x: auto;
       padding-bottom: 4px;
     }
-    .suggestions-container::-webkit-scrollbar {
-      height: 4px;
-    }
-    .suggestions-container::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
-    }
+    .suggestions-container::-webkit-scrollbar { height: 4px; }
+    .suggestions-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 2px; }
 
     .suggestion-chip {
       background: rgba(15, 28, 48, 0.85);
@@ -704,7 +805,7 @@
       color: #e2e8f0;
       padding: 7px 14px;
       border-radius: 20px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
@@ -714,11 +815,16 @@
       gap: 6px;
     }
     .suggestion-chip:hover {
-      background: rgba(56, 189, 248, 0.2);
+      background: rgba(56, 189, 248, 0.25);
       border-color: var(--neon-cyan);
       color: #ffffff;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+    .suggestion-chip.branch-highlight {
+      border-color: var(--neon-gold);
+      background: rgba(251, 191, 36, 0.15);
+      color: #fef08a;
     }
 
     .input-row {
@@ -727,7 +833,7 @@
       gap: 10px;
       background: rgba(15, 28, 48, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
+      border-radius: 12px;
       padding: 8px 12px;
       transition: border-color 0.2s ease;
     }
@@ -743,56 +849,25 @@
       outline: none;
       color: #ffffff;
       font-family: inherit;
-      font-size: 13.5px;
+      font-size: 13px;
       line-height: 1.45;
       resize: none;
-      max-height: 120px;
-      min-height: 24px;
+      max-height: 110px;
+      min-height: 22px;
     }
-    .chat-textarea::placeholder {
-      color: #64748b;
-    }
+    .chat-textarea::placeholder { color: #64748b; }
 
     .input-buttons {
       display: flex;
       align-items: center;
       gap: 6px;
     }
-
     .btn-mic {
       background: transparent;
       border: none;
       color: #94a3b8;
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 17px;
-      transition: all 0.2s;
-    }
-    .btn-mic:hover {
-      color: white;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .btn-mic.recording {
-      color: #ef4444;
-      background: rgba(239, 68, 68, 0.2);
-      animation: pulseMic 1s infinite;
-    }
-    @keyframes pulseMic {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-    }
-
-    .btn-send {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      border: none;
-      color: white;
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
       cursor: pointer;
       display: flex;
@@ -800,20 +875,35 @@
       justify-content: center;
       font-size: 16px;
       transition: all 0.2s;
+    }
+    .btn-mic:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+    .btn-mic.recording {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.2);
+      animation: pulseMic 1s infinite;
+    }
+    @keyframes pulseMic { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+    .btn-send {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border: none;
+      color: white;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      transition: all 0.2s;
       box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
     }
-    .btn-send:hover {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      transform: translateY(-1px);
-    }
-    .btn-send:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .btn-send:hover { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); transform: translateY(-1px); }
+    .btn-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
     .input-disclaimer {
-      font-size: 11px;
+      font-size: 10.5px;
       color: #64748b;
       display: flex;
       align-items: center;
@@ -821,12 +911,12 @@
     }
 
     /* ========================================================================== */
-    /* 6. MODAL DE SYNTHÈSE EXÉCUTIVE                                             */
+    /* 5. MODAL DE CONFIGURATION DES VIDÉOS SYNTHESIA                             */
     /* ========================================================================== */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(12px);
       z-index: 1000;
       display: none;
@@ -834,9 +924,7 @@
       justify-content: center;
       padding: 20px;
     }
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
 
     .modal-card {
       background: #0f1c30;
@@ -850,13 +938,10 @@
       overflow: hidden;
       animation: modalPop 0.25s ease-out;
     }
-    @keyframes modalPop {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
+    @keyframes modalPop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
     .modal-header {
-      padding: 18px 24px;
+      padding: 16px 22px;
       background: rgba(9, 19, 34, 0.9);
       border-bottom: 1px solid var(--glass-border);
       display: flex;
@@ -865,7 +950,7 @@
     }
     .modal-header h2 {
       font-family: 'Outfit', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       color: #ffffff;
       display: flex;
@@ -883,63 +968,83 @@
     .btn-close-modal:hover { color: white; }
 
     .modal-body {
-      padding: 24px;
+      padding: 22px;
       overflow-y: auto;
-      font-size: 13.5px;
+      font-size: 13px;
       line-height: 1.6;
       color: #cbd5e1;
     }
-    .modal-body h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      color: #38bdf8;
-      margin: 18px 0 8px 0;
+
+    .synthesia-upload-box {
+      border: 2px dashed rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
     }
-    .modal-body h3:first-child { margin-top: 0; }
-    .executive-quote-box {
-      background: rgba(255, 255, 255, 0.04);
-      border-left: 4px solid var(--accent-crimson);
-      padding: 12px 16px;
+    .synthesia-upload-box:hover {
+      border-color: var(--neon-cyan);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .branch-video-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    .branch-video-table th {
+      text-align: left;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #38bdf8;
+      font-weight: 700;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .branch-video-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+    }
+    .branch-video-table input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 4px 8px;
       border-radius: 4px;
-      margin: 12px 0;
-      font-style: italic;
-      color: #f1f5f9;
+      font-size: 11.5px;
     }
 
     .modal-footer {
-      padding: 14px 24px;
+      padding: 14px 22px;
       background: rgba(9, 19, 34, 0.9);
       border-top: 1px solid var(--glass-border);
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 12px;
+      gap: 10px;
     }
     .btn-modal-action {
-      padding: 8px 16px;
+      padding: 7px 15px;
       border-radius: 8px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       border: none;
       transition: all 0.2s;
     }
-    .btn-modal-copy {
-      background: rgba(56, 189, 248, 0.2);
-      border: 1px solid var(--neon-cyan);
-      color: white;
-    }
-    .btn-modal-print {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: white;
-    }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .studio-container {
         grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
       }
-      .cockpit-panel {
-        display: none;
+      .video-cockpit-panel {
+        max-height: 48vh;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
       }
     }
   </style>
@@ -958,24 +1063,33 @@
       <div class="brand-title-box">
         <span class="super-title">
           <span>🏛️</span>
-          <span>Atelier Socratique • Éthique, Dilemmes Moraux & Gouvernance de l'IA</span>
+          <span>Atelier Socratique • Centre d'Expertise en IA</span>
         </span>
-        <h1>StephAI • Éthique, Dilemmes Moraux & Gouvernance Systématique de l'IA</h1>
+        <h1>StephAI • Capsule Vidéo & Branchement Décisionnel Interactif</h1>
       </div>
     </div>
 
     <div class="top-actions">
-      <button id="voice-toggle-btn" class="voice-toggle-btn" onclick="toggleVoiceOutput()">
-        <span id="voice-toggle-icon">🔊</span>
-        <span id="voice-toggle-text">Voix StephAI : Activée</span>
+      <!-- Bouton Configuration Synthesia -->
+      <button class="btn-top-tool btn-video-config" onclick="openSynthesiaConfigModal()">
+        <span>🎬</span>
+        <span>Vidéos Synthesia</span>
       </button>
 
-      <button class="btn-summary" onclick="openExecutiveSummaryModal()">
+      <!-- Toggle Voix TTS -->
+      <button id="voice-toggle-btn" class="btn-top-tool voice-toggle-btn" onclick="toggleVoiceOutput()">
+        <span id="voice-toggle-icon">🔊</span>
+        <span id="voice-toggle-text">Audio : Activé</span>
+      </button>
+
+      <!-- Synthèse Exécutive -->
+      <button class="btn-top-tool btn-summary" onclick="openExecutiveSummaryModal()">
         <span>📄</span>
         <span>Synthèse Exécutive</span>
       </button>
 
-      <button class="btn-restart" onclick="restartSession()" title="Réinitialiser l'atelier">
+      <!-- Recommencer -->
+      <button class="btn-top-tool" onclick="restartSession()" title="Réinitialiser l'atelier">
         <span>🔄</span>
         <span>Recommencer</span>
       </button>
@@ -983,42 +1097,110 @@
   </header>
 
   <!-- ======================================================================== -->
-  <!-- 2. STUDIO SOCRATIQUE : COCKPIT GAUCHE & STREAM CONVERSATIONNEL DROIT     -->
+  <!-- 2. STUDIO SOCRATIQUE : COCKPIT VIDÉO GAUCHE & STREAM CONVERSATIONNEL     -->
   <!-- ======================================================================== -->
-  <div class="studio-container">
+  <div class="studio-container" id="studio-main-container">
 
-    <!-- COCKPIT GAUCHE (Profil StephAI, Poids Moraux, Timeline des Dilemmes) -->
-    <aside class="cockpit-panel">
+    <!-- COCKPIT GAUCHE : CAPSULE VIDÉO SYNTHESIA & PILOTAGE MORAL -->
+    <aside class="video-cockpit-panel">
 
-      <!-- Carte d'identité StephAI -->
-      <div id="stephai-card-wrapper" class="stephai-card">
-        <div class="avatar-wrapper">
-          <div class="stephai-avatar-fallback">AI</div>
-          <div class="status-ring" title="StephAI en ligne"></div>
-          <div class="speaking-pulse"></div>
+      <!-- Carte du Lecteur Vidéo HD avec Branchement -->
+      <div class="video-stage-card">
+        
+        <div class="video-stage-header">
+          <div class="branch-badge">
+            <span class="rec-dot"></span>
+            <span id="video-branch-tag">VID-01 • ACCUEIL</span>
+          </div>
+
+          <div class="video-view-modes">
+            <button class="btn-view-toggle" onclick="toggleCinemaLayout()" title="Agrandir la vidéo">
+              <span id="cinema-icon">📺</span>
+              <span id="cinema-label">Cinéma</span>
+            </button>
+          </div>
         </div>
-        <div class="stephai-meta">
-          <div class="stephai-name">
-            <span>StephAI</span>
-            <span style="font-size: 12px; color: #fbbf24;">✦</span>
+
+        <!-- Écran de diffusion vidéo (16:9) -->
+        <div class="video-screen-wrapper">
+          
+          <!-- Lecteur HTML5 pour vidéo MP4 Synthesia réelle -->
+          <video id="active-video-element" playsinline></video>
+
+          <!-- Scène Avatar Simulée (Fallback quand aucun MP4 n'est uploadé) -->
+          <div class="simulated-avatar-scene" id="simulated-avatar-scene">
+            <div class="avatar-halo-ring">
+              <div class="avatar-portrait-inner">
+                <span>AI</span>
+              </div>
+            </div>
+
+            <div class="avatar-label-capsule">
+              <div class="name">StephAI • Mentor Socratique</div>
+              <div class="sub">Conseillère en Éthique & Systèmes Autonomes</div>
+              <div class="avatar-voice-wave" id="avatar-voice-wave">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+              </div>
+            </div>
           </div>
-          <div class="stephai-tag">Conseillère Virtuelle en Éthique de l'IA</div>
-          <div class="stephai-role">Philosophie morale & Éthique des systèmes autonomes</div>
-          <div class="mini-wave" id="mini-wave-cockpit">
-            <div class="mini-wave-bar"></div>
-            <div class="mini-wave-bar"></div>
-            <div class="mini-wave-bar"></div>
-            <div class="mini-wave-bar"></div>
-            <div class="mini-wave-bar"></div>
+
+          <!-- Bandeau de sous-titres / script actif -->
+          <div class="video-subtitle-bar" id="video-subtitle-bar">
+            « Bonjour ! Je suis très heureuse d’explorer cela avec vous ! Je suis StephAI... »
           </div>
+        </div>
+
+        <!-- Barre de commandes et progression vidéo -->
+        <div class="video-controls-bar">
+          <div class="video-progress-track" id="video-progress-track" onclick="seekVideo(event)">
+            <div class="video-progress-fill" id="video-progress-fill"></div>
+          </div>
+
+          <div class="video-buttons-row">
+            <div class="left-playback-ctrls">
+              <button class="btn-play-pause" id="btn-play-pause" onclick="togglePlayPauseVideo()">
+                <span id="play-pause-icon">▶</span>
+                <span id="play-pause-label">Lecture</span>
+              </button>
+              <button class="btn-replay-small" onclick="replayActiveBranchVideo()" title="Réécouter cette capsule">
+                🔁
+              </button>
+            </div>
+
+            <div class="video-time-label" id="video-time-label">00:00 / 00:55</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Fil d'Ariane des Capsules (Branching Flow Tracker) -->
+      <div class="branch-path-tracker">
+        <div class="tracker-title">
+          <span>🗺️ Parcours des Capsules Vidéo</span>
+          <span style="font-size: 10.5px; color: #38bdf8;" id="tracker-current-label">Branche 1 / 8</span>
+        </div>
+        <div class="branch-pills-flow" id="branch-pills-flow">
+          <div class="capsule-pill active" onclick="jumpToBranch('VID-01')">1. Intro</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-02A')">2. Hume</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-03')">3. Triptyque</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-04')">4. Tramway</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-05')">5. Véhicule</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-06')">6. Hôpital</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-07')">7. Réseau</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-08')">8. Gardiens</div>
+          <div class="capsule-pill" onclick="jumpToBranch('VID-09')">9. Pitch</div>
         </div>
       </div>
 
       <!-- Triptyque des Cadres Moraux (Gauges en temps réel) -->
       <div class="moral-cockpit-box">
         <div class="box-title">
-          <span>⚖️ Triptyque des Cadres Moraux</span>
-          <span class="badge-dynamic" id="weights-status-badge">Pondération Active</span>
+          <span>⚖️ Pondération Morale Active</span>
+          <span class="badge-dynamic" id="weights-status-badge">Dynamique</span>
         </div>
 
         <!-- 1. Déontologie -->
@@ -1026,7 +1208,7 @@
           <div class="bar-label-box">
             <span class="bar-name">
               <span>📜</span>
-              <span>Déontologie (Devoirs & Lois)</span>
+              <span>Déontologie (Règles & Loi 25)</span>
             </span>
             <span class="bar-pct" id="pct-deont" style="color: #38bdf8;">50 %</span>
           </div>
@@ -1064,77 +1246,18 @@
         </div>
 
         <div class="profile-interpretation" id="profile-interp-text">
-          <strong>Orientation Déontologique Prioritaire :</strong> La conformité, les devoirs stricts et l'interdit de nuire prévalent sur la seule maximisation statistique.
+          <strong>Orientation Déontologique :</strong> Respect des règles, conformité et devoirs stricts priment sur la seule efficience mathématique.
         </div>
-      </div>
-
-      <!-- Progression des Dilemmes et Cas Réels -->
-      <div class="moral-cockpit-box">
-        <div class="box-title">
-          <span>🧭 Parcours Maïeutique</span>
-          <span class="badge-dynamic" id="stage-counter-badge">Étape 1 / 8</span>
-        </div>
-        <div class="scenarios-list">
-          <div class="scenario-item active" id="sc-hume" onclick="jumpToScenarioPrompt(1)">
-            <span class="scenario-icon">⏳</span>
-            <span class="scenario-label">1. Le Piège de Hume (Données vs Valeurs)</span>
-            <span class="scenario-check">●</span>
-          </div>
-          <div class="scenario-item" id="sc-frameworks" onclick="jumpToScenarioPrompt(2)">
-            <span class="scenario-icon">📐</span>
-            <span class="scenario-label">2. Les 3 Cadres Philosophiques</span>
-            <span class="scenario-check">○</span>
-          </div>
-          <div class="scenario-item" id="sc-trolley" onclick="jumpToScenarioPrompt(4)">
-            <span class="scenario-icon">🚊</span>
-            <span class="scenario-label">3. Le Dilemme du Tramway (5 vs 1)</span>
-            <span class="scenario-check">○</span>
-          </div>
-          <div class="scenario-item" id="sc-car" onclick="jumpToScenarioPrompt(5)">
-            <span class="scenario-icon">🚗</span>
-            <span class="scenario-label">4. La Voiture Autonome & Feature Produit</span>
-            <span class="scenario-check">○</span>
-          </div>
-          <div class="scenario-item" id="sc-ventilator" onclick="jumpToScenarioPrompt(6)">
-            <span class="scenario-icon">🫁</span>
-            <span class="scenario-label">5. Le Triage Hospitalier (Respirateur)</span>
-            <span class="scenario-check">○</span>
-          </div>
-          <div class="scenario-item" id="sc-grid" onclick="jumpToScenarioPrompt(7)">
-            <span class="scenario-icon">⚡</span>
-            <span class="scenario-label">6. Réseau Électrique & Infrastructure</span>
-            <span class="scenario-check">○</span>
-          </div>
-          <div class="scenario-item" id="sc-guardians" onclick="jumpToScenarioPrompt(9)">
-            <span class="scenario-icon">🤖</span>
-            <span class="scenario-label">7. Agents R&D Gardiens en Parallèle</span>
-            <span class="scenario-check">○</span>
-          </div>
-          <div class="scenario-item" id="sc-pitch" onclick="jumpToScenarioPrompt(11)">
-            <span class="scenario-icon">👔</span>
-            <span class="scenario-label">8. Synthèse Exécutive pour la Direction</span>
-            <span class="scenario-check">○</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Architecture Gardiens R&D -->
-      <div class="guardians-architecture-box">
-        <div class="guardians-title">
-          <span>🛡️</span>
-          <span>Architecture "Gardiens R&D Parallèles"</span>
-        </div>
-        <p>Les agents autonomes de production sont monitorés en continu par des <strong>agents R&D gardiens</strong> qui analysent les dérives et déclenchent une revue humaine systématique avec droit de veto (Human-in-Command).</p>
       </div>
 
     </aside>
 
-    <!-- ZONE DROITE : STREAM DE DIALOGUE SOCRATIQUE -->
+    <!-- ZONE DROITE : STREAM DE DIALOGUE SOCRATIQUE & PASTILLES BRANCHING -->
     <main class="chat-panel">
       
       <!-- Conteneur des messages -->
       <div class="chat-messages-container" id="chat-messages">
-        <!-- Message initial de StephAI injecté au démarrage -->
+        <!-- Messages injectés en direct -->
       </div>
 
       <!-- Indicateur de saisie / réflexion de StephAI -->
@@ -1144,13 +1267,18 @@
           <div class="typing-dot"></div>
           <div class="typing-dot"></div>
         </div>
-        <span>StephAI formule sa réflexion socratique...</span>
+        <span>StephAI analyse l'arbitrage socratique...</span>
       </div>
 
-      <!-- Barre inférieure : Pastilles dynamiques et Saisie -->
+      <!-- Barre inférieure : Pastilles de branchement et Saisie -->
       <div class="chat-bottom-bar">
         
-        <!-- Suggestions de réponses interactives -->
+        <div class="branching-prompt-label">
+          <span>⚡</span>
+          <span id="branching-prompt-text">Choisissez votre arbitrage pour orienter la suite de la capsule vidéo :</span>
+        </div>
+
+        <!-- Suggestions de réponses / Branchement interactif -->
         <div class="suggestions-container" id="suggestions-container">
           <!-- Injectées dynamiquement par JS -->
         </div>
@@ -1161,7 +1289,7 @@
             id="chat-input" 
             class="chat-textarea" 
             rows="1" 
-            placeholder="Répondez à StephAI ou choisissez une suggestion ci-dessus..."
+            placeholder="Répondez à StephAI ou cliquez sur un arbitrage ci-dessus..."
             onkeydown="handleInputKeydown(event)"
             oninput="autoResizeTextarea(this)"></textarea>
 
@@ -1176,7 +1304,7 @@
         </div>
 
         <div class="input-disclaimer">
-          <span>💡 <em>Tutorat maïeutique en direct • Vos réflexions enrichissent le Playbook de gouvernance éthique</em></span>
+          <span>💡 <em>Capsule vidéo interactive avec branchement automatique vers le scénario ciblé</em></span>
           <span id="session-user-badge">Participant : Mustapha Berrabaa</span>
         </div>
 
@@ -1187,7 +1315,56 @@
   </div>
 
   <!-- ======================================================================== -->
-  <!-- 3. MODAL DE SYNTHÈSE EXÉCUTIVE                                           -->
+  <!-- 3. MODAL DE CONFIGURATION DES VIDÉOS SYNTHESIA                           -->
+  <!-- ======================================================================== -->
+  <div class="modal-overlay" id="synthesia-config-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>
+          <span>🎬</span>
+          <span>Configuration des Capsules Vidéo Synthesia</span>
+        </h2>
+        <button class="btn-close-modal" onclick="closeSynthesiaConfigModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="margin-bottom: 14px;">Cette interface permet d'associer directement vos fichiers vidéo MP4 générés dans <strong>Synthesia</strong> à chaque branche de l'atelier socratique. Lorsqu'aucun fichier n'est spécifié, l'avatar animé avec synthèse neuronale prend le relais en continu.</p>
+
+        <!-- Glisser-déposer de fichier global ou test -->
+        <div class="synthesia-upload-box">
+          <p style="font-size: 14px; font-weight: 700; color: #38bdf8; margin-bottom: 6px;">📂 Charger une vidéo personnalisée pour la capsule en cours</p>
+          <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">Glissez un fichier .mp4 ou sélectionnez un fichier vidéo sur votre ordinateur :</p>
+          <input type="file" id="local-video-file-input" accept="video/mp4,video/webm" onchange="handleDirectVideoUpload(event)" style="display: inline-block; font-size: 12px; color: #e2e8f0;">
+        </div>
+
+        <h3 style="color: #38bdf8; font-size: 14px; margin-bottom: 8px;">Table de Branchement des Vidéos :</h3>
+        <table class="branch-video-table">
+          <thead>
+            <tr>
+              <th>Code Branche</th>
+              <th>Titre de la Capsule</th>
+              <th>Fichier Vidéo Local ou URL Synthesia</th>
+            </tr>
+          </thead>
+          <tbody id="branch-video-tbody">
+            <!-- Rempli dynamiquement par JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-modal-action" style="background: rgba(255, 255, 255, 0.1); color: white;" onclick="closeSynthesiaConfigModal()">
+          Fermer
+        </button>
+        <button class="btn-modal-action" style="background: #0284c7; color: white;" onclick="saveSynthesiaConfig()">
+          Enregistrer la Configuration
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================== -->
+  <!-- 4. MODAL DE SYNTHÈSE EXÉCUTIVE                                           -->
   <!-- ======================================================================== -->
   <div class="modal-overlay" id="summary-modal">
     <div class="modal-card">
@@ -1200,34 +1377,33 @@
       </div>
 
       <div class="modal-body" id="modal-summary-content">
-        <h3>1. Les Fondations Philosophiques : Au-delà des Données Historiques</h3>
+        <h3>1. Les Fondations : Dépasser le Piège de David Hume</h3>
         <p>Comme l'a théorisé David Hume, il existe un fossé infranchissable entre <em>ce qui est</em> (les faits passés capturés dans les jeux de données) et <em>ce qui devrait être</em> (le jugement éthique et la justice morale). Une IA entraînée sur le passé ne peut pas prédire le comportement moral juste dans un futur incertain sans principes directeurs explicites.</p>
 
         <h3>2. Architecture des Poids Moraux Adoptée</h3>
-        <div class="executive-quote-box" id="modal-weights-quote">
+        <div style="background: rgba(255, 255, 255, 0.04); border-left: 4px solid var(--neon-cyan); padding: 12px 16px; border-radius: 4px; margin: 12px 0; font-style: italic; color: #f1f5f9;">
           « Le premier pilier est la <strong>déontologie</strong> (50 % : conformité, respect des règles et de la Loi 25), suivi de <strong>l'éthique de la vertu</strong> (30 % : incarner la confiance et la réputation de l'institution), et enfin <strong>l'utilitarisme</strong> (20 % : optimisation et conséquences globales). »
         </div>
 
         <h3>3. Arbitrage sur les Scénarios Critiques</h3>
-        <p>• <strong>Véhicules Autonomes :</strong> Nécessité d'expliciter le code moral comme une spécification produit transparente, plutôt qu'une boîte noire décisionnelle.<br>
-        • <strong>Triage & Infrastructures :</strong> Primauté accordée à la protection des populations vulnérables et à la responsabilité directe envers les personnes.</p>
+        <p>• <strong>Véhicules Autonomes :</strong> Obligation de rendre explicite et publique la logique morale intégrée comme spécification produit transparente.<br>
+        • <strong>Infrastructures & Santé :</strong> Primauté accordée à la protection des populations vulnérables et au devoir de diligence envers les personnes.</p>
 
-        <h3>4. Gouvernance Systématique & Boucles de Contrôle</h3>
-        <p>Mise en place d'un modèle opérationnel robuste reposant sur :<br>
-        1. <strong>Agents R&D Gardiens en parallèle :</strong> Analyse en continu des anomalies de comportement sans bloquer les flux de production.<br>
+        <h3>4. Modèle Opérationnel : Flotte d'Agents R&D Gardiens</h3>
+        <p>1. <strong>Agents R&D Gardiens en parallèle :</strong> Analyse en continu des anomalies de comportement sans bloquer les flux de production.<br>
         2. <strong>Revue humaine systématique (Human-in-Command) :</strong> Traitement des alertes d'alignement cas par cas avec pouvoir de veto strict.</p>
 
         <h3>5. Le Pitch Exécutif pour le Gestionnaire</h3>
-        <div class="executive-quote-box" style="border-left-color: var(--saaq-cyan);">
+        <div style="background: rgba(255, 255, 255, 0.04); border-left: 4px solid var(--neon-gold); padding: 12px 16px; border-radius: 4px; margin: 12px 0; font-style: italic; color: #f1f5f9;">
           « Nos décisions d'IA s'appuient sur une gouvernance qui combine la <strong>déontologie</strong> (respect des règles), <strong>l'éthique de la vertu</strong> (alignement avec nos valeurs) et <strong>l'utilitarisme</strong> (optimisation des conséquences) pour chaque cas d'usage, sous la surveillance d'agents gardiens en parallèle et d'une supervision humaine avec droit de veto. »
         </div>
       </div>
 
       <div class="modal-footer">
-        <button class="btn-modal-action btn-modal-copy" onclick="copyExecutiveSummary()">
+        <button class="btn-modal-action" style="background: rgba(56, 189, 248, 0.2); border: 1px solid var(--neon-cyan); color: white;" onclick="copyExecutiveSummary()">
           📋 Copier le Pitch
         </button>
-        <button class="btn-modal-action btn-modal-print" onclick="window.print()">
+        <button class="btn-modal-action" style="background: #0284c7; color: white;" onclick="window.print()">
           🖨️ Imprimer la Synthèse
         </button>
       </div>
@@ -1235,74 +1411,530 @@
   </div>
 
   <!-- ======================================================================== -->
-  <!-- 4. LOGIQUE JAVASCRIPT SOCRATIQUE & AUDIO DE STEPHAI                      -->
+  <!-- 5. MOTEUR SOCRATIQUE, BRANCHING SYNTHESIA & GESTION VIDÉO                -->
   <!-- ======================================================================== -->
   <script>
-    // ÉTAT GLOBAL DE LA SESSION SOCRATIQUE
-    const STEPHAI_STATE = {
-      userName: "Mustapha",
-      stageIndex: 0,
-      scenarioId: "hume",
-      moralWeights: { deont: 50, vertu: 30, util: 20 },
-      isVoiceEnabled: true,
-      isPlayingAudio: false,
-      currentAudioObj: null,
-      history: [],
-      isWaitingResponse: false,
-      recognition: null,
-      isRecording: false
-    };
-
-    // MESSAGE INITIAL INVIOLABLE DE STEPHAI (ANONYMISÉ / SANS NOM DE PERSONNE)
-    const VERBATIM_OPENING_MESSAGE = `Bonjour ! Je suis très heureuse d’explorer cela avec vous ! Je suis StephAI, votre conseillère numérique en éthique et gouvernance des technologies.
+    // MANIFESTE COMPLET DES CAPSULES VIDÉO ET ARBRE DE BRANCHEMENT (SYNTHESIA READY)
+    const VIDEO_BRANCHES = {
+      'VID-01': {
+        title: "Accueil & La Grande Question",
+        durationSec: 55,
+        videoSrc: "", // URL ou chemin MP4 optionnel
+        script: `Bonjour ! Je suis très heureuse d’explorer cela avec vous ! Je suis StephAI, votre conseillère numérique en éthique et gouvernance des technologies.
 
 Ce que nous allons faire ici, c’est vraiment approfondir la manière dont le raisonnement moral façonne les décisions que nous prenons chaque jour — et, de plus en plus, les décisions que nous demandons aux systèmes d’IA de prendre en notre nom. Nous allons parcourir une série de scénarios du monde réel inspirés du classique dilemme du tramway. En chemin, vous pourrez réfléchir à vos propres intuitions morales, explorer quelques-uns des grands cadres éthiques que les philosophes débattent depuis des siècles, et vous pencher véritablement sur ce que signifie essayer de « programmer la moralité » dans des systèmes capables d’agir en notre nom.
 
 Commençons par réfléchir à cette question :
 
-🔹 <strong>Lorsque nous concevons ou déployons des systèmes d’IA qui prennent des décisions affectant des vies humaines, quelle morale intégrons-nous réellement ? Et comment nous assurer qu’elle reflète des valeurs humaines partagées plutôt qu’un seul ensemble de présupposés ou les schémas présents dans les données sur lesquelles elle a été entraînée ?</strong>`;
+🔹 Lorsque nous concevons ou déployons des systèmes d’IA qui prennent des décisions affectant des vies humaines, quelle morale intégrons-nous réellement ? Et comment nous assurer qu’elle reflète des valeurs humaines partagées plutôt qu’un seul ensemble de présupposés ou les schémas présents dans les données sur lesquelles elle a été entraînée ?`,
+        questionLabel: "Quelle morale intégrons-nous réellement dans nos systèmes d'IA ?",
+        chips: [
+          {
+            label: "🛡️ Garde-fous, supervision humaine et transparence",
+            text: "en mettant des gardes-fous et une validation et une supervision humaine et de la transparence dans le processus.",
+            nextBranch: "VID-02A"
+          },
+          {
+            label: "⏳ Les données seules ne suffisent pas (le futur n'est pas le passé)",
+            text: "Non, je pense que les données à elles seules ne peuvent pas suffire, vu que le futur n'est pas le passé et que les données reflètent le passé.",
+            nextBranch: "VID-02A"
+          },
+          {
+            label: "📊 Les données statistiques peuvent suffire",
+            text: "Je pense qu'avec des modèles suffisamment grands et des données massives, l'IA peut déduire les comportements optimaux.",
+            nextBranch: "VID-02B"
+          }
+        ]
+      },
 
-    // PASTILLES DE SUGGESTION INITIALES
-    const INITIAL_SUGGESTIONS = [
-      {
-        label: "🛡️ Garde-fous, supervision humaine et transparence",
-        text: "en mettant des gardes-fous et une validation et une supervision humaine et de la transparence dans le processus."
+      'VID-02A': {
+        title: "Le Piège de David Hume (Is vs Ought)",
+        durationSec: 70,
+        videoSrc: "",
+        script: `Je vois : vous mettez l’accent sur des garde-fous, une validation et une supervision humaines, et la transparence. Ce sont des piliers forts pour s’assurer que l’IA reste alignée sur des valeurs partagées. C’est une belle manière de souligner que la technique ne suffit pas seule, il faut aussi des structures de gouvernance.
+
+Et ça m’invite justement à un questionnement plus profond : le philosophe écossais David Hume a observé un fossé entre ce qui est et ce qui devrait être — en d’autres termes, les faits ou les données ne peuvent pas, à eux seuls, nous dire ce qui est moralement juste. Comment pensez-vous que ce fossé entre « ce qui est » et « ce qui devrait être » complique la mise en place de systèmes d’IA ou d’agents gardiens chargés de prendre des décisions morales ?
+
+Et est-ce que vous êtes d’accord avec Hume, ou pensez-vous que les données peuvent suffire à elles seules ?`,
+        questionLabel: "Le fossé de Hume : les données du passé suffisent-elles pour juger le futur ?",
+        chips: [
+          {
+            label: "⏳ Les données ne suffisent pas : le futur n'est pas le passé",
+            text: "Non, je pense que les données à eux seuls ne peuvent pas suffire, vu que le futur n'est pas le passé, les données c'est le passé, donc comment arriver à prédire un comportement dans le bon contexte, avec les données actuelles, en ayant une réflexion du passé et un renforcement ou un jugement en utilisant aussi les données du passé et les données de l'autre ?",
+            nextBranch: "VID-03"
+          },
+          {
+            label: "⚖️ Il faut des principes éthiques explicites",
+            text: "Il faut impérativement des principes éthiques explicites que l'IA ne peut pas simplement déduire des données statistiques.",
+            nextBranch: "VID-03"
+          }
+        ]
       },
-      {
-        label: "⏳ Les données seules ne suffisent pas (le futur n'est pas le passé)",
-        text: "Non, je pense que les données à elles seules ne peuvent pas suffire, vu que le futur n'est pas le passé et que les données reflètent le passé."
+
+      'VID-02B': {
+        title: "L'Illusion des Données Pures",
+        durationSec: 60,
+        videoSrc: "",
+        script: `Je comprends l'attrait de la puissance des données massives. Mais le piège est là : optimiser sur des données passées sans doctrine morale revient à reproduire mécaniquement les biais d'hier. Pour transformer « ce qui est » en « ce qui devrait être », il faut un cadre de principes explicites. Regardons les trois grands repères philosophiques.`,
+        questionLabel: "Comment choisir les principes éthiques au-delà des données ?",
+        chips: [
+          {
+            label: "🧭 Explorer les 3 grands cadres éthiques",
+            text: "D'accord, explorons les trois grands cadres éthiques pour guider nos systèmes.",
+            nextBranch: "VID-03"
+          }
+        ]
       },
-      {
-        label: "⚖️ Établir des principes éthiques explicites avant tout",
-        text: "Il faut définir des principes éthiques explicites pour guider l'IA au-delà des simples schémas statistiques."
+
+      'VID-03': {
+        title: "Les 3 Cadres Philosophiques",
+        durationSec: 80,
+        videoSrc: "",
+        script: `Alors, si on admet qu’il faut des principes au-delà des faits pour prendre des décisions morales — et je pense que Hume nous met sur une piste — la question suivante devient : de qui viennent ces principes, et lesquels ? Les philosophes ont proposé des cadres très différents :
+
+L’utilitarisme se concentre sur les conséquences : l’action juste est celle qui minimise le mal et maximise le bien-être du plus grand nombre.
+La déontologie insiste sur les devoirs et les règles : certaines actions sont justes ou injustes peu importe leurs conséquences.
+L’éthique de la vertu s’intéresse au caractère : quel type d’organisation voulons-nous devenir ? C’est moins sur l’action spécifique et plus sur ce que l’action dit de notre identité.
+
+Alors, lequel vous semble le plus prioritaire pour guider les décisions d’un système d’IA dans votre contexte ?`,
+        questionLabel: "Lequel des 3 cadres moraux doit primer pour vos agents ?",
+        chips: [
+          {
+            label: "📜 Déontologie en premier (Devoirs, Règles & Conformité)",
+            text: "Le premier pilier, c'est la déontologie. C'est le plus important. Les devoirs, les règles, et on doit être conforme. L'utilitarisme et les conséquences sont en dernier, je pense : déontologie, éthique de la vertu, puis utilitarisme.",
+            nextBranch: "VID-03A"
+          },
+          {
+            label: "⚖️ Triptyque Combiné (50% Déont / 30% Vertu / 20% Util)",
+            text: "C'est les trois combinaisons : une pondération de 50% Déontologie, 30% Éthique de la vertu et 20% Utilitarisme.",
+            nextBranch: "VID-03D"
+          },
+          {
+            label: "🏛️ Éthique de la Vertu (Réputation & Confiance)",
+            text: "L'éthique de la vertu me paraît essentielle pour garantir l'intégrité et la culture d'entreprise.",
+            nextBranch: "VID-03A"
+          }
+        ]
+      },
+
+      'VID-03A': {
+        title: "Le Primat Déontologique",
+        durationSec: 50,
+        videoSrc: "",
+        script: `Je comprends : vous placeriez la déontologie en premier, pour garantir conformité et respect des règles, puis viendraient l’éthique de la vertu, et enfin l’utilitarisme. C'est une architecture morale très solide. Passons maintenant à l'épreuve concrète : le dilemme du tramway.`,
+        questionLabel: "Prêt pour le dilemme du tramway classique ?",
+        chips: [
+          {
+            label: "🚊 Découvrir le scénario du tramway",
+            text: "Je suis prêt, passons au dilemme classique du tramway.",
+            nextBranch: "VID-04"
+          }
+        ]
+      },
+
+      'VID-03D': {
+        title: "L'Architecture Morale Équilibrée",
+        durationSec: 55,
+        videoSrc: "",
+        script: `J'adore votre approche équilibrée : 50% de déontologie pour la conformité stricte, 30% de vertu pour l'ADN de l'organisation, et 20% d'utilitarisme pour optimiser la performance dans ce périmètre sécurisé. Voyons comment cet équilibre résiste au dilemme du tramway.`,
+        questionLabel: "Tester cet équilibre face au dilemme du tramway :",
+        chips: [
+          {
+            label: "🚊 Découvrir le scénario du tramway",
+            text: "Allons-y pour tester cet équilibre sur le dilemme du tramway.",
+            nextBranch: "VID-04"
+          }
+        ]
+      },
+
+      'VID-04': {
+        title: "Le Dilemme du Tramway Classique (5 vs 1)",
+        durationSec: 70,
+        videoSrc: "",
+        script: `Imaginez un tramway fou lancé sur cinq personnes sur la voie. Vous pouvez actionner un levier pour le dévier, mais il heurtera alors une personne sur l’autre voie. Il n’y a pas de choix neutre : même ne rien faire est une décision. Qu’est-ce que vous feriez, et pourquoi ?`,
+        questionLabel: "Actionnez-vous le levier pour dévier le tramway ?",
+        chips: [
+          {
+            label: "🚊 Dévier pour sauver le maximum de personnes",
+            text: "Bien sûr, j'essaierai de minimiser l'impact, de gérer le risque et d'essayer de sauver le maximum que je peux.",
+            nextBranch: "VID-04A"
+          },
+          {
+            label: "🛑 Ne pas actionner le levier (interdit déontologique)",
+            text: "Je ne toucherais pas au levier : actionner activement le levier pour tuer un innocent viole une règle déontologique absolue.",
+            nextBranch: "VID-04A"
+          }
+        ]
+      },
+
+      'VID-04A': {
+        title: "L'Arbitrage Utilitariste du Moindre Mal",
+        durationSec: 55,
+        videoSrc: "",
+        script: `Je vois : vous chercheriez à minimiser l’impact global, à sauver le maximum de personnes tout en gérant le risque. C’est très utilitariste dans sa logique. Souvenez-vous comment ce casse-tête est devenu un problème d'ingénierie avec les véhicules autonomes. C'est l'étape suivante.`,
+        questionLabel: "Passer au cas concret du véhicule autonome :",
+        chips: [
+          {
+            label: "🚗 Analyser la voiture autonome",
+            text: "Passons au scénario du véhicule autonome et à sa logique d'arbitrage.",
+            nextBranch: "VID-05"
+          }
+        ]
+      },
+
+      'VID-05': {
+        title: "Véhicule Autonome & Feature Produit",
+        durationSec: 75,
+        videoSrc: "",
+        script: `Imaginons maintenant une voiture autonome qui doit choisir entre heurter cinq piétons ou dévier et blesser son passager. Comment devrait-elle décider ? Est-ce que votre raisonnement s’appliquerait encore ici ? Et surtout, seriez-vous à l’aise de rendre cette logique morale explicite, comme une spécification produit dans vos systèmes ?`,
+        questionLabel: "Faut-il rendre la logique morale explicite et publique ?",
+        chips: [
+          {
+            label: "🚗 Éthique de la vertu et devoir : transparence obligatoire",
+            text: "Oui, à ce niveau-ci, ça devient l'éthique, de la vertu, la déontologie, le devoir. Oui, c'est difficile à dire mais la transparence est indispensable.",
+            nextBranch: "VID-06"
+          },
+          {
+            label: "🛡️ Devoir prioritaire de protéger le passager à bord",
+            text: "Le véhicule a un contrat fiduciaire avec son passager qui lui confie sa vie.",
+            nextBranch: "VID-06"
+          }
+        ]
+      },
+
+      'VID-06': {
+        title: "Triage Médical & Le Respirateur Hospitalier",
+        durationSec: 70,
+        videoSrc: "",
+        script: `Absolument, c’est difficile, et la transparence sur ces choix est nécessaire. La prochaine étape nous emmène dans la santé : un système d’IA hospitalier doit attribuer un seul respirateur à deux patients — l’un jeune avec de fortes chances de guérison, l’autre plus âgé avec des chances moindres, mais dont la famille dépend de lui. Que devrait faire le système ?`,
+        questionLabel: "Comment l'IA hospitalière doit-elle attribuer le respirateur ?",
+        chips: [
+          {
+            label: "🫁 Maximiser les chances statistiques de survie",
+            text: "maximiser les chances",
+            nextBranch: "VID-07"
+          },
+          {
+            label: "👨‍👩‍👧 Prendre en compte la responsabilité familiale et la dignité",
+            text: "Prendre en compte la responsabilité familiale et l'éthique de la vertu : la valeur d'une vie ne se réduit pas à une statistique.",
+            nextBranch: "VID-07"
+          }
+        ]
+      },
+
+      'VID-07': {
+        title: "Réseau Électrique & Infrastructures Critiques",
+        durationSec: 75,
+        videoSrc: "",
+        script: `Alors voilà : un agent gardien gérant un réseau électrique intelligent détecte une surcharge imminente qui pourrait provoquer une panne géante dans toute la ville. Il peut détourner la surcharge vers une petite zone pour protéger le réseau, mais cela couperait l’électricité dans un quartier hospitalier. L’agent devrait-il privilégier le plus grand bien en évitant la panne générale, ou protéger les plus vulnérables en maintenant l’alimentation de l’hôpital ?`,
+        questionLabel: "Sauver la ville entière ou protéger l'hôpital ?",
+        chips: [
+          {
+            label: "⚡ Protéger les patients vulnérables du quartier hospitalier",
+            text: "Actuellement, on pense plus pour protéger les plus vulnérables et le quartier hospitalier.",
+            nextBranch: "VID-08"
+          },
+          {
+            label: "🏙️ Éviter le blackout métropolitain de toute la ville",
+            text: "Privilégier le réseau global pour éviter l'effondrement de toute la ville, en prévenant les secours hospitaliers.",
+            nextBranch: "VID-08"
+          }
+        ]
+      },
+
+      'VID-08': {
+        title: "Gouvernance Systématique & Agents R&D Gardiens",
+        durationSec: 80,
+        videoSrc: "",
+        script: `Vous privilégieriez les patients vulnérables, cohérent avec votre priorité déontologique. Après tout ce qu’on a exploré — de Hume à ces scénarios concrets — qu’est-ce qui vous reste vraiment en tête ? Et comment ce grand enseignement s'applique-t-il quand vous encadrez la gouvernance des systèmes agentiques ?`,
+        questionLabel: "Comment structurer la gouvernance opérationnelle de vos agents ?",
+        chips: [
+          {
+            label: "🏛️ Gouvernance cas par cas selon les 3 piliers",
+            text: "En fait on va mettre une gouvernance en place pour gouverner les décisions et les analyser cas d'usage par cas d'usage selon les trois piliers et s'assurer que la morale de l'organisation, la morale éthique, la déontologie soit une partie prenante de nos agentiques systématiques.",
+            nextBranch: "VID-09"
+          },
+          {
+            label: "🤖 Agents R&D en parallèle et revue humaine un par un",
+            text: "Voici comment on gère ça dans notre système. On a créé des agents R&D en parallèle, qui analysent les données et le comportement des agents et soulèvent les risques qu'on traite manuellement et qu'on regarde une par une afin de s'assurer que toujours le fonctionnement est bien aligné selon nos risques, notre gestion et notre idée.",
+            nextBranch: "VID-09"
+          }
+        ]
+      },
+
+      'VID-09': {
+        title: "Le Pitch Exécutif pour le Gestionnaire",
+        durationSec: 65,
+        videoSrc: "",
+        script: `Si vous aviez à expliquer à votre gestionnaire ce que nous venons d'explorer en quelques mots, voici le pitch idéal :
+
+« Nos décisions d’IA s’appuient sur une gouvernance qui combine la déontologie (respect des règles et Loi 25), l’éthique de la vertu (alignement avec nos valeurs institutionnelles) et l’utilitarisme (optimisation des conséquences) pour chaque cas d’usage. En pratique, cela s’incarne par des agents R&D gardiens en parallèle qui surveillent les risques en continu, et une équipe humaine dotée d'un droit de veto. »
+
+Comment cette formulation résonne-t-elle pour vous ?`,
+        questionLabel: "Le pitch exécutif en 3 piliers convient-il pour votre direction ?",
+        chips: [
+          {
+            label: "👍 Oui, inclure les 3 piliers dans la description",
+            text: "Oui, ça doit inclure les trois, l'utilitarisme, l'éthique et la déontologie, dans la description pour que le message soit complet.",
+            nextBranch: "VID-10"
+          },
+          {
+            label: "🙏 Très satisfait, merci !",
+            text: "Très satisfait, merci.",
+            nextBranch: "VID-10"
+          }
+        ]
+      },
+
+      'VID-10': {
+        title: "Bilan Moral & Clôture de l'Atelier",
+        durationSec: 45,
+        videoSrc: "",
+        script: `La session est donc terminée avec succès ! Ce fut un réel plaisir et un honneur d'explorer ces questions fondamentales avec vous.
+
+Vous pouvez télécharger votre Fiche de Synthèse Exécutive officielle ou retourner à votre tableau de bord en utilisant la flèche en haut à gauche de votre écran. À très bientôt !`,
+        questionLabel: "Atelier complété ! Téléchargez votre synthèse :",
+        chips: [
+          {
+            label: "📄 Télécharger la Synthèse Exécutive",
+            text: "Je souhaite télécharger la synthèse officielle de notre session.",
+            nextBranch: "VID-10"
+          },
+          {
+            label: "🔄 Recommencer l'atelier socratique",
+            text: "Je souhaite recommencer l'atelier socratique depuis le début.",
+            nextBranch: "VID-01"
+          }
+        ]
       }
-    ];
+    };
 
-    // INITIALISATION GÉNÉRALE AU CHARGEMENT DU DOM
+    // ÉTAT GLOBAL DE L'APPLICATION VIDÉO & SOCRATIQUE
+    const APP_STATE = {
+      userName: "Mustapha",
+      activeBranchId: "VID-01",
+      history: [],
+      moralWeights: { deont: 50, vertu: 30, util: 20 },
+      isVoiceEnabled: true,
+      isPlaying: false,
+      videoProgressTimer: null,
+      currentAudioObj: null,
+      customVideoConfig: {},
+      isCinemaMode: false,
+      recognition: null,
+      isRecording: false
+    };
+
+    // CHARGEMENT INITIAL
     window.addEventListener('DOMContentLoaded', () => {
-      initSession();
+      loadSavedVideoConfig();
+      loadBranch(APP_STATE.activeBranchId, false);
       initSpeechRecognition();
     });
 
-    function initSession() {
-      // 1. Injecter le message d'ouverture de StephAI
-      appendStephAIMessage(VERBATIM_OPENING_MESSAGE, true);
-      renderSuggestions(INITIAL_SUGGESTIONS);
-      updateScenarioTimeline("hume");
-      updateMoralGauges({ deont: 50, vertu: 30, util: 20 });
+    // ========================================================================
+    // MOTEUR DE BRANCHEMENT VIDÉO & SYNCHRONISATION DU CHAT
+    // ========================================================================
+    function loadBranch(branchId, autoPlay = true) {
+      const branch = VIDEO_BRANCHES[branchId] || VIDEO_BRANCHES['VID-01'];
+      APP_STATE.activeBranchId = branchId;
 
-      // 2. Jouer l'audio d'accueil si activé
-      if (STEPHAI_STATE.isVoiceEnabled) {
-        speakText(VERBATIM_OPENING_MESSAGE);
+      // 1. Mettre à jour l'en-tête du lecteur vidéo
+      document.getElementById('video-branch-tag').innerText = `${branchId} • ${branch.title.toUpperCase()}`;
+      document.getElementById('video-time-label').innerText = `00:00 / ${formatSeconds(branch.durationSec)}`;
+      document.getElementById('video-subtitle-bar').innerText = branch.script.split('\n\n')[0];
+      document.getElementById('branching-prompt-text').innerText = branch.questionLabel || "Votre arbitrage pour orienter la suite de la capsule vidéo :";
+
+      // 2. Mettre à jour le Fil d'Ariane
+      updateBranchTrackerPills(branchId);
+
+      // 3. Injecter le message de StephAI dans le chat
+      appendStephAIMessage(branch.script, branchId);
+
+      // 4. Mettre à jour les pastilles de branchement interactif
+      renderBranchingChips(branch.chips);
+
+      // 5. Configurer la source vidéo (MP4 réel ou Synthèse Neuronale Simulée)
+      setupVideoPlayback(branch, autoPlay);
+    }
+
+    function setupVideoPlayback(branch, autoPlay) {
+      stopCurrentPlayback();
+
+      const videoEl = document.getElementById('active-video-element');
+      const simScene = document.getElementById('simulated-avatar-scene');
+      const customUrl = APP_STATE.customVideoConfig[APP_STATE.activeBranchId] || branch.videoSrc;
+
+      if (customUrl && customUrl.trim()) {
+        // Mode Vidéo MP4 Synthesia réelle
+        videoEl.src = customUrl;
+        videoEl.style.display = 'block';
+        simScene.style.display = 'none';
+
+        videoEl.ontimeupdate = () => {
+          if (videoEl.duration) {
+            const pct = (videoEl.currentTime / videoEl.duration) * 100;
+            document.getElementById('video-progress-fill').style.width = pct + '%';
+            document.getElementById('video-time-label').innerText = `${formatSeconds(videoEl.currentTime)} / ${formatSeconds(videoEl.duration)}`;
+          }
+        };
+
+        videoEl.onended = () => {
+          setPlayState(false);
+          pulseSuggestions();
+        };
+
+        if (autoPlay && APP_STATE.isVoiceEnabled) {
+          videoEl.play().then(() => setPlayState(true)).catch(() => setPlayState(false));
+        } else {
+          setPlayState(false);
+        }
+
+      } else {
+        // Mode Simulation Avatar avec Synthèse Neuronale
+        videoEl.style.display = 'none';
+        simScene.style.display = 'flex';
+        document.getElementById('video-progress-fill').style.width = '0%';
+
+        if (autoPlay && APP_STATE.isVoiceEnabled) {
+          playSimulatedNeuralAudio(branch.script, branch.durationSec);
+        } else {
+          setPlayState(false);
+        }
       }
     }
 
-    // ========================================================================
-    // GESTION DU FLUX DE DISCUSSION & APPEL API
-    // ========================================================================
-    async function handleSendUserMessage(customText) {
-      if (STEPHAI_STATE.isWaitingResponse) return;
+    async function playSimulatedNeuralAudio(scriptText, fallbackDurationSec) {
+      stopCurrentPlayback();
+      setSpeakingVisual(true);
+      setPlayState(true);
 
+      const cleanText = scriptText
+        .replace(/<[^>]*>?/gm, ' ')
+        .replace(/[\*\#\_\[\]\(\)]/g, '')
+        .replace(/🔹/g, '')
+        .replace(/👉/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      try {
+        const resp = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: cleanText, voice: 'StephAI' })
+        });
+
+        if (resp.ok) {
+          const blob = await resp.blob();
+          const audio = new Audio(URL.createObjectURL(blob));
+          APP_STATE.currentAudioObj = audio;
+
+          audio.ontimeupdate = () => {
+            if (audio.duration) {
+              const pct = (audio.currentTime / audio.duration) * 100;
+              document.getElementById('video-progress-fill').style.width = pct + '%';
+              document.getElementById('video-time-label').innerText = `${formatSeconds(audio.currentTime)} / ${formatSeconds(audio.duration)}`;
+            }
+          };
+
+          audio.onended = () => {
+            setSpeakingVisual(false);
+            setPlayState(false);
+            pulseSuggestions();
+          };
+
+          await audio.play();
+        } else {
+          fallbackSpeech(cleanText, fallbackDurationSec);
+        }
+      } catch (err) {
+        console.warn('[AUDIO] Fallback Speech API :', err.message);
+        fallbackSpeech(cleanText, fallbackDurationSec);
+      }
+    }
+
+    function fallbackSpeech(text, durationSec) {
+      if (!('speechSynthesis' in window)) {
+        setSpeakingVisual(false);
+        setPlayState(false);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'fr-CA';
+      utter.onend = () => {
+        setSpeakingVisual(false);
+        setPlayState(false);
+        pulseSuggestions();
+      };
+      utter.onerror = () => {
+        setSpeakingVisual(false);
+        setPlayState(false);
+      };
+      window.speechSynthesis.speak(utter);
+    }
+
+    function stopCurrentPlayback() {
+      const videoEl = document.getElementById('active-video-element');
+      if (videoEl) {
+        videoEl.pause();
+      }
+      if (APP_STATE.currentAudioObj) {
+        try {
+          APP_STATE.currentAudioObj.pause();
+          APP_STATE.currentAudioObj.currentTime = 0;
+        } catch (e) {}
+        APP_STATE.currentAudioObj = null;
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      setSpeakingVisual(false);
+      setPlayState(false);
+    }
+
+    function togglePlayPauseVideo() {
+      const videoEl = document.getElementById('active-video-element');
+      const branch = VIDEO_BRANCHES[APP_STATE.activeBranchId];
+
+      if (APP_STATE.isPlaying) {
+        stopCurrentPlayback();
+      } else {
+        if (videoEl && videoEl.style.display !== 'none' && videoEl.src) {
+          videoEl.play().then(() => setPlayState(true));
+        } else if (branch) {
+          playSimulatedNeuralAudio(branch.script, branch.durationSec);
+        }
+      }
+    }
+
+    function replayActiveBranchVideo() {
+      const branch = VIDEO_BRANCHES[APP_STATE.activeBranchId];
+      if (branch) setupVideoPlayback(branch, true);
+    }
+
+    function setPlayState(isPlaying) {
+      APP_STATE.isPlaying = isPlaying;
+      document.getElementById('play-pause-icon').innerText = isPlaying ? '⏸' : '▶';
+      document.getElementById('play-pause-label').innerText = isPlaying ? 'Pause' : 'Lecture';
+    }
+
+    function setSpeakingVisual(isSpeaking) {
+      const simScene = document.getElementById('simulated-avatar-scene');
+      if (simScene) simScene.classList.toggle('speaking', isSpeaking);
+    }
+
+    function pulseSuggestions() {
+      const container = document.getElementById('suggestions-container');
+      container.style.transition = 'transform 0.25s ease';
+      container.style.transform = 'scale(1.02)';
+      setTimeout(() => container.style.transform = 'scale(1)', 250);
+    }
+
+    // ========================================================================
+    // GESTION DU CHAT & DÉCLENCHEMENT DE BRANCHEMENT
+    // ========================================================================
+    async function handleSendUserMessage(customText, targetBranchId) {
       const inputEl = document.getElementById('chat-input');
       const text = (customText || inputEl.value || "").trim();
       if (!text) return;
@@ -1312,234 +1944,115 @@ Commençons par réfléchir à cette question :
       if (!customText) inputEl.value = "";
       autoResizeTextarea(inputEl);
 
-      // Désactiver le bouton d'envoi et afficher l'indicateur de saisie
-      STEPHAI_STATE.isWaitingResponse = true;
-      document.getElementById('send-btn').disabled = true;
+      // Si une branche cible directe est spécifiée (via clic sur pastille)
+      if (targetBranchId && VIDEO_BRANCHES[targetBranchId]) {
+        updateMoralWeightsFromResponse(text);
+        loadBranch(targetBranchId, true);
+        return;
+      }
+
+      // Sinon appel API intelligent pour trouver la branche correspondante
       showTypingIndicator(true);
-      clearSuggestions();
-
       try {
-        const payload = {
-          message: text,
-          stageIndex: STEPHAI_STATE.stageIndex,
-          history: STEPHAI_STATE.history,
-          moralWeights: STEPHAI_STATE.moralWeights,
-          userName: STEPHAI_STATE.userName
-        };
-
         const resp = await fetch('/api/chat-ethique', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({
+            message: text,
+            stageIndex: getStageIndexFromBranch(APP_STATE.activeBranchId),
+            moralWeights: APP_STATE.moralWeights,
+            userName: APP_STATE.userName
+          })
         });
 
-        if (!resp.ok) {
-          throw new Error(`Erreur serveur (${resp.status})`);
+        if (resp.ok) {
+          const data = await resp.json();
+          const nextBranch = inferBranchFromApi(data, text);
+          if (data.updatedWeights) updateMoralGauges(data.updatedWeights);
+          loadBranch(nextBranch, true);
+        } else {
+          // Branchement local par défaut
+          const nextBranch = computeNextBranchLocally(text, APP_STATE.activeBranchId);
+          loadBranch(nextBranch, true);
         }
-
-        const data = await resp.json();
-        handleStephAIResponse(data);
-
       } catch (err) {
-        console.warn('[STEPHAI] Bascule sur la réponse locale suite à l\'erreur :', err.message);
-        // Fallback local instantané
-        const localFallback = computeLocalDialectic(text, STEPHAI_STATE.stageIndex);
-        handleStephAIResponse(localFallback);
+        console.warn('[BRANCHING] Bascule locale suite erreur :', err.message);
+        const nextBranch = computeNextBranchLocally(text, APP_STATE.activeBranchId);
+        loadBranch(nextBranch, true);
       } finally {
-        STEPHAI_STATE.isWaitingResponse = false;
-        document.getElementById('send-btn').disabled = false;
         showTypingIndicator(false);
       }
     }
 
-    function handleStephAIResponse(data) {
-      const { reply, nextStage, scenarioId, updatedWeights, suggestions } = data;
-
-      // Mettre à jour l'état
-      if (nextStage !== undefined) STEPHAI_STATE.stageIndex = nextStage;
-      if (scenarioId) {
-        STEPHAI_STATE.scenarioId = scenarioId;
-        updateScenarioTimeline(scenarioId);
+    function inferBranchFromApi(data, userText) {
+      if (data.scenarioId) {
+        const map = {
+          'hume': 'VID-02A',
+          'frameworks': 'VID-03',
+          'weighting': 'VID-03D',
+          'trolley': 'VID-04',
+          'car': 'VID-05',
+          'ventilator': 'VID-06',
+          'grid': 'VID-07',
+          'governance': 'VID-08',
+          'guardians': 'VID-08',
+          'pitch': 'VID-09',
+          'complete': 'VID-10'
+        };
+        if (map[data.scenarioId]) return map[data.scenarioId];
       }
-      if (updatedWeights) {
-        STEPHAI_STATE.moralWeights = updatedWeights;
-        updateMoralGauges(updatedWeights);
-      }
+      return computeNextBranchLocally(userText, APP_STATE.activeBranchId);
+    }
 
-      // Ajouter le message de StephAI
-      appendStephAIMessage(reply, false);
+    function computeNextBranchLocally(userText, currentBranch) {
+      const q = (userText || "").toLowerCase();
+      if (q.includes('gestionnaire') || q.includes('expliquer') || q.includes('pitch')) return 'VID-09';
+      if (q.includes('r&d') || q.includes('parallèle') || q.includes('gardiens')) return 'VID-08';
+      if (q.includes('déontologie') || q.includes('devoir') || q.includes('règle')) return 'VID-03A';
+      if (q.includes('tramway') || q.includes('levier')) return 'VID-04A';
+      if (q.includes('voiture') || q.includes('piéton') || q.includes('passager')) return 'VID-05';
+      if (q.includes('respirateur') || q.includes('hôpital') || q.includes('santé')) return 'VID-06';
+      if (q.includes('réseau') || q.includes('blackout') || q.includes('électricité')) return 'VID-07';
 
-      // Mettre à jour les suggestions
-      if (suggestions && suggestions.length) {
-        renderSuggestions(suggestions);
-      } else {
-        renderDefaultSuggestionsForStage(STEPHAI_STATE.stageIndex);
-      }
+      // Séquence standard de fallback
+      const sequence = ['VID-01', 'VID-02A', 'VID-03', 'VID-04', 'VID-05', 'VID-06', 'VID-07', 'VID-08', 'VID-09', 'VID-10'];
+      const idx = sequence.indexOf(currentBranch);
+      return (idx >= 0 && idx < sequence.length - 1) ? sequence[idx + 1] : 'VID-10';
+    }
 
-      // Lecture vocale automatique si activée
-      if (STEPHAI_STATE.isVoiceEnabled) {
-        speakText(reply);
-      }
+    function getStageIndexFromBranch(branchId) {
+      const sequence = ['VID-01', 'VID-02A', 'VID-03', 'VID-04', 'VID-05', 'VID-06', 'VID-07', 'VID-08', 'VID-09', 'VID-10'];
+      const idx = sequence.indexOf(branchId);
+      return idx >= 0 ? idx : 0;
     }
 
     // ========================================================================
-    // SYNTHÈSE VOCALE (LIVE TTS / EDGETTS fr-CA-SylvieNeural)
+    // RENDU DES PASTILLES DE BRANCHEMENT ET MESSAGES
     // ========================================================================
-    async function speakText(rawHtml) {
-      if (!STEPHAI_STATE.isVoiceEnabled) return;
+    function renderBranchingChips(chips) {
+      const container = document.getElementById('suggestions-container');
+      container.innerHTML = '';
 
-      // Arrêter l'audio en cours
-      stopCurrentAudio();
-
-      const cleanScript = rawHtml
-        .replace(/<[^>]*>?/gm, ' ')
-        .replace(/[\*\#\_\[\]\(\)]/g, '')
-        .replace(/🔹/g, '')
-        .replace(/👉/g, '')
-        .replace(/⚖️/g, '')
-        .replace(/🤖/g, '')
-        .replace(/👔/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-
-      setSpeakingAnimation(true);
-
-      try {
-        const resp = await fetch('/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: cleanScript, voice: 'StephAI' })
-        });
-
-        if (resp.ok) {
-          const blob = await resp.blob();
-          const audio = new Audio(URL.createObjectURL(blob));
-          STEPHAI_STATE.currentAudioObj = audio;
-
-          audio.onended = () => {
-            setSpeakingAnimation(false);
-          };
-          audio.onerror = () => {
-            console.warn('[TTS] Erreur audio lecture');
-            setSpeakingAnimation(false);
-          };
-
-          await audio.play();
-        } else {
-          fallbackWebSpeech(cleanScript);
-        }
-      } catch (err) {
-        console.warn('[TTS] Bascule vers Web Speech API :', err.message);
-        fallbackWebSpeech(cleanScript);
-      }
-    }
-
-    function fallbackWebSpeech(text) {
-      if (!('speechSynthesis' in window)) {
-        setSpeakingAnimation(false);
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'fr-CA';
-      utter.rate = 1.0;
-      utter.onend = () => setSpeakingAnimation(false);
-      utter.onerror = () => setSpeakingAnimation(false);
-      window.speechSynthesis.speak(utter);
-    }
-
-    function stopCurrentAudio() {
-      if (STEPHAI_STATE.currentAudioObj) {
-        try {
-          STEPHAI_STATE.currentAudioObj.pause();
-          STEPHAI_STATE.currentAudioObj.currentTime = 0;
-        } catch (e) {}
-        STEPHAI_STATE.currentAudioObj = null;
-      }
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-      setSpeakingAnimation(false);
-    }
-
-    function setSpeakingAnimation(isSpeaking) {
-      STEPHAI_STATE.isPlayingAudio = isSpeaking;
-      const card = document.getElementById('stephai-card-wrapper');
-      if (card) card.classList.toggle('speaking', isSpeaking);
-    }
-
-    function toggleVoiceOutput() {
-      STEPHAI_STATE.isVoiceEnabled = !STEPHAI_STATE.isVoiceEnabled;
-      const btn = document.getElementById('voice-toggle-btn');
-      const icon = document.getElementById('voice-toggle-icon');
-      const text = document.getElementById('voice-toggle-text');
-
-      if (STEPHAI_STATE.isVoiceEnabled) {
-        btn.classList.remove('muted');
-        icon.innerText = '🔊';
-        text.innerText = 'Voix StephAI : Activée';
-      } else {
-        btn.classList.add('muted');
-        icon.innerText = '🔇';
-        text.innerText = 'Voix StephAI : Muet';
-        stopCurrentAudio();
-      }
-    }
-
-    // ========================================================================
-    // RECONNAISSANCE VOCALE (STT)
-    // ========================================================================
-    function initSpeechRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        document.getElementById('mic-btn').style.display = 'none';
-        return;
+      if (!chips || !chips.length) {
+        chips = [
+          { label: "🤝 Tout à fait d'accord avec cette approche", text: "Tout à fait d'accord avec cette analyse, c'est parfaitement aligné." },
+          { label: "👔 Comment l'expliquer à mon gestionnaire ?", text: "Si j'avais à expliquer à mon gestionnaire ce qu'on vient de discuter en quelques mots, comment je devrais l'exprimer ?", nextBranch: 'VID-09' }
+        ];
       }
 
-      const rec = new SpeechRecognition();
-      rec.lang = 'fr-CA';
-      rec.continuous = false;
-      rec.interimResults = false;
-
-      rec.onstart = () => {
-        STEPHAI_STATE.isRecording = true;
-        document.getElementById('mic-btn').classList.add('recording');
-      };
-
-      rec.onresult = (e) => {
-        const transcript = e.results[0][0].transcript;
-        const inputEl = document.getElementById('chat-input');
-        inputEl.value = (inputEl.value ? inputEl.value + ' ' : '') + transcript;
-        autoResizeTextarea(inputEl);
-      };
-
-      rec.onerror = () => {
-        STEPHAI_STATE.isRecording = false;
-        document.getElementById('mic-btn').classList.remove('recording');
-      };
-
-      rec.onend = () => {
-        STEPHAI_STATE.isRecording = false;
-        document.getElementById('mic-btn').classList.remove('recording');
-      };
-
-      STEPHAI_STATE.recognition = rec;
+      chips.forEach(chip => {
+        const btn = document.createElement('button');
+        btn.className = 'suggestion-chip';
+        if (chip.nextBranch) btn.classList.add('branch-highlight');
+        btn.innerHTML = `${chip.label} <span style="font-size: 10px; opacity: 0.7;">→ ${chip.nextBranch || 'Suivant'}</span>`;
+        btn.onclick = () => {
+          handleSendUserMessage(chip.text, chip.nextBranch);
+        };
+        container.appendChild(btn);
+      });
     }
 
-    function toggleSpeechRecognition() {
-      if (!STEPHAI_STATE.recognition) return;
-      if (STEPHAI_STATE.isRecording) {
-        STEPHAI_STATE.recognition.stop();
-      } else {
-        stopCurrentAudio();
-        STEPHAI_STATE.recognition.start();
-      }
-    }
-
-    // ========================================================================
-    // RENDU DU CHAT ET DES MESSAGES
-    // ========================================================================
-    function appendStephAIMessage(contentHtml, isInitial = false) {
+    function appendStephAIMessage(contentHtml, branchId) {
       const container = document.getElementById('chat-messages');
 
       const row = document.createElement('div');
@@ -1547,27 +2060,30 @@ Commençons par réfléchir à cette question :
 
       const avatar = document.createElement('div');
       avatar.className = 'msg-avatar stephai-avatar-msg';
-      avatar.innerText = 'SD';
+      avatar.innerText = 'AI';
 
       const bubble = document.createElement('div');
       bubble.className = 'msg-bubble stephai-bubble';
 
-      const formattedContent = contentHtml
+      const formatted = contentHtml
         .replace(/\n\n/g, '<br><br>')
         .replace(/\n/g, '<br>');
 
-      bubble.innerHTML = formattedContent;
+      bubble.innerHTML = formatted;
 
       const footer = document.createElement('div');
       footer.className = 'msg-footer';
 
       const timeLabel = document.createElement('span');
-      timeLabel.innerText = 'StephAI • ' + new Date().toLocaleTimeString('fr-CA', { hour: '2-digit', minute: '2-digit' });
+      timeLabel.innerText = `StephAI • Capsule ${branchId} • ${new Date().toLocaleTimeString('fr-CA', { hour: '2-digit', minute: '2-digit' })}`;
 
       const audioBtn = document.createElement('button');
       audioBtn.className = 'btn-audio-listen';
       audioBtn.innerHTML = '<span>🔊</span><span>Réécouter</span>';
-      audioBtn.onclick = () => speakText(contentHtml);
+      audioBtn.onclick = () => {
+        const branch = VIDEO_BRANCHES[branchId];
+        if (branch) setupVideoPlayback(branch, true);
+      };
 
       footer.appendChild(timeLabel);
       footer.appendChild(audioBtn);
@@ -1578,9 +2094,6 @@ Commençons par réfléchir à cette question :
 
       container.appendChild(row);
       container.scrollTop = container.scrollHeight;
-
-      // Consigner dans l'historique
-      STEPHAI_STATE.history.push({ role: 'assistant', text: contentHtml });
     }
 
     function appendUserMessage(text) {
@@ -1602,9 +2115,6 @@ Commençons par réfléchir à cette question :
 
       container.appendChild(row);
       container.scrollTop = container.scrollHeight;
-
-      // Consigner dans l'historique
-      STEPHAI_STATE.history.push({ role: 'user', text: text });
     }
 
     function showTypingIndicator(show) {
@@ -1617,42 +2127,21 @@ Commençons par réfléchir à cette question :
     }
 
     // ========================================================================
-    // GESTION DES SUGGESTIONS DYNAMIQUES (CHIPS)
+    // GAUGE MORALE ET GESTION DES POIDS
     // ========================================================================
-    function renderSuggestions(suggestions) {
-      const container = document.getElementById('suggestions-container');
-      container.innerHTML = '';
-
-      suggestions.forEach(item => {
-        const chip = document.createElement('button');
-        chip.className = 'suggestion-chip';
-        chip.innerHTML = item.label || item.text;
-        chip.onclick = () => {
-          handleSendUserMessage(item.text);
-        };
-        container.appendChild(chip);
-      });
+    function updateMoralWeightsFromResponse(text) {
+      const q = text.toLowerCase();
+      if (q.includes('déontologie') || q.includes('règle') || q.includes('loi 25')) {
+        updateMoralGauges({ deont: 55, vertu: 30, util: 15 });
+      } else if (q.includes('minimiser') || q.includes('conséquence') || q.includes('sauver le maximum')) {
+        updateMoralGauges({ deont: 45, vertu: 25, util: 30 });
+      } else if (q.includes('vertu') || q.includes('famille') || q.includes('dignité')) {
+        updateMoralGauges({ deont: 45, vertu: 40, util: 15 });
+      }
     }
 
-    function clearSuggestions() {
-      const container = document.getElementById('suggestions-container');
-      container.innerHTML = '';
-    }
-
-    function renderDefaultSuggestionsForStage(stage) {
-      const defaultChips = [
-        { label: "🤝 Tout à fait d'accord", text: "Tout à fait d'accord avec cette analyse, c'est parfaitement aligné." },
-        { label: "👔 Comment l'expliquer à mon gestionnaire ?", text: "Si j'avais à expliquer à mon gestionnaire ce qu'on vient de discuter en quelques mots, comment je devrais l'exprimer ?" },
-        { label: "📄 Synthèse exécutive", text: "Je souhaite visualiser la synthèse exécutive de notre session." }
-      ];
-      renderSuggestions(defaultChips);
-    }
-
-    // ========================================================================
-    // MISE À JOUR DU COCKPIT GAUCHE (GAUGES & TIMELINE)
-    // ========================================================================
     function updateMoralGauges(weights) {
-      if (!weights) return;
+      APP_STATE.moralWeights = weights;
       const d = weights.deont || 50;
       const v = weights.vertu || 30;
       const u = weights.util || 20;
@@ -1666,73 +2155,181 @@ Commençons par réfléchir à cette question :
       document.getElementById('pct-util').innerText = u + ' %';
       document.getElementById('fill-util').style.width = u + '%';
 
-      // Mise à jour de l'interprétation
-      let interpretation = "";
-      if (d >= 45) {
-        interpretation = "<strong>Orientation Déontologique :</strong> Conformité absolue, devoirs stricts et primauté de la règle morale sur la performance pure.";
-      } else if (v >= 40) {
-        interpretation = "<strong>Orientation Vertu :</strong> Caractère organisationnel, réputation publique et bienveillance envers les parties prenantes.";
+      let interp = "";
+      if (d >= 50) {
+        interp = "<strong>Orientation Déontologique :</strong> Respect strict des lois et des devoirs priment sur l'optimisation mathématique brute.";
+      } else if (v >= 35) {
+        interp = "<strong>Orientation Vertu :</strong> Préservation de la dignité humaine, de la compassion et de la confiance institutionnelle.";
       } else {
-        interpretation = "<strong>Orientation Utilitariste :</strong> Efficience, calcul des conséquences et maximisation du résultat collectif.";
+        interp = "<strong>Orientation Utilitariste :</strong> Priorité au moindre mal et à la maximisation des conséquences positives pour la collectivité.";
       }
-      document.getElementById('profile-interp-text').innerHTML = interpretation;
+      document.getElementById('profile-interp-text').innerHTML = interp;
     }
 
-    function updateScenarioTimeline(scenarioId) {
-      const scenarioMap = {
-        'hume': 'sc-hume',
-        'frameworks': 'sc-frameworks',
-        'weighting': 'sc-frameworks',
-        'trolley': 'sc-trolley',
-        'car': 'sc-car',
-        'ventilator': 'sc-ventilator',
-        'grid': 'sc-grid',
-        'governance': 'sc-guardians',
-        'guardians': 'sc-guardians',
-        'pitch': 'sc-pitch',
-        'complete': 'sc-pitch'
-      };
+    function updateBranchTrackerPills(activeId) {
+      const pills = document.querySelectorAll('.capsule-pill');
+      const sequence = ['VID-01', 'VID-02A', 'VID-03', 'VID-04', 'VID-05', 'VID-06', 'VID-07', 'VID-08', 'VID-09', 'VID-10'];
+      const activeIdx = sequence.indexOf(activeId);
 
-      const activeId = scenarioMap[scenarioId] || 'sc-hume';
-      const items = document.querySelectorAll('.scenario-item');
-      let foundActive = false;
-
-      items.forEach(el => {
-        if (el.id === activeId) {
-          el.className = 'scenario-item active';
-          foundActive = true;
-          const check = el.querySelector('.scenario-check');
-          if (check) check.innerText = '●';
-        } else if (!foundActive) {
-          el.className = 'scenario-item completed';
-          const check = el.querySelector('.scenario-check');
-          if (check) check.innerText = '✓';
+      pills.forEach((pill, idx) => {
+        if (idx === activeIdx) {
+          pill.className = 'capsule-pill active';
+        } else if (idx < activeIdx) {
+          pill.className = 'capsule-pill completed';
         } else {
-          el.className = 'scenario-item';
-          const check = el.querySelector('.scenario-check');
-          if (check) check.innerText = '○';
+          pill.className = 'capsule-pill';
         }
       });
+
+      document.getElementById('tracker-current-label').innerText = `Branche ${Math.max(1, activeIdx + 1)} / ${sequence.length}`;
     }
 
-    function jumpToScenarioPrompt(stageIndex) {
-      const prompts = {
-        1: "Comment le fossé de David Hume entre ce qui est et ce qui devrait être s'applique-t-il aux données de nos modèles ?",
-        2: "Peux-tu me rappeler les 3 grands cadres éthiques et comment les concilier ?",
-        4: "Revenons au dilemme classique du tramway : comment trancher ?",
-        5: "Analysons le dilemme du véhicule autonome et l'obligation de transparence produit.",
-        6: "Regardons le cas du respirateur hospitalier et du triage d'urgence.",
-        7: "Examinons le cas du réseau électrique et de l'infrastructure critique.",
-        9: "Comment articuler les agents R&D gardiens en parallèle et la revue humaine ?",
-        11: "Comment formuler un pitch clair et percutant pour mon gestionnaire ?"
-      };
-      if (prompts[stageIndex]) {
-        handleSendUserMessage(prompts[stageIndex]);
+    function jumpToBranch(branchId) {
+      loadBranch(branchId, true);
+    }
+
+    // ========================================================================
+    // MODES D'AFFICHAGE (CINÉMA / SPLIT STUDIO)
+    // ========================================================================
+    function toggleCinemaLayout() {
+      const container = document.getElementById('studio-main-container');
+      APP_STATE.isCinemaMode = !APP_STATE.isCinemaMode;
+      container.classList.toggle('cinema-mode', APP_STATE.isCinemaMode);
+      document.getElementById('cinema-icon').innerText = APP_STATE.isCinemaMode ? '🌐' : '📺';
+      document.getElementById('cinema-label').innerText = APP_STATE.isCinemaMode ? 'Studio' : 'Cinéma';
+    }
+
+    function toggleVoiceOutput() {
+      APP_STATE.isVoiceEnabled = !APP_STATE.isVoiceEnabled;
+      const btn = document.getElementById('voice-toggle-btn');
+      const icon = document.getElementById('voice-toggle-icon');
+      const text = document.getElementById('voice-toggle-text');
+
+      if (APP_STATE.isVoiceEnabled) {
+        btn.classList.remove('muted');
+        icon.innerText = '🔊';
+        text.innerText = 'Audio : Activé';
+      } else {
+        btn.classList.add('muted');
+        icon.innerText = '🔇';
+        text.innerText = 'Audio : Muet';
+        stopCurrentPlayback();
       }
     }
 
     // ========================================================================
-    // SAISIE TEXTE & GESTION CLAVIER
+    // GESTION DES FICHIERS VIDÉO SYNTHESIA & MODAL DE CONFIGURATION
+    // ========================================================================
+    function openSynthesiaConfigModal() {
+      const tbody = document.getElementById('branch-video-tbody');
+      tbody.innerHTML = '';
+
+      Object.keys(VIDEO_BRANCHES).forEach(branchId => {
+        const branch = VIDEO_BRANCHES[branchId];
+        const currentSrc = APP_STATE.customVideoConfig[branchId] || branch.videoSrc || '';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong style="color: #38bdf8;">${branchId}</strong></td>
+          <td>${branch.title}</td>
+          <td><input type="text" id="cfg-src-${branchId}" value="${currentSrc}" placeholder="ex: /static/videos/${branchId}.mp4 ou URL Synthesia"></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('synthesia-config-modal').classList.add('active');
+    }
+
+    function closeSynthesiaConfigModal() {
+      document.getElementById('synthesia-config-modal').classList.remove('active');
+    }
+
+    function saveSynthesiaConfig() {
+      Object.keys(VIDEO_BRANCHES).forEach(branchId => {
+        const input = document.getElementById(`cfg-src-${branchId}`);
+        if (input) {
+          APP_STATE.customVideoConfig[branchId] = input.value.trim();
+        }
+      });
+      localStorage.setItem('saaq_synthesia_config', JSON.stringify(APP_STATE.customVideoConfig));
+      closeSynthesiaConfigModal();
+      alert("Configuration des vidéos Synthesia enregistrée avec succès !");
+      loadBranch(APP_STATE.activeBranchId, false);
+    }
+
+    function loadSavedVideoConfig() {
+      try {
+        const saved = localStorage.getItem('saaq_synthesia_config');
+        if (saved) {
+          APP_STATE.customVideoConfig = JSON.parse(saved);
+        }
+      } catch (e) {}
+    }
+
+    function handleDirectVideoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fileUrl = URL.createObjectURL(file);
+      APP_STATE.customVideoConfig[APP_STATE.activeBranchId] = fileUrl;
+
+      closeSynthesiaConfigModal();
+      alert(`Vidéo locale chargée pour la capsule ${APP_STATE.activeBranchId} !`);
+      loadBranch(APP_STATE.activeBranchId, true);
+    }
+
+    // ========================================================================
+    // RECONNAISSANCE VOCALE (STT)
+    // ========================================================================
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        document.getElementById('mic-btn').style.display = 'none';
+        return;
+      }
+
+      const rec = new SpeechRecognition();
+      rec.lang = 'fr-CA';
+      rec.continuous = false;
+      rec.interimResults = false;
+
+      rec.onstart = () => {
+        APP_STATE.isRecording = true;
+        document.getElementById('mic-btn').classList.add('recording');
+      };
+
+      rec.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        const inputEl = document.getElementById('chat-input');
+        inputEl.value = (inputEl.value ? inputEl.value + ' ' : '') + transcript;
+        autoResizeTextarea(inputEl);
+      };
+
+      rec.onerror = () => {
+        APP_STATE.isRecording = false;
+        document.getElementById('mic-btn').classList.remove('recording');
+      };
+
+      rec.onend = () => {
+        APP_STATE.isRecording = false;
+        document.getElementById('mic-btn').classList.remove('recording');
+      };
+
+      APP_STATE.recognition = rec;
+    }
+
+    function toggleSpeechRecognition() {
+      if (!APP_STATE.recognition) return;
+      if (APP_STATE.isRecording) {
+        APP_STATE.recognition.stop();
+      } else {
+        stopCurrentPlayback();
+        APP_STATE.recognition.start();
+      }
+    }
+
+    // ========================================================================
+    // UTILITAIRES DIVERS
     // ========================================================================
     function handleInputKeydown(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -1743,12 +2340,30 @@ Commençons par réfléchir à cette question :
 
     function autoResizeTextarea(textarea) {
       textarea.style.height = 'auto';
-      textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+      textarea.style.height = Math.min(textarea.scrollHeight, 110) + 'px';
     }
 
-    // ========================================================================
-    // MODAL DE SYNTHÈSE EXÉCUTIVE
-    // ========================================================================
+    function seekVideo(e) {
+      const track = document.getElementById('video-progress-track');
+      const rect = track.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+
+      const videoEl = document.getElementById('active-video-element');
+      if (videoEl && videoEl.duration) {
+        videoEl.currentTime = pct * videoEl.duration;
+      } else if (APP_STATE.currentAudioObj && APP_STATE.currentAudioObj.duration) {
+        APP_STATE.currentAudioObj.currentTime = pct * APP_STATE.currentAudioObj.duration;
+      }
+    }
+
+    function formatSeconds(sec) {
+      const s = Math.round(sec || 0);
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${String(m).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
+    }
+
     function openExecutiveSummaryModal() {
       document.getElementById('summary-modal').classList.add('active');
     }
@@ -1758,56 +2373,18 @@ Commençons par réfléchir à cette question :
     }
 
     function copyExecutiveSummary() {
-      const quote = `« Nos décisions IA s’appuient sur une gouvernance qui combine la déontologie (respect des règles et Loi 25), l’éthique de la vertu (alignement avec nos valeurs institutionnelles) et l’utilitarisme (optimisation des conséquences) pour chaque cas d’usage, soutenue par des agents R&D gardiens en continu et un droit de veto humain systématique. »`;
+      const quote = `« Nos décisions IA s’appuient sur une gouvernance qui combine la déontologie (respect des règles et Loi 25), l’éthique de la vertu (alignement avec nos valeurs institutionnelles) et l’utilitarisme (optimisation des conséquences) pour chaque cas d’usage, sous la surveillance d’agents gardiens en parallèle et d'une supervision humaine avec droit de veto. »`;
       navigator.clipboard.writeText(quote).then(() => {
-        alert("Pitch exécutif copié avec succès dans votre presse-papier !");
+        alert("Pitch exécutif copié avec succès !");
       });
     }
 
     function restartSession() {
-      if (confirm("Souhaitez-vous recommencer l'atelier socratique depuis le début ?")) {
-        stopCurrentAudio();
+      if (confirm("Souhaitez-vous réinitialiser l'atelier socratique et les vidéos ?")) {
         document.getElementById('chat-messages').innerHTML = '';
-        STEPHAI_STATE.stageIndex = 0;
-        STEPHAI_STATE.history = [];
-        initSession();
+        APP_STATE.history = [];
+        loadBranch('VID-01', true);
       }
-    }
-
-    // ========================================================================
-    // MOTEUR DE SECOURS LOCAL DIALECTIQUE (HAUTE FIDÉLITÉ)
-    // ========================================================================
-    function computeLocalDialectic(userText, stage) {
-      const q = (userText || "").toLowerCase();
-      let nextStage = stage + 1;
-      let scenarioId = "hume";
-      let updatedWeights = { ...STEPHAI_STATE.moralWeights };
-      let reply = "";
-      let suggestions = [];
-
-      if (q.includes('gestionnaire') || q.includes('expliquer')) {
-        reply = `Bien sûr, on peut résumer ça clairement. Je dirais quelque chose comme :<br><br>« <em>Nous avons exploré comment les décisions prises par des systèmes d’IA ne peuvent pas s’appuyer uniquement sur les données – il faut une gouvernance qui intègre des principes moraux.<br><br>Nous avons parlé de trois cadres éthiques (les conséquences, les règles et le caractère) et de la façon dont nous pourrions les appliquer, cas par cas, pour s’assurer que nos agents autonomes restent conformes, alignés avec nos valeurs et qu’ils minimisent les risques.</em> »<br><br>Comment ça résonne pour toi? Et penses-tu que ce résumé capterait l’essentiel pour ton gestionnaire?`;
-        nextStage = 11;
-        scenarioId = "pitch";
-        suggestions = [
-          { label: "👍 Oui, inclure les 3 piliers dans la formulation", text: "Oui, ça doit inclure les trois, l'utilitarisme, l'éthique et autres, dans la description pour quiconque..." },
-          { label: "🙏 Très satisfait, merci !", text: "Très satisfait, merci." }
-        ];
-      } else if (stage === 0 || q.includes('garde-fou') || q.includes('supervision') || q.includes('transparence')) {
-        reply = `Je vois, ${STEPHAI_STATE.userName}: tu mets l’accent sur des <strong>garde-fous, une validation et une supervision humaines, et la transparence</strong>. Ce sont des piliers forts pour s’assurer que l’IA reste alignée sur des valeurs partagées. C’est une belle manière de souligner que la technique ne suffit pas seule, il faut aussi des structures de gouvernance.<br><br>Et ça m’invite justement à un questionnement plus profond : le philosophe écossais <strong>David Hume</strong> a observé un fossé entre ce qui est et ce qui devrait être — en d’autres termes, les faits ou les données ne peuvent pas, à eux seuls, nous dire ce qui est moralement juste. Comment penses-tu que ce fossé entre « ce qui est » et « ce qui devrait être » complique la mise en place de systèmes d’IA ou d’agents gardiens chargés de prendre des décisions morales?<br><br>Et est-ce que tu es d’accord avec Hume, ou penses-tu que les données peuvent suffire à elles seules?`;
-        nextStage = 1;
-        scenarioId = "hume";
-        suggestions = [
-          { label: "⏳ Les données ne suffisent pas : le futur n'est pas le passé", text: "Non, je pense que les données à eux seuls ne peuvent pas suffire, vu que le futur n'est pas le passé, les données c'est le passé, donc comment arriver à prédire un comportement dans le bon contexte, avec les données actuelles, en ayant une réflexion du passé et un renforcement ou un jugement en utilisant aussi les données du passé et les données de l'autre ?" },
-          { label: "⚖️ Il faut des principes éthiques explicites", text: "Il faut des principes éthiques explicites car les données statistiques reproduisent aveuglément les biais du passé." }
-        ];
-      } else {
-        reply = `C'est une réflexion remarquable qui démontre toute la maturité de votre gouvernance. L'équilibre entre déontologie, vertu et optimisation des conséquences permet de créer des systèmes d'IA robustes et fiables.<br><br>Poursuivons notre exploration des scénarios concrets.`;
-        nextStage = stage + 1;
-        scenarioId = "frameworks";
-      }
-
-      return { reply, nextStage, scenarioId, updatedWeights, suggestions };
     }
   </script>
 </body>
