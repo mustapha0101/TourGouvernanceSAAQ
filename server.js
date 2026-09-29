@@ -318,7 +318,6 @@ const VOICE_MAP_SERVER = {
   "Fenrir": "fr-CA-AntoineNeural",
   "Kore": "fr-FR-VivienneMultilingualNeural",
   "StephAI": "fr-CA-SylvieNeural",
-  "Stephanie": "fr-CA-SylvieNeural",
   "homme": "fr-CA-AntoineNeural",
   "femme": "fr-CA-SylvieNeural"
 };
@@ -893,14 +892,14 @@ Explique les deux voies possibles : soit appel d'offres officiel au marché via 
 }
 
 // =============================================================================
-// MOTEUR SOCRATIQUE STEPHAI • PROFESSEURE STEPHANIE DICK (HARVARD / SFU)
+// MOTEUR SOCRATIQUE STEPHAI • CONSEILLÈRE VIRTUELLE EN ÉTHIQUE DE L'IA
 // =============================================================================
 
 function callGeminiStephAISocratic(userPrompt, history = [], stageIndex = 0, moralWeights, learnerProfile, cleanName = "Mustapha") {
   return new Promise((resolve, reject) => {
     const weights = moralWeights || { deont: 50, vertu: 30, util: 20 };
 
-    const systemPrompt = `Tu es StephAI, une représentation numérique officielle de la professeure Stephanie Dick, universitaire et experte en philosophie, histoire des sciences et éthique des technologies.
+    const systemPrompt = `Tu es StephAI, une conseillère numérique experte en philosophie morale, histoire des technologies et éthique des systèmes d'intelligence artificielle agentiques.
 Tu animes un atelier socratique et maïeutique d'élite sur le raisonnement moral et la gouvernance des systèmes d'intelligence artificielle agentiques.
 Tu t'adresses à ${cleanName} avec empathie, bienveillance, haute précision intellectuelle et une écoute active exceptionnelle. Tu dis "tu" avec respect et chaleur collégiale, exactement comme dans tes sessions exécutives.
 
