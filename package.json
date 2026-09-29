@@ -1,0 +1,27 @@
+{
+  "name": "playbook-agent-saaq",
+  "version": "1.0.0",
+  "description": "Plateforme de gouvernance IA et Playbook A.G.E.N.T. - Centre d'expertise en intelligence artificielle (SAAQ)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test_playbook_flow.js"
+  },
+  "dependencies": {
+    "@copilotkit/runtime": "^1.73.0",
+    "@google/generative-ai": "^0.24.1",
+    "cookie-session": "^2.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "msedge-tts": "^2.0.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "jsdom": "^27.0.1"
+  }
+}

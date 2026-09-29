@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investissement Québec — Évaluation Intelligente de Faisabilité & Risques IA</title>
+  
+  <!-- Polices Google Fonts Premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --iq-navy: #1E2977;
+      --iq-navy-dark: #0F172A;
+      --iq-cyan: #0284C7;
+      --iq-cyan-light: #E0F2FE;
+      --iq-red: #E11D48;
+      --iq-green: #10B981;
+      --iq-amber: #D97706;
+      --bg-slate: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --border-color: #E2E8F0;
+      --text-dark: #0F172A;
+      --text-muted: #64748B;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 28px rgba(30,41,119,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-slate); color: var(--text-dark); line-height: 1.5; padding-bottom: 80px; }
+
+    @keyframes shakePulse {
+      0%, 100% { transform: translateX(0); }
+      15%, 45%, 75% { transform: translateX(-6px); }
+      30%, 60%, 90% { transform: translateX(6px); }
+    }
+    .shake-pulse {
+      animation: shakePulse 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    /* Barre supérieure Institutionnelle & Bureau de l'IA */
+    /* Barre supérieure Institutionnelle & Bureau de l'IA (Fine et Subtile) */
+    .eval-navbar {
+      background: linear-gradient(135deg, #001233 0%, #002060 48%, #08296B 100%);
+      color: white;
+      padding: 6px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 14px rgba(0, 20, 60, 0.28);
+      border-bottom: 1.5px solid rgba(0, 163, 224, 0.35);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .eval-brand-wrap { display: flex; align-items: center; gap: 10px; }
+    .eval-institution-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: #E0F2FE;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .eval-nav-separator {
+      width: 1px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .eval-bureau-ia-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(0, 163, 224, 0.2) 0%, rgba(37, 99, 235, 0.28) 100%);
+      border: 1px solid #38BDF8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.22);
+      padding: 3px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .pulse-beacon {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22C55E;
+      box-shadow: 0 0 6px #22C55E;
+      animation: pulse-beacon-anim 2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-beacon-anim {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+    .bureau-ia-meta { display: flex; flex-direction: column; }
+    .bureau-ia-tag {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      color: #FFFFFF;
+      line-height: 1.1;
+    }
+    .bureau-ia-sub {
+      font-size: 8px;
+      font-weight: 600;
+      color: #7DD3FC;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .eval-title-block h1 { font-family: 'Outfit', sans-serif; font-size: 13.5px; font-weight: 700; color: #FFFFFF; margin: 0; line-height: 1.2; }
+    .eval-title-block p { font-size: 10px; color: #93C5FD; margin: 0; }
+
+    .eval-nav-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-nav-outline {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-nav-outline:hover {
+      background: white;
+      color: var(--iq-navy);
+      transform: translateY(-1px);
+    }
+    .btn-nav-highlight {
+      background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+      border: 1px solid #38BDF8;
+      color: white;
+      padding: 4px 11px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-nav-highlight:hover {
+      background: #38BDF8;
+      color: var(--iq-navy);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Carte de confirmation d'attestation de passage du filtre DGIR */
+    .risk-appetite-pass-card {
+      background: #F0FDF4;
+      border: 1.5px solid #86EFAC;
+      border-left: 5px solid #16A34A;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .risk-pass-icon { font-size: 24px; line-height: 1; flex-shrink: 0; }
+    .risk-pass-title { font-size: 13.5px; font-weight: 800; color: #166534; margin-bottom: 4px; }
+    .risk-pass-text { font-size: 12px; color: #15803D; line-height: 1.5; margin-bottom: 8px; }
+    .risk-pass-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pass-pill {
+      font-size: 10.5px;
+      font-weight: 700;
+      background: #DCFCE7;
+      color: #14532D;
+      border: 1px solid #BBF7D0;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    /* Mise en page scindée : Colonne principale + Copilote latéral droit */
+    .eval-layout-split {
+      display: flex;
+      gap: 24px;
+      max-width: 1560px;
+      margin: 24px auto;
+      padding: 0 20px;
+      align-items: flex-start;
+      box-sizing: border-box;
+    }
+    .eval-main-content {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .eval-container { max-width: 100%; margin: 0; padding: 0; }
+
+    /* Volet Copilote Latéral Droit */
+    .copilot-sidebar {
+      width: 420px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 74px);
+      min-height: 600px;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 10px 25px -5px rgba(0, 32, 96, 0.08), 0 8px 10px -6px rgba(0, 32, 96, 0.04);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      z-index: 40;
+    }
+    .copilot-sidebar.collapsed {
+      width: 60px;
+      height: 60px;
+      min-height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .copilot-sidebar.collapsed > *:not(.copilot-header) {
+      display: none !important;
+    }
+    .copilot-header {
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #002060 0%, #003366 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+    }
+    .copilot-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #38BDF8;
+      object-fit: cover;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+    .copilot-online-dot {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background: #22C55E;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+    .copilot-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copilot-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .copilot-badge {
+      font-size: 10px;
+      background: rgba(56, 189, 248, 0.25);
+      color: #7DD3FC;
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      border-radius: 12px;
+      padding: 1px 7px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .copilot-sub {
+      font-size: 11px;
+      color: #BAE6FD;
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+    }
+    .copilot-btn-icon {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    .copilot-btn-icon:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .copilot-context-bar {
+      background: #F1F5F9;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 7px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .copilot-quick-chips {
+      display: flex;
+      gap: 6px;
+      padding: 10px 14px;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      overflow-x: auto;
+      flex-shrink: 0;
+      scrollbar-width: thin;
+    }
+    .copilot-chip {
+      background: white;
+      border: 1px solid #CBD5E1;
+      border-radius: 14px;
+      padding: 5px 11px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #1E3A8A;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copilot-chip:hover {
+      border-color: #2563EB;
+      background: #EFF6FF;
+      transform: translateY(-1px);
+    }
+    .copilot-messages {
+      flex: 1 1 0;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: #F8FAFC;
+    }
+    .copilot-msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 92%;
+    }
+    .copilot-msg-user {
+      align-self: flex-end;
+    }
+    .copilot-msg-assistant {
+      align-self: flex-start;
+    }
+    .copilot-msg-header {
+      font-size: 11px;
+      color: #64748B;
+      margin-bottom: 4px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .copilot-msg-sender {
+      font-weight: 700;
+      color: #1E3A8A;
+    }
+    .copilot-msg-bubble {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .copilot-msg-user .copilot-msg-bubble {
+      background: #002060;
+      color: #FFFFFF;
+      border-bottom-right-radius: 2px;
+    }
+    .copilot-msg-assistant .copilot-msg-bubble {
+      background: #FFFFFF;
+      color: #1E293B;
+      border: 1.5px solid #E2E8F0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      border-bottom-left-radius: 2px;
+    }
+    .copilot-apply-card {
+      margin-top: 10px;
+      background: #F0FDF4;
+      border: 1.5px solid #86EFAC;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .copilot-apply-btn {
+      background: #16A34A;
+      color: white;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      transition: all 0.2s ease;
+    }
+    .copilot-apply-btn:hover {
+      background: #15803D;
+      transform: translateY(-1px);
+    }
+    .copilot-input-bar {
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border-top: 1px solid #E2E8F0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+    .copilot-input-bar textarea {
+      flex: 1;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 12.5px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.2s ease;
+      min-height: 40px;
+      max-height: 100px;
+    }
+    .copilot-input-bar textarea:focus {
+      border-color: #002060;
+    }
+    .copilot-send-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: #002060;
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .copilot-send-btn:hover {
+      background: #003366;
+      transform: scale(1.04);
+    }
+    .copilot-footer-hint {
+      padding: 4px 14px 8px 14px;
+      font-size: 10.5px;
+      color: #94A3B8;
+      background: #FFFFFF;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .copilot-footer-hint kbd {
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      border-radius: 3px;
+      padding: 1px 4px;
+      font-family: monospace;
+      font-size: 10px;
+    }
+    .copilot-dots-anim span {
+      animation: copilot-blink 1.4s infinite both;
+      font-weight: 900;
+    }
+    .copilot-dots-anim span:nth-child(2) { animation-delay: 0.2s; }
+    .copilot-dots-anim span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes copilot-blink {
+      0%, 80%, 100% { opacity: 0.2; }
+      40% { opacity: 1; }
+    }
+
+    /* Stepper à 6 phases inspiré du design officiel */
+    .eval-stepper {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-bottom: 28px;
+      background: white;
+      padding: 14px 18px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+    .step-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: #F1F5F9;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+    .step-pill.completed {
+      background: #DCFCE7;
+      color: #166534;
+    }
+    .step-pill.active {
+      background: var(--iq-navy);
+      color: white;
+      box-shadow: 0 4px 12px rgba(30,41,119,0.25);
+    }
+    .step-pill .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .step-pill.active .step-num { background: var(--iq-cyan); color: white; }
+
+    /* Cartes & Enveloppes */
+    .eval-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-bottom: 24px;
+      transition: box-shadow 0.2s ease;
+    }
+    .eval-card:hover { box-shadow: var(--shadow-lg); }
+
+    .eval-card-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border-color);
+      background: #FAFCFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .eval-card-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      color: var(--iq-navy);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eval-card-body { padding: 28px; }
+
+    /* Résumé des réponses précédentes (Étape Répondu) */
+    .summary-answered-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--iq-cyan);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+    .summary-answered-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-edit-answers {
+      background: none;
+      border: none;
+      color: var(--iq-cyan);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .summary-answered-item { margin-bottom: 10px; }
+    .summary-answered-item:last-child { margin-bottom: 0; }
+    .summary-answered-q { font-size: 12px; color: var(--text-muted); }
+    .summary-answered-a { font-size: 13.5px; font-weight: 600; color: var(--iq-navy); }
+
+    /* Bulle d'analyse et d'intelligence du Mentor / Évaluateur */
+    .mentor-dialogue-card {
+      background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+      border: 1px solid #BAE6FD;
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .mentor-dialogue-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+    .mentor-dialogue-text { font-size: 13.5px; color: #1E293B; line-height: 1.6; }
+    .mentor-dialogue-text strong { color: var(--iq-navy); }
+
+    /* Question courante et options radio riches */
+    .question-block-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--iq-navy);
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .eval-options-grid { display: flex; flex-direction: column; gap: 12px; }
+    
+    .eval-option-card {
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: all 0.2s ease;
+    }
+    .eval-option-card:hover {
+      border-color: var(--iq-cyan);
+      background: #F0F9FF;
+      transform: translateX(4px);
+    }
+    .eval-option-card.selected {
+      border-color: var(--iq-navy);
+      background: #F8FAFC;
+      box-shadow: 0 0 0 2px rgba(30,41,119,0.15);
+    }
+    .eval-option-card input[type="radio"] {
+      margin-top: 3px;
+      accent-color: var(--iq-navy);
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+    }
+    .option-content h4 { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+    .option-content p { font-size: 12px; color: var(--text-muted); }
+
+    /* Champs de formulaire texte / select */
+    .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12.5px; font-weight: 700; color: var(--iq-navy); }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 10px 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--iq-cyan);
+      box-shadow: 0 0 0 3px rgba(2,132,199,0.12);
+    }
+
+    /* Actions de bas de carte */
+    .eval-actions-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      margin-top: 24px;
+    }
+    .btn-secondary {
+      background: white;
+      border: 1.5px solid var(--border-color);
+      color: var(--text-dark);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: #F1F5F9; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--iq-navy) 0%, var(--iq-cyan) 100%);
+      border: none;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(30,41,119,0.2);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(30,41,119,0.3);
+    }
+
+    /* Rapport d'Analyse Préliminaire Professionnel (Style Investissement Québec) */
+    .report-sheet {
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+      padding: 40px;
+    }
+    .report-header-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid var(--iq-navy);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .report-brand-title { font-family: 'Outfit', sans-serif; font-size: 24px; color: var(--iq-navy); font-weight: 800; }
+    .report-badge-status {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-go { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+    .badge-cond { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+    .badge-deep { background: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
+
+    .report-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .report-kpi-card {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+    .report-kpi-val { font-size: 24px; font-weight: 800; color: var(--iq-navy); font-family: 'Outfit', sans-serif; }
+    .report-kpi-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+
+    .report-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--iq-navy);
+      margin: 24px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 3px solid var(--iq-cyan);
+      padding-left: 10px;
+    }
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    .report-table th, .report-table td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .report-table th { background: #F1F5F9; color: var(--iq-navy); font-weight: 700; }
+    .report-table tr:nth-child(even) { background: #F8FAFC; }
+
+    .mitigation-box {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-top: 14px;
+    }
+    .mitigation-box h4 { font-size: 13.5px; color: #B45309; font-weight: 700; margin-bottom: 6px; }
+    .mitigation-box ul { margin-left: 20px; font-size: 12.5px; color: #78350F; }
+
+    /* Tableau d'appétit au risque DGIR 2026 */
+    .dgir-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin: 12px 0 20px 0;
+    }
+    .dgir-table th {
+      background: #002060;
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+    .dgir-table td {
+      padding: 10px 12px;
+      border: 1px solid #CBD5E1;
+      vertical-align: top;
+      background: white;
+    }
+    .choice-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 5px;
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-size: 11.5px;
+      color: #475569;
+      border: 1px solid transparent;
+    }
+    .choice-box.active-choice {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+      font-weight: 700;
+      color: #1E3A8A;
+    }
+    .choice-box.active-choice.active-warn {
+      background: #FEF9C3;
+      border-color: #FACC15;
+      color: #854D0E;
+    }
+    .choice-box.active-choice.active-danger {
+      background: #FEF2F2;
+      border-color: #F87171;
+      color: #991B1B;
+    }
+
+    /* Grille de faisabilité détaillée */
+    .feasibility-detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin: 12px 0 20px 0;
+    }
+    .feasibility-detail-table th {
+      background: #F1F5F9;
+      color: #002060;
+      padding: 8px 10px;
+      font-weight: 700;
+      border: 1px solid #CBD5E1;
+      text-align: left;
+    }
+    .feasibility-detail-table td {
+      padding: 8px 10px;
+      border: 1px solid #E2E8F0;
+      vertical-align: top;
+      background: white;
+    }
+    .score-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 11px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .score-4 { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+    .score-3 { background: #DBEAFE; color: #1E40AF; border: 1px solid #93C5FD; }
+    .score-2 { background: #FEF9C3; color: #854D0E; border: 1px solid #FDE047; }
+    .score-1 { background: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
+    .score-0 { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .eval-stepper { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .form-row { grid-template-columns: 1fr; }
+      .report-summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .eval-axes-tabs { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+
+    .btn-axe-tab:hover {
+      border-color: var(--iq-cyan) !important;
+      transform: translateY(-1px);
+    }
+    .criterion-card:hover {
+      border-color: var(--iq-cyan) !important;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.08);
+    }
+
+    /* ========================================================================== */
+    /* LOADER ÉLÉGANT INSTITUTIONNEL INVESTISSEMENT QUÉBEC                        */
+    /* ========================================================================== */
+    .iq-loader-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .iq-loader-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .iq-loader-card {
+      background: linear-gradient(145deg, #1E2977 0%, #0F172A 100%);
+      border: 1px solid rgba(147, 197, 253, 0.3);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 40px rgba(2, 132, 199, 0.25);
+      border-radius: 20px;
+      padding: 38px 44px;
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+      color: white;
+      transform: scale(0.92);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .iq-loader-overlay.active .iq-loader-card {
+      transform: scale(1);
+    }
+    .iq-loader-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(56, 189, 248, 0.12) 0%, transparent 60%);
+      animation: rotate-glow 10s linear infinite;
+    }
+    @keyframes rotate-glow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .iq-spinner-wrap {
+      position: relative;
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 24px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .iq-spinner-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #38BDF8;
+      border-right-color: #0284C7;
+      animation: iq-spin 1.2s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+    }
+    .iq-spinner-ring-inner {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 2.5px solid transparent;
+      border-bottom-color: #93C5FD;
+      border-left-color: #60A5FA;
+      animation: iq-spin-reverse 1.6s linear infinite;
+    }
+    .iq-spinner-core {
+      width: 44px;
+      height: 44px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+      font-size: 20px;
+    }
+    @keyframes iq-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes iq-spin-reverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    .iq-loader-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+      position: relative;
+    }
+    .iq-loader-sub {
+      font-size: 13.5px;
+      color: #93C5FD;
+      line-height: 1.5;
+      margin-bottom: 22px;
+      position: relative;
+    }
+    .iq-loader-progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .iq-loader-progress-bar {
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, #0284C7, #38BDF8, #60A5FA);
+      border-radius: 10px;
+      animation: iq-progress-anim 2.2s infinite ease-in-out;
+    }
+    @keyframes iq-progress-anim {
+      0% { transform: translateX(-100%); width: 25%; }
+      50% { width: 65%; }
+      100% { transform: translateX(350%); width: 30%; }
+    }
+    .iq-loader-step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #E2E8F0;
+      position: relative;
+    }
+    
+    /* Styles du Modal de Bienvenue & Parcours */
+    .reg-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 32, 96, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+    .reg-modal-overlay.active { display: flex; }
+    .reg-modal-card {
+      background: white;
+      border-radius: var(--radius-lg, 14px);
+      max-width: 940px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 32, 96, 0.4);
+      overflow: hidden;
+      animation: modal-fade-in 0.25s ease-out;
+    }
+    @keyframes modal-fade-in {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .reg-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .reg-modal-close {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .reg-modal-close:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER ÉLÉGANT INSTITUTIONNEL INVESTISSEMENT QUÉBEC -->
+  <div id="iq-elegant-loader" class="iq-loader-overlay">
+    <div class="iq-loader-card">
+      <div class="iq-spinner-wrap">
+        <div class="iq-spinner-ring"></div>
+        <div class="iq-spinner-ring-inner"></div>
+        <div class="iq-spinner-core">⚜️</div>
+      </div>
+      <h3 class="iq-loader-title" id="iq-loader-title-text">Calibrage de l'Entrevue IA</h3>
+      <p class="iq-loader-sub" id="iq-loader-sub-text">Le Mentor IA analyse votre cas et prépare des questions adaptées selon le Cadre MCN et la Loi 25...</p>
+      
+      <div class="iq-loader-progress-track">
+        <div class="iq-loader-progress-bar"></div>
+      </div>
+
+      <div class="iq-loader-step-pill" id="iq-loader-status-pill">
+        <span style="font-size: 14px;">🧠</span>
+        <span id="iq-loader-status-text">Analyse contextuelle du cas d'usage...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barre Supérieure Institutionnelle & Bureau de l'IA (Fine et Subtile) -->
+  <header class="eval-navbar">
+    <div class="eval-brand-wrap">
+      <div class="eval-institution-tag">
+        <span style="font-size: 13px;">⚜️</span>
+        <span>Investissement Québec</span>
+      </div>
+      <div class="eval-nav-separator"></div>
+      <div class="eval-bureau-ia-badge">
+        <span class="pulse-beacon"></span>
+        <div class="bureau-ia-meta">
+          <div class="bureau-ia-tag">BUREAU DE L'IA</div>
+          <div class="bureau-ia-sub">Gouvernance & Prise en Charge</div>
+        </div>
+      </div>
+      <div class="eval-nav-separator"></div>
+      <div class="eval-title-block">
+        <h1>Évaluation Automatisée des Initiatives IA</h1>
+        <p>Cadre Unifié DGIR 2026 · Loi 25 · Faisabilité (28 critères) · NIST AI RMF</p>
+      </div>
+    </div>
+    <div class="eval-nav-actions">
+      <a href="/Cahier_des_Besoins_Demo_Precertification_Financement_IQ.docx" download class="btn-nav-outline" style="border-color: #38BDF8; color: #E0F2FE; font-weight: 700; text-decoration: none;">
+        <span>📥 Cahier des Besoins Démo (.docx)</span>
+      </a>
+
+      <a href="/registre_analyses.html" class="btn-nav-highlight">
+        <span>👨‍💼</span>
+        <span>Espace Analyste & Registre</span>
+      </a>
+      <a href="/" class="btn-nav-outline">
+        <span>🏛️ Processus de Gouvernance</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MISE EN PAGE SCINDÉE : FORMULAIRE PRINCIPAL (GAUCHE) & COPILOTE IA INTERACTIF (DROITE) -->
+  <div class="eval-layout-split">
+    <main class="eval-main-content">
+
+
+    <!-- Bandeau Accélération Officiel 3 Jours à 3 Minutes -->
+    <div style="background: linear-gradient(135deg, #0f172a 0%, #1e2977 100%); color: #ffffff; border-radius: var(--radius-md); padding: 12px 18px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid rgba(56, 189, 248, 0.35); box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 24px;">⚡</span>
+        <div>
+          <div style="font-size: 13px; font-weight: 700; color: #ffffff;">Formulaire Automatisé d'Évaluation des Initiatives IA</div>
+          <div style="font-size: 11.5px; color: #bae6fd;">Complétez votre demande d'analyse assistée par l'IA et validée par l'expertise humaine · <strong>Processus accéléré de 3 jours à seulement 3 minutes</strong></div>
+        </div>
+      </div>
+      <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 20px; white-space: nowrap; letter-spacing: 0.5px;">3 JOURS ➔ 3 MIN</span>
+    </div>
+
+    <!-- Stepper de progression à 6 étapes -->
+    <div class="eval-stepper">
+      <div class="step-pill active" id="step-pill-1">
+        <span class="step-num">1</span>
+        <span>Projet</span>
+      </div>
+      <div class="step-pill" id="step-pill-2">
+        <span class="step-num">2</span>
+        <span>Entrevue IA</span>
+      </div>
+      <div class="step-pill" id="step-pill-3">
+        <span class="step-num">3</span>
+        <span>Faisabilité</span>
+      </div>
+      <div class="step-pill" id="step-pill-4">
+        <span class="step-num">4</span>
+        <span>Risques</span>
+      </div>
+      <div class="step-pill" id="step-pill-5">
+        <span class="step-num">5</span>
+        <span>Validation</span>
+      </div>
+      <div class="step-pill" id="step-pill-6">
+        <span class="step-num">6</span>
+        <span>Rapport</span>
+      </div>
+    </div>
+
+    <!-- PHASE 1 : DÉFINITION DU PROJET & DU CAS D'USAGE -->
+    <section id="phase-1" class="eval-card">
+      <div class="eval-card-header">
+        <h2><span>📋</span> Phase 1 — Renseignements du Projet & Dépôt Documentaire</h2>
+        <span style="font-size: 12px; font-weight: 700; color: var(--iq-cyan);">IDENTIFICATION & INGESTION IA</span>
+      </div>
+      <div class="eval-card-body">
+        
+        <!-- Zone de Dépôt de Document (Cahier des Besoins d'Affaires) -->
+        <div id="drop-zone" class="doc-upload-box" style="border: 2px dashed #38BDF8; background: linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 100%); border-radius: var(--radius-md); padding: 24px 20px; text-align: center; margin-bottom: 24px; transition: all 0.25s ease; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);">
+          <input type="file" id="doc-file-input" style="display: none;" accept=".docx,.pptx,.xlsx,.xls,.pdf,.txt,.md" onchange="handleFileSelected(event)">
+          <div style="font-size: 36px; margin-bottom: 8px;">📂</div>
+          <h3 style="font-size: 16px; font-weight: 800; color: var(--iq-navy); margin-bottom: 6px;">
+            Déposez ici votre Cahier des Besoins d'Affaires (.docx, .pdf, .xlsx)
+          </h3>
+          <p style="font-size: 13px; color: #334155; margin-bottom: 16px; max-width: 580px; margin-left: auto; margin-right: auto; line-height: 1.45;">
+            L'Analyste IA examine votre document pour extraire les objectifs, qualifier les données sensibles selon la <strong>Loi 25</strong> et préparer l'évaluation d'appétit au risque.
+          </p>
+          
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px;">
+            <button type="button" class="btn-primary" style="font-size: 13px; font-weight: 700; padding: 10px 22px; background: #002060; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 32, 96, 0.25);" onclick="document.getElementById('doc-file-input').click()">
+              📁 Parcourir mes fichiers locaux
+            </button>
+            <button type="button" class="btn-secondary" onclick="loadDemoRequirementsDocument()" style="font-size: 13px; font-weight: 700; padding: 10px 18px; background: white; border: 1.5px solid #0284C7; color: #0284C7; border-radius: 8px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);">
+              ⚡ Tester directement avec le Cahier Démo
+            </button>
+          </div>
+
+          <div style="margin-top: 14px; font-size: 12px; color: #0369A1; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+            <span>📄 Document prêt à tester :</span>
+            <a href="/Cahier_des_Besoins_Demo_Precertification_Financement_IQ.docx" download style="color: #0284C7; text-decoration: underline; font-weight: 700;">Télécharger le Cahier Démo (.docx)</a>
+            <span style="color: #94A3B8;">•</span>
+            <a href="/Gabarit_Officiel_Expression_Besoins_Affaires_IA_IQ.docx" download style="color: #0284C7; text-decoration: underline; font-weight: 600;">Gabarit vierge officiel (.docx)</a>
+          </div>
+
+          <div id="upload-status" style="margin-top: 12px; font-size: 12px; font-weight: 600; display: none;"></div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nom de l'initiative / Cas d'usage *</label>
+            <input type="text" id="project-name" placeholder="Ex: Assistant IA d'analyse des politiques de crédit (GENIQ)" required>
+          </div>
+          <div class="form-group">
+            <label>Direction responsable / Ligne d'affaires *</label>
+            <select id="project-direction">
+              <option value="Direction de l'Intelligence Économique (DIE)">Direction de l'Intelligence Économique (DIE)</option>
+              <option value="Direction Principale du Financement">Direction Principale du Financement</option>
+              <option value="Direction des Technologies de l'Information (DTI)">Direction des Technologies de l'Information (DTI)</option>
+              <option value="Direction Générale Intégrée des Risques (DGIR)">Direction Générale Intégrée des Risques (DGIR)</option>
+              <option value="Direction des Affaires Juridiques & Secrétariat">Direction des Affaires Juridiques & Secrétariat</option>
+              <option value="Ressources Humaines & Communication">Ressources Humaines & Communication</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Demandeur & Porteur d'affaires *</label>
+            <input type="text" id="project-owner" placeholder="Nom et prénom du responsable d'affaires" required>
+          </div>
+          <div class="form-group">
+            <label>Type de solution envisagée * <span style="font-weight: normal; font-size: 11.5px; color: var(--text-muted);">(choisissez ce qui décrit le mieux votre besoin)</span></label>
+            <select id="project-tool-type" onchange="adaptQuestionsByToolType()">
+              <option value="rag">📚 Assistant de recherche et synthèse dans nos documents internes</option>
+              <option value="copilot">💼 Outil d'aide au travail quotidien (ex: rédaction de courriels, résumés, Copilot)</option>
+              <option value="commercial">🛒 Logiciel spécialisé du marché contenant de l'IA (analyse de contrats, formulaires)</option>
+              <option value="custom">⚙️ Application d'affaires sur mesure conçue pour nos processus</option>
+              <option value="unknown">❓ Je ne sais pas encore (l'équipe technique m'aidera à choisir)</option>
+              <option value="other">✏️ Autre besoin d'affaires (préciser...)</option>
+            </select>
+            <div id="project-tool-type-other-wrap" style="display: none; margin-top: 8px;">
+              <input type="text" id="project-tool-type-other-text" placeholder="Précisez la solution ou le besoin envisagé..." style="width: 100%; padding: 7px 10px; font-size: 12.5px; border: 1.5px solid #CBD5E1; border-radius: 6px;">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label>Description de l'irritant opérationnel et du besoin d'affaires *</label>
+          <textarea id="project-desc" rows="3" placeholder="Décrivez le problème concret, le gain de temps attendu et les usagers cibles..." required></textarea>
+        </div>
+
+        <!-- Checkbox HITL Anti-Hallucination Phase 1 -->
+        <div class="hitl-validation-box" id="hitl-box-phase1" style="background: #FFFBEB; border: 1.5px solid #F59E0B; border-left: 5px solid #D97706; border-radius: 8px; padding: 12px 16px; margin: 18px 0; transition: all 0.3s ease;">
+          <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; user-select: none;">
+            <input type="checkbox" id="chk-hitl-phase1" style="width: 18px; height: 18px; margin-top: 2px; accent-color: #D97706; cursor: pointer; flex-shrink: 0;">
+            <span style="font-size: 12.5px; color: #92400E; line-height: 1.45;">
+              <strong>⚠️ Engagement de vérification humaine obligatoire (Human-in-the-Loop) :</strong><br>
+              Je confirme avoir relu et validé personnellement les informations d'identification et la description du besoin. Je reconnais que l'IA peut produire des hallucinations ou des approximations et que mon arbitrage d'affaires est requis avant de passer à l'étape suivante.
+            </span>
+          </label>
+        </div>
+
+        <div class="eval-actions-footer">
+          <span style="font-size: 12px; color: var(--text-muted);">
+            🔒 Les informations saisies sont analysées conformément aux directives d'Investissement Québec.
+          </span>
+          <button class="btn-primary" id="btn-proceed-phase2" onclick="proceedToPhase1b()">
+            <span>🎯 Clarifier le Besoin avec l'Analyste IA</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 1B : CADRAGE INTERACTIF AVEC L'ANALYSTE IA (4 DIMENSIONS STRATÉGIQUES) -->
+    <section id="phase-1b" class="eval-card" style="display: none;">
+      <div class="eval-card-header">
+        <h2><span>🎯</span> Phase 1b — Cadrage & Clarification du Besoin (Analyste IA)</h2>
+        <span style="font-size: 12px; font-weight: 700; color: var(--iq-cyan);">4 DIMENSIONS CLÉS D'ÉVALUATION</span>
+      </div>
+      <div class="eval-card-body">
+        
+        <!-- Bulle de l'Analyste IA & Adaptation au cas d'usage -->
+        <div class="mentor-dialogue-card" style="margin-bottom: 20px;">
+          <img src="mentor_avatar.jpg" alt="Analyste Bureau IA" class="mentor-dialogue-avatar">
+          <div class="mentor-dialogue-text">
+            <strong>Analyste en Gouvernance de l'IA d'Investissement Québec :</strong><br>
+            <span id="clarif-mentor-intro-text">
+              « Pour calibrer au plus juste votre Grille de Faisabilité et sécuriser les garde-fous d'homologation, nous examinons les 4 dimensions fondamentales du cadre d'évaluation (Impact, Données, Organisation et IA Responsable). Répondez à ces questions clés adaptées à votre initiative. »
+            </span>
+          </div>
+        </div>
+
+        <!-- Bandeau d'adaptation dynamique au cas d'usage -->
+        <div style="background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%); border: 1.5px solid #BAE6FD; border-radius: var(--radius-md); padding: 12px 18px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 20px;">💡</span>
+            <div>
+              <div style="font-size: 11px; font-weight: 800; color: #0284C7; text-transform: uppercase; letter-spacing: 0.5px;">DOSSIER EN COURS DE CADRAGE</div>
+              <div style="font-size: 13.5px; font-weight: 700; color: var(--iq-navy);" id="clarif-project-badge-name">Initiative sans titre</div>
+            </div>
+          </div>
+          <button type="button" class="btn-action" onclick="adaptClarifToUseCase()" style="background: white; border: 1.5px solid #0284C7; color: #002060; font-weight: 800; padding: 8px 16px; font-size: 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.18); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px;">
+            <span style="font-size: 15px;">⚡</span>
+            <span>Compléter automatiquement à partir du cas d'utilisation — <em style="color: #D97706;">Il est impératif de valider les réponses</em></span>
+          </button>
+        </div>
+
+        <!-- Les 4 Dimensions Clés de Cadrage (inspirées de OUT_evaluation_occasions_IA_VT) -->
+        <div style="display: flex; flex-direction: column; gap: 18px; margin-bottom: 24px;">
+          
+          <!-- DIMENSION 1 : IMPACT & VALEUR OPÉRATIONNELLE -->
+          <div style="background: white; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <span style="font-size: 11px; font-weight: 800; color: #D97706; text-transform: uppercase;">DIMENSION 1 — IMPACT & EFFICACITÉ MÉTIER</span>
+                <h4 style="font-size: 14px; font-weight: 700; color: var(--iq-navy); margin: 2px 0;">Quel est le principal levier d'impact attendu sur les processus d'Investissement Québec ?</h4>
+              </div>
+              <span style="font-size: 11px; background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Dimension Impact • Productivité & Précision</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+              💡 <em>L'Analyste mesure les bénéfices concrets (gains de temps, réduction d'erreurs, vélocité de traitement).</em>
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-impact-type" value="productivity_time" checked onchange="updateClarifState()">
+                <span>⚡ <strong>Accélération des délais et gains de productivité récurrents</strong> (Gain estimé > 4 à 6 heures par semaine par analyste)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-impact-type" value="error_reduction" onchange="updateClarifState()">
+                <span>🎯 <strong>Réduction des erreurs humaines et précision accrue des analyses</strong> (Élimination des reprises manuelles de dossiers)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-impact-type" value="knowledge_generation" onchange="updateClarifState()">
+                <span>💡 <strong>Génération de nouvelles connaissances et veille transversale</strong> (Recherche sémantique augmentée et capitalisation interne)</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-impact-type" value="other" onchange="updateClarifState()" style="margin-top: 3px;">
+                <div style="flex: 1;">
+                  <span>✏️ <strong>Autre impact opérationnel ou bénéfice attendu (préciser...)</strong></span>
+                  <input type="text" id="clarif-impact-other-text" placeholder="Précisez la nature de l'impact métier ou du ROI attendu..." style="margin-top: 6px; width: 100%; padding: 6px 10px; font-size: 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; display: none;" oninput="updateClarifState()">
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- DIMENSION 2 : DONNÉES & TECHNOLOGIE (LOI 25) -->
+          <div style="background: white; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <span style="font-size: 11px; font-weight: 800; color: #2563EB; text-transform: uppercase;">DIMENSION 2 — DONNÉES & TECHNOLOGIE</span>
+                <h4 style="font-size: 14px; font-weight: 700; color: var(--iq-navy); margin: 2px 0;">Quels types de corpus ou sources de données l'outil devra-t-il analyser ?</h4>
+              </div>
+              <span style="font-size: 11px; background: #EFF6FF; color: #1E40AF; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Dimension Technologie • Données & Loi 25</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+              💡 <em>L'Analyste vérifie la disponibilité, la qualité des sources et l'obligation d'une Évaluation des Facteurs relatifs à la Vie Privée (ÉFVP).</em>
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-data-type" value="public_internal" checked onchange="updateClarifState()">
+                <span>📚 <strong>Corpus documentaires internes et guides publics d'IQ</strong> (politiques, programmes, FAQ déclassifiées — Zéro PII / Faible risque)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-data-type" value="client_financial" onchange="updateClarifState()">
+                <span>💼 <strong>États financiers et documents d'affaires d'entreprises clientes</strong> (Secret d'affaires, données commerciales, RAG fermé Azure IQ)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-data-type" value="personal_pii" onchange="updateClarifState()">
+                <span>👤 <strong>Renseignements personnels sur des individus ou employés</strong> (Assujetti aux exigences strictes de la Loi 25 & ÉFVP)</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-data-type" value="other" onchange="updateClarifState()" style="margin-top: 3px;">
+                <div style="flex: 1;">
+                  <span>✏️ <strong>Autre nature de données ou corpus hybride (préciser...)</strong></span>
+                  <input type="text" id="clarif-data-type-other-text" placeholder="Précisez la nature des documents, sources ou systèmes..." style="margin-top: 6px; width: 100%; padding: 6px 10px; font-size: 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; display: none;" oninput="updateClarifState()">
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- DIMENSION 3 : ORGANISATION & SAVOIR-FAIRE -->
+          <div style="background: white; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <span style="font-size: 11px; font-weight: 800; color: #7C3AED; text-transform: uppercase;">DIMENSION 3 — ORGANISATION & SAVOIR-FAIRE</span>
+                <h4 style="font-size: 14px; font-weight: 700; color: var(--iq-navy); margin: 2px 0;">Quel est le niveau de préparation de l'équipe et l'engagement du sponsor ?</h4>
+              </div>
+              <span style="font-size: 11px; background: #F3E8FF; color: #6D28D9; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Dimension Organisation • Compétences & Adhésion</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+              💡 <em>L'Analyste s'assure qu'un leader d'affaires est engagé et que l'équipe est prête pour l'adoption opérationnelle.</em>
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-org-readiness" value="sponsor_ready" checked onchange="updateClarifState()">
+                <span>🤝 <strong>Sponsor d'affaires dédié & Équipe métier prête à l'adoption</strong> (Maîtrise du processus cible et ressources allouées)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-org-readiness" value="need_training" onchange="updateClarifState()">
+                <span>🎓 <strong>Compétences en développement avec accompagnement requis du Bureau de l'IA</strong> (Atelier Escouade IA & formation requis)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-org-readiness" value="transversal_change" onchange="updateClarifState()">
+                <span>🏢 <strong>Déploiement transverse multi-directions avec plan de gestion du changement</strong></span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-org-readiness" value="other" onchange="updateClarifState()" style="margin-top: 3px;">
+                <div style="flex: 1;">
+                  <span>✏️ <strong>Autre configuration organisationnelle ou ressources (préciser...)</strong></span>
+                  <input type="text" id="clarif-org-other-text" placeholder="Précisez les parties prenantes, soutiens ou compétences..." style="margin-top: 6px; width: 100%; padding: 6px 10px; font-size: 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; display: none;" oninput="updateClarifState()">
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- DIMENSION 4 : IA RESPONSABLE & SUPERVISION HUMAINE -->
+          <div style="background: white; border: 1.5px solid #E2E8F0; border-radius: var(--radius-md); padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <div>
+                <span style="font-size: 11px; font-weight: 800; color: #16A34A; text-transform: uppercase;">DIMENSION 4 — IA RESPONSABLE & SUPERVISION HUMAINE</span>
+                <h4 style="font-size: 14px; font-weight: 700; color: var(--iq-navy); margin: 2px 0;">Comment l'humain interviendra-t-il sur les propositions générées par l'IA ?</h4>
+              </div>
+              <span style="font-size: 11px; background: #F0FDF4; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Dimension IA Responsable • NIST AI RMF Human-in-the-Loop</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+              💡 <em>L'Analyste s'assure qu'aucune décision financière ou juridique n'est déléguée de manière autonome à l'IA.</em>
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-human-role" value="draft_reviewer" checked onchange="updateClarifState()">
+                <span>✍️ <strong>Brouillon d'aide à la décision systématiquement révisé et signé par l'humain</strong> (Principe Human-in-the-Loop strict — Risque minimal)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-human-role" value="decision_support" onchange="updateClarifState()">
+                <span>⚖️ <strong>Recommandation directe soumise à l'approbation d'un comité collégial</strong> (Contrôle d'équipe)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-human-role" value="automated_flow" onchange="updateClarifState()">
+                <span>⚙️ <strong>Assistance automatisée avec surveillance continue et mécanisme de contestation</strong> (Audits et revues régulières)</span>
+              </label>
+              <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;">
+                <input type="radio" name="clarif-human-role" value="other" onchange="updateClarifState()" style="margin-top: 3px;">
+                <div style="flex: 1;">
+                  <span>✏️ <strong>Autre modalité d'intervention ou garde-fous (préciser...)</strong></span>
+                  <input type="text" id="clarif-human-role-other-text" placeholder="Précisez la modalité de contrôle ou de révision par l'équipe..." style="margin-top: 6px; width: 100%; padding: 6px 10px; font-size: 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; display: none;" oninput="updateClarifState()">
+                </div>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Checkbox HITL Anti-Hallucination Phase 1b -->
+        <div class="hitl-validation-box" id="hitl-box-phase1b" style="background: #FFFBEB; border: 1.5px solid #F59E0B; border-left: 5px solid #D97706; border-radius: 8px; padding: 12px 16px; margin: 18px 0; transition: all 0.3s ease;">
+          <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; user-select: none;">
+            <input type="checkbox" id="chk-hitl-phase1b" style="width: 18px; height: 18px; margin-top: 2px; accent-color: #D97706; cursor: pointer; flex-shrink: 0;">
+            <span style="font-size: 12.5px; color: #92400E; line-height: 1.45;">
+              <strong>⚠️ Engagement de vérification humaine obligatoire (Human-in-the-Loop) :</strong><br>
+              Je confirme avoir examiné et validé chacune des 4 dimensions de cadrage (Impact d'affaires, Nature des données, Organisation et IA Responsable). Je valide que ces réponses reflètent rigoureusement la réalité de mon dossier et non une hallucination ou extrapolation automatique de l'IA.
+            </span>
+          </label>
+        </div>
+
+        <!-- Boutons d'actions Phase 1b -->
+        <div class="eval-actions-footer">
+          <button class="btn-secondary" onclick="setPhase(1)">
+            <span>⬅️ Revenir aux Renseignements</span>
+          </button>
+          <button class="btn-primary" onclick="proceedToPhase2FromClarif()" style="background: linear-gradient(135deg, #002060 0%, #0284C7 100%);">
+            <span>📊 Calibrer et pré-compléter la Grille de Faisabilité (28 critères)</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- PHASE 2 : GRILLE OFFICIELLE DE FAISABILITÉ D'IQ (28 CRITÈRES) -->
+    <section id="phase-2" class="eval-card" style="display: none;">
+      <div class="eval-card-header">
+        <h2><span>🧠</span> Phase 2 — Grille Officielle de Faisabilité & Justificatifs IA</h2>
+        <span id="interview-progress-badge" style="font-size: 12px; font-weight: 700; color: var(--iq-cyan);">GRILLE OFFICIELLE (28 CRITÈRES)</span>
+      </div>
+      <div class="eval-card-body">
+
+        <!-- Dialogue de l'Analyste IA -->
+        <div class="mentor-dialogue-card">
+          <img src="mentor_avatar.jpg" alt="Analyste Bureau IA" class="mentor-dialogue-avatar">
+          <div class="mentor-dialogue-text">
+            <strong>Analyse de l'Analyste IA d'Investissement Québec :</strong><br>
+            <span id="mentor-dynamic-comment">
+              Chargement de l'analyse personnalisée de votre dossier...
+            </span>
+          </div>
+        </div>
+
+        <!-- Tableau de Bord du Cadrage de la Grille (Revue Humaine Préliminaire) -->
+        <div style="background: white; border: 1.5px solid #BAE6FD; border-radius: var(--radius-md); padding: 16px 24px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div style="font-size: 11px; font-weight: 800; color: #0369A1; letter-spacing: 0.5px; text-transform: uppercase;">
+              CADRAGE DES 28 CRITÈRES • PROPOSITIONS DE L'ANALYSTE IA
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 3px;">
+              <span id="live-score-total" style="font-size: 20px; font-weight: 800; color: var(--iq-navy); font-family: 'Outfit', sans-serif;">28 critères pré-qualifiés</span>
+              <span id="live-score-pct" style="font-size: 13px; font-weight: 600; color: #64748B;">(Calcul du score officiel après revue et validation humaine)</span>
+            </div>
+          </div>
+          <div>
+            <span id="live-gate-badge" style="font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 20px; background: #FEF9C3; color: #854D0E; border: 1px solid #FDE047; display: inline-flex; align-items: center; gap: 6px;">
+              <span>🟡</span> EN ATTENTE DE VALIDATION HUMAINE
+            </span>
+          </div>
+        </div>
+
+        <!-- Barre de progression à travers les 6 axes officiels -->
+        <div id="axe-progress-bar-container" style="background: white; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 12px 18px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--iq-navy); display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 16px;">🧭</span>
+              <span>Revue obligatoire des 6 axes : <strong id="axe-progress-label" style="color: #0284C7;">Axe 1 sur 6 — Valeur d'affaires</strong></span>
+            </div>
+            <span id="axe-progress-pct-badge" style="font-size: 11px; font-weight: 800; color: #0369A1; background: #E0F2FE; border: 1px solid #BAE6FD; padding: 3px 10px; border-radius: 12px;">
+              Axe 1 / 6
+            </span>
+          </div>
+          <div style="width: 100%; height: 7px; background: #E2E8F0; border-radius: 6px; overflow: hidden;">
+            <div id="axe-progress-bar-fill" style="width: 16.66%; height: 100%; background: linear-gradient(90deg, #0284C7 0%, #10B981 100%); transition: width 0.35s ease;"></div>
+          </div>
+        </div>
+
+        <!-- Onglets des 6 Axes de Faisabilité d'IQ -->
+        <div class="eval-axes-tabs" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-bottom: 20px;" id="axes-tabs-container">
+          <!-- Injecté dynamiquement par JS -->
+        </div>
+
+        <!-- En-tête de l'Axe actif -->
+        <div id="active-axe-header" style="background: #F8FAFC; border-left: 4px solid var(--iq-navy); padding: 12px 18px; border-radius: 6px; margin-bottom: 20px;">
+          <h3 id="active-axe-title" style="font-size: 15px; font-weight: 800; color: var(--iq-navy); margin-bottom: 2px;">Axe 1 — Valeur d'affaires</h3>
+          <p id="active-axe-desc" style="font-size: 12px; color: var(--text-muted);">Gain de temps, fréquence de la tâche et sponsor engagé. (Poids AHP : 15 %)</p>
+        </div>
+
+        <!-- Conteneur des Questions & Justificatifs de l'Axe Actif -->
+        <div id="active-axe-questions-container" style="display: flex; flex-direction: column; gap: 18px;">
+          <!-- Injecté dynamiquement par JS -->
+        </div>
+
+        <!-- Notice explicative intermédiaire (Axes 1 à 5) -->
+        <div id="hitl-preview-notice" style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 8px; padding: 12px 16px; margin: 18px 0; font-size: 12px; color: #475569; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+          <span>🧭 <strong>Revue pas à pas :</strong> Examinez les critères ci-dessus puis cliquez sur le bouton <strong>« Passer à l'Axe suivant »</strong> pour parcourir l'ensemble des 6 axes.</span>
+          <span style="font-size: 11px; font-weight: 700; color: #0284C7; white-space: nowrap; background: #E0F2FE; padding: 4px 10px; border-radius: 6px;">Signature requise à l'Axe 6</span>
+        </div>
+
+        <!-- Checkbox HITL Anti-Hallucination Phase 2 Grille (Signature Finale Officielle à l'Axe 6) -->
+        <div class="hitl-validation-box" id="hitl-box-phase2" style="display: none; background: #FFFBEB; border: 1.5px solid #F59E0B; border-left: 5px solid #D97706; border-radius: 10px; padding: 16px 18px; margin: 22px 0; transition: all 0.3s ease; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.1);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 22px;">✍️</span>
+              <strong style="font-size: 13.5px; color: #92400E; text-transform: uppercase; letter-spacing: 0.5px;">Étape Finale — Attestation & Signature Humaine Obligatoire</strong>
+            </div>
+            <span id="signature-status-pill" style="font-size: 11px; font-weight: 800; background: #FEF08A; color: #854D0E; padding: 3px 10px; border-radius: 12px; border: 1px solid #FDE047;">
+              EN ATTENTE DE SIGNATURE
+            </span>
+          </div>
+          <p style="font-size: 12.5px; color: #78350F; line-height: 1.5; margin-bottom: 14px;">
+            Vous avez parcouru l'ensemble des 6 axes de la grille (28 critères). Pour prémunir le dossier contre toute hallucination d'IA et autoriser la génération officielle des livrables (Mémo Word et Grille Excel), <strong>veuillez signer l'engagement en cochant la case ci-dessous</strong> :
+          </p>
+          <label id="hitl-checkbox-label" style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; user-select: none; background: rgba(255,255,255,0.9); border: 2px dashed #D97706; border-radius: 8px; padding: 14px 16px; transition: all 0.25s ease;">
+            <input type="checkbox" id="chk-hitl-phase2" onchange="onHitlCheckboxChange(this.checked)" style="width: 20px; height: 20px; margin-top: 1px; accent-color: #10B981; cursor: pointer; flex-shrink: 0;">
+            <span style="font-size: 12.5px; color: #92400E; line-height: 1.45;">
+              <strong>Je confirme avoir examiné et validé l'ensemble des 6 axes et des 28 critères de faisabilité.</strong> J'atteste que ces données reflètent fidèlement la réalité du projet et j'autorise la consignation officielle au Registre d'Investissement Québec ainsi que la génération du Mémo Décisionnel et de la Grille Excel.
+            </span>
+          </label>
+        </div>
+
+        <!-- Pied de page de navigation dynamique par axe -->
+        <div class="eval-actions-footer" id="phase2-actions-footer" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 24px;">
+          <button type="button" class="btn-secondary" id="btn-prev-axe" onclick="prevAxeStep()">
+            <span>⬅️ Revenir au Cadrage</span>
+          </button>
+          
+          <div id="axe-step-nav-center" style="font-size: 12px; font-weight: 700; color: #64748B;">
+            Axe <span id="axe-curr-num">1</span> sur 6
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-primary" id="btn-next-axe" onclick="nextAxeStep()" style="background: linear-gradient(135deg, #0284C7 0%, #1E2977 100%); padding: 12px 22px; font-size: 13.5px; font-weight: 700; border-radius: 8px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);">
+              <span id="btn-next-axe-label">Passer à l'Axe 2 : Données</span>
+              <span style="font-size: 15px; margin-left: 6px;">➔</span>
+            </button>
+            <button type="button" class="btn-primary" id="btn-validate-grid" onclick="proceedToPhase5FromGrid()" style="display: none; background: linear-gradient(135deg, #D97706 0%, #B45309 100%); padding: 12px 22px; font-size: 13.5px; font-weight: 700; border-radius: 8px; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);">
+              <span>✍️ Signer l'engagement pour finaliser</span>
+              <span style="font-size: 15px; margin-left: 6px;">➔</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PHASE 3 : GRILLE DE FAISABILITÉ DÉTAILLÉE (LES 6 AXES IQ) -->
+    <section id="phase-3" class="eval-card" style="display: none;">
+      <div class="eval-card-header">
+        <h2><span>📊</span> Phase 3 — Grille Officielle de Faisabilité (6 Axes)</h2>
+        <span style="font-size: 12px; font-weight: 700; color: var(--iq-navy);">GRILLE D'ÉVALUATION D'AFFAIRES</span>
+      </div>
+      <div class="eval-card-body">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+          Les réponses de l'entrevue ont pré-rempli automatiquement les scores de faisabilité. Vous pouvez ajuster chaque axe selon le barème officiel (0 = Faible, 4 = Optimal).
+        </p>
+
+        <div id="faisabilite-axes-container"></div>
+
+        <div class="eval-actions-footer">
+          <button class="btn-secondary" onclick="returnToPhase2()">
+            <span>⬅️ Revenir à l'Entrevue</span>
+          </button>
+          <button class="btn-primary" onclick="proceedToPhase4()">
+            <span>Passer à l'Évaluation des Risques & Loi 25</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 4 : ÉVALUATION DES RISQUES DGIR & LOI 25 -->
+    <section id="phase-4" class="eval-card" style="display: none;">
+      <div class="eval-card-header">
+        <h2><span>🛡️</span> Phase 4 — Risques DGIR 2026 & Loi 25 (ÉFVP)</h2>
+        <span style="font-size: 12px; font-weight: 700; color: var(--iq-red);">CONTRÔLES RÉGLEMENTAIRES</span>
+      </div>
+      <div class="eval-card-body">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+          Validation des critères stricts de protection des renseignements personnels (Loi 25) et des 11 risques de la DGIR 2026.
+        </p>
+
+        <!-- Filtre Préliminaire d'Appétit au Risque DGIR 2026 (Grille Officielle du Risque) -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 16px 0 12px 0;">
+          <h3 style="font-size: 15px; font-weight: 800; color: var(--iq-navy); margin: 0;">
+            Grille d'Appétit au Risque DGIR 2026 (5 Thématiques & Sous-Risques IA)
+          </h3>
+          <span id="phase4-dgir-badge" style="font-size: 11.5px; font-weight: 700; padding: 5px 14px; border-radius: 12px; background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;">
+            🟢 Conforme à l'Appétit au Risque
+          </span>
+        </div>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;">
+          Positionnement corporatif selon l'appétit au risque de la DGIR 2026 et les critères de la Loi 25 (protection des renseignements personnels).
+        </p>
+
+        <table class="dgir-table" id="phase4-dgir-table">
+          <thead>
+            <tr>
+              <th style="width: 18%;">Thématique IA</th>
+              <th style="width: 28%;">Sous-risques IA & Amplification Entreprise</th>
+              <th style="width: 38%;">Choix de Positionnement Corporatif (Grille du Risque)</th>
+              <th style="width: 16%; text-align: center;">Cible & Statut</th>
+            </tr>
+          </thead>
+          <tbody id="phase4-dgir-tbody">
+            <!-- Rempli dynamiquement avec les 5 thématiques et choix cochés ☑ -->
+          </tbody>
+        </table>
+
+        <!-- Attestation de passage du filtre du risque -->
+        <div class="risk-appetite-pass-card" style="margin-top: 20px;">
+          <div class="risk-pass-icon">✅</div>
+          <div class="risk-pass-content">
+            <div class="risk-pass-title">FILTRE D'APPÉTIT AU RISQUE DGIR 2026 : PASSÉ AVEC SUCCÈS</div>
+            <div class="risk-pass-text">
+              L'initiative a franchi avec succès le filtre préliminaire d'appétit au risque de la DGIR 2026. Les caractéristiques opérationnelles de la solution et son niveau d'encadrement permettent sa prise en charge officielle par le Bureau de l'IA.
+            </div>
+            <div class="risk-pass-badges" style="margin-top: 10px;">
+              <span class="pass-pill">✔ Thématique 1 : Données qualifiées</span>
+              <span class="pass-pill">✔ Thématique 2 : Outil corporatif audité</span>
+              <span class="pass-pill">✔ Thématique 3 : Human-in-the-loop strict</span>
+              <span class="pass-pill">✔ Thématique 4 : Risque réputationnel sous contrôle</span>
+              <span class="pass-pill">✔ Thématique 5 : Résilience RTO validée</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="eval-actions-footer">
+          <button class="btn-secondary" onclick="returnToPhase3()">
+            <span>⬅️ Revenir à la Faisabilité</span>
+          </button>
+          <button class="btn-primary" onclick="proceedToPhase5()">
+            <span>Calculer la Priorisation AHP-TOPSIS</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 5 : VALIDATION & RECOMMANDATION OFFICIELLE (AVEC REVUE HUMAINE) -->
+    <section id="phase-5" class="eval-card" style="display: none;">
+      <div class="eval-card-header">
+        <h2><span>⚖️</span> Phase 5 — Transmission & Validation Humaine par le Bureau de l'IA</h2>
+        <span style="font-size: 12px; font-weight: 700; color: #2563EB;">PRINCIPE HUMAN-IN-THE-LOOP</span>
+      </div>
+      <div class="eval-card-body">
+        
+        <!-- VUE PAR DÉFAUT POUR LE DEMANDEUR / USAGER -->
+        <div id="phase-5-user-view" style="display: block;">
+          <div class="user-merci-card" style="background: linear-gradient(135deg, #002060 0%, #0284C7 100%); color: white; border-radius: 16px; padding: 26px 20px; text-align: center; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0, 32, 96, 0.25);">
+            <div style="font-size: 42px; margin-bottom: 6px;">🎉</div>
+            <div style="display: inline-block; background: rgba(56, 189, 248, 0.2); border: 1px solid #38BDF8; color: #BAE6FD; font-size: 11px; font-weight: 800; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.6px; margin-bottom: 10px;">
+              DEMANDE CONSIGNÉE AU REGISTRE OFFICIEL
+            </div>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; color: white; margin: 0 0 6px 0;">
+              Merci ! Votre initiative IA a été soumise avec succès
+            </h3>
+            <p style="font-size: 14px; color: #E0F2FE; margin: 0 0 18px 0;" id="user-view-initiative-header">
+              Dossier enregistré au Registre officiel d'Investissement Québec
+            </p>
+
+            <!-- STATUT EN DIRECT DE L'AGENT IA EN ARRIÈRE-PLAN -->
+            <div id="agent-background-status-box" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 14px 18px; max-width: 580px; margin: 0 auto; text-align: left; backdrop-filter: blur(8px);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 11.5px; font-weight: 800; color: #38BDF8; display: flex; align-items: center; gap: 6px;">
+                  <span class="agent-live-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #22C55E; display: inline-block; box-shadow: 0 0 8px #22C55E;"></span>
+                  AGENT IA ACTIF EN TÂCHE DE FOND
+                </span>
+                <span id="agent-task-progress-pct" style="font-size: 11px; font-weight: 700; color: #BAE6FD;">Traitement en cours...</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="agent-task-spinner" id="agent-task-spinner-icon" style="font-size: 20px; animation: spin-slow 2s linear infinite;">⚙️</div>
+                <div style="flex: 1;">
+                  <div id="agent-task-current-step" style="font-size: 13px; font-weight: 600; color: #F8FAFC;">
+                    Ingestion des données & calcul vectoriel AHP-TOPSIS...
+                  </div>
+                  <div id="agent-task-sub-detail" style="font-size: 11px; color: #94A3B8; margin-top: 2px;">
+                    L'agent finalise la grille Excel et le Mémo Word en arrière-plan.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Avis rassurant d'autonomie et fermeture de fenêtre sécurisée -->
+            <div id="safe-to-close-notice" style="margin-top: 14px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 10px; padding: 10px 16px; font-size: 12.5px; color: #DCFCE7; display: flex; align-items: center; justify-content: center; gap: 8px; max-width: 580px; margin-left: auto; margin-right: auto; line-height: 1.4;">
+              <span style="font-size: 18px; flex-shrink: 0;">🔒</span>
+              <span>
+                <strong>Vous pouvez fermer cette fenêtre en toute sécurité</strong> : le traitement se poursuit en tâche de fond sur nos serveurs. Vous retrouverez vos livrables à votre retour ou dans le 
+                <a href="/registre_analyses.html" style="color: #86EFAC; font-weight: 700; text-decoration: underline;">Registre des Analyses</a>.
+              </span>
+            </div>
+
+            <!-- Transmission exclusive des livrables à l'Analyste en Gouvernance IA -->
+            <div id="agent-deliverables-ready-row" style="margin-top: 16px; display: none; flex-direction: column; align-items: center; gap: 10px;">
+              <div style="background: rgba(255, 255, 255, 0.12); border: 1.5px solid rgba(56, 189, 248, 0.45); border-radius: 12px; padding: 14px 20px; max-width: 580px; text-align: left; backdrop-filter: blur(8px);">
+                <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; color: #BAE6FD; margin-bottom: 6px;">
+                  <span style="font-size: 16px;">🏛️</span>
+                  <span>LIVRABLES TRANSMIS À L'ANALYSTE EN GOUVERNANCE IA</span>
+                </div>
+                <div style="font-size: 12.5px; color: #F0F9FF; line-height: 1.5;">
+                  Le <strong>Mémo Décisionnel officiel (.docx)</strong> et la <strong>Grille de Faisabilité DGIR (.xlsx)</strong> ont été générés et versés au dossier d'homologation de l'Analyste. Conformément aux directives d'Investissement Québec, ces livrables sont réservés à l'Analyste pour la révision collégiale et la soumission au Comité de Gouvernance IA.
+                </div>
+              </div>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px;">
+                <a id="btn-user-view-registry" href="/registre_analyses.html" class="btn-action" style="background: #38BDF8; color: #002060; font-weight: 800; font-size: 12.5px; padding: 9px 20px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.18); display: inline-flex; align-items: center; gap: 6px;">
+                  <span>🏛️</span>
+                  <span>Suivre le statut au Registre officiel</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Encadré explicatif bienveillant & doctrine inclusive d'IQ -->
+          <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-left: 5px solid #002060; border-radius: var(--radius-md); padding: 22px 24px; margin-bottom: 24px;">
+            <h4 style="font-size: 14.5px; font-weight: 700; color: var(--iq-navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+              <span>🛡️</span>
+              <span>Validation Humaine Obligatoire (Norme de Gouvernance Investissement Québec)</span>
+            </h4>
+            <p style="font-size: 13.5px; color: #334155; line-height: 1.6; margin-bottom: 12px;">
+              Conformément à nos directives de gouvernance et au Cadre du MCN Québec, <strong>aucune décision financière, juridique ou d'homologation n'est prise de façon autonome par l'IA</strong>. Votre dossier est actuellement entre les mains d'un <strong>Analyste en Gouvernance de l'IA</strong> du Bureau de l'IA qui examine vos réponses, qualifie le contexte de sensibilité et prépare votre plan d'accompagnement.
+            </p>
+            
+            <div style="background: #F0FDF4; border: 1px solid #86EFAC; border-radius: 8px; padding: 14px 16px; margin-top: 14px;">
+              <strong style="color: #166534; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                <span>🤝</span> La doctrine d'Investissement Québec : on n'exclut rien, on évalue le niveau de préparation
+              </strong>
+              <p style="font-size: 12.5px; color: #15803D; line-height: 1.5; margin: 4px 0 0 0;">
+                Même si des lacunes sont constatées au départ (maturité des données, cadrage des gains ou exigences Loi 25), <em>aucun projet n'est rejeté</em>. Le Bureau de l'IA et l'Escouade IA vous accompagneront activement pour combler chaque point d'attention et amener votre projet à son plein potentiel.
+              </p>
+            </div>
+          </div>
+
+          <!-- Prochaines étapes pour le demandeur -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px;">
+            <div style="background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px;">
+              <span style="font-size: 20px;">1️⃣</span>
+              <h5 style="margin: 6px 0 4px 0; font-size: 13px; color: var(--iq-navy);">Revue par l'Analyste</h5>
+              <p style="margin: 0; font-size: 11.5px; color: #64748B;">Vérification des 28 critères, de la sensibilité des données et des seuils RTO.</p>
+            </div>
+            <div style="background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px;">
+              <span style="font-size: 20px;">2️⃣</span>
+              <h5 style="margin: 6px 0 4px 0; font-size: 13px; color: var(--iq-navy);">Accompagnement Métier</h5>
+              <p style="margin: 0; font-size: 11.5px; color: #64748B;">Échange avec le Bureau de l'IA pour ajuster les mesures d'atténuation si nécessaire.</p>
+            </div>
+            <div style="background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px;">
+              <span style="font-size: 20px;">3️⃣</span>
+              <h5 style="margin: 6px 0 4px 0; font-size: 13px; color: var(--iq-navy);">Décision Officielle</h5>
+              <p style="margin: 0; font-size: 11.5px; color: #64748B;">Signature de l'homologation et transmission du Mémo Décisionnel au demandeur.</p>
+            </div>
+          </div>
+
+          <!-- Aiguillage vers l'interface dédiée de l'Analyste -->
+          <div style="text-align: center; padding: 16px 20px; border-top: 1px solid #E2E8F0; background: #F1F5F9; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="text-align: left;">
+              <strong style="color: var(--iq-navy); font-size: 13.5px; display: flex; align-items: center; gap: 6px;">
+                <span>👨‍💼</span> Espace Réservé à l'Analyste en Gouvernance IA
+              </strong>
+              <span style="font-size: 12px; color: #64748B;">L'Analyste dispose de son interface à part pour examiner, télécharger les livrables (.docx/.xlsx) et homologuer ce dossier.</span>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <a id="btn-analyst-external-interface" href="/registre_analyses.html" class="btn-primary" style="background: var(--iq-navy); color: white; font-weight: 700; font-size: 12px; padding: 8px 16px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,32,96,0.2);">
+                <span>👨‍💼 Ouvrir l'Interface Analyste ➔</span>
+              </a>
+              <button class="btn-secondary" onclick="unlockAnalystConsole()" style="font-size: 11.5px; padding: 7px 12px;">
+                <span>🔓 Vue rapide ici</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONSOLE RÉSERVÉE À L'ANALYSTE EN GOUVERNANCE IA / ADMIN -->
+        <div id="phase-5-analyst-view" style="display: none;">
+          <div style="background: #EFF6FF; border: 1.5px solid #60A5FA; border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 20px;">👨‍💼</span>
+              <div>
+                <strong style="color: #1E40AF; font-size: 13.5px;">Console de Validation de l'Analyste en Gouvernance IA</strong><br>
+                <span style="font-size: 11.5px; color: #3B82F6;">Accès réservé au Bureau de l'IA pour revue humaine collégiale et arbitrage</span>
+              </div>
+            </div>
+            <span style="font-size: 11px; background: #DBEAFE; color: #1E40AF; padding: 3px 8px; border-radius: 6px; font-weight: 700;">ACCÈS DÉVERROUILLÉ</span>
+          </div>
+
+          <div style="text-align: center; padding: 16px 0;">
+            <div style="font-size: 44px; font-weight: 900; font-family: 'Outfit', sans-serif; color: var(--iq-navy);" id="final-score-display">-- %</div>
+            <p style="font-size: 14px; font-weight: 700; color: var(--text-muted);" id="final-gate-recommendation">CALCUL DU SCORE EN COURS...</p>
+          </div>
+
+          <div class="summary-answered-box" style="margin-top: 15px;">
+            <h4 style="font-size: 13.5px; font-weight: 700; color: var(--iq-navy); margin-bottom: 8px;">Recommandation & Analyse du Bureau de l'IA :</h4>
+            <p id="final-recommendation-details" style="font-size: 13px; color: var(--text-dark); line-height: 1.6;"></p>
+          </div>
+
+          <!-- Livrables Officiels téléchargeables pour l'Analyste -->
+          <div style="margin: 22px 0; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: var(--radius-md); padding: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">🏛️</span>
+                <strong style="color: var(--iq-navy); font-size: 14px;">Livrables Officiels Préparés pour le Comité de Gouvernance IA</strong>
+              </div>
+              <span style="font-size: 11px; background: #DCFCE7; color: #15803D; font-weight: 700; padding: 3px 8px; border-radius: 6px;">DISPONIBLES IMMÉDIATEMENT</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
+              <div style="background: #FFFFFF; border: 1.5px solid #93C5FD; border-radius: 8px; padding: 14px; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: #1E40AF; text-transform: uppercase;">Mémo Exécutif Word</div>
+                  <h5 style="margin: 2px 0 4px 0; font-size: 13px; color: #1E3A8A;">📝 Mémo Décisionnel (.docx)</h5>
+                  <span style="font-size: 11px; color: #64748B;">Nettoyé de tout commentaire et révision</span>
+                </div>
+                <button onclick="downloadDeliverable('word')" class="btn-primary" style="background: #2563EB; padding: 8px 14px; font-size: 12px; cursor: pointer;">
+                  <span>⬇️ Télécharger</span>
+                </button>
+              </div>
+
+              <div style="background: #FFFFFF; border: 1.5px solid #86EFAC; border-radius: 8px; padding: 14px; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase;">Grille de Faisabilité Excel</div>
+                  <h5 style="margin: 2px 0 4px 0; font-size: 13px; color: #14532D;">📊 Grille Officielle (.xlsx)</h5>
+                  <span style="font-size: 11px; color: #64748B;">29 critères pré-remplis (Grille DD)</span>
+                </div>
+                <button onclick="downloadDeliverable('excel')" class="btn-primary" style="background: #16A34A; padding: 8px 14px; font-size: 12px; cursor: pointer;">
+                  <span>⬇️ Télécharger</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION ANALYSTE : RÉPONSES AUX QUESTIONS & CADRAGE MÉTIER -->
+          <div style="margin: 22px 0; background: white; border: 1.5px solid #CBD5E1; border-radius: var(--radius-md); padding: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">📋</span>
+                <div>
+                  <strong style="color: var(--iq-navy); font-size: 14px;">Réponses au Formulaire de Cadrage & Qualification Métier</strong><br>
+                  <span style="font-size: 11.5px; color: #64748B;">Relevé exhaustif des informations soumises par le demandeur d'affaires</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 12px;">
+                <strong style="font-size: 11px; color: #64748B; text-transform: uppercase;">Description du Besoin :</strong>
+                <p id="analyst-cadrage-desc" style="font-size: 12px; color: #1E293B; line-height: 1.5; margin: 4px 0 0 0;"></p>
+              </div>
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 12px;">
+                <strong style="font-size: 11px; color: #64748B; text-transform: uppercase;">Objectif de Valeur Métier :</strong>
+                <p id="analyst-cadrage-obj" style="font-size: 12px; color: #1E293B; line-height: 1.5; margin: 4px 0 0 0;"></p>
+              </div>
+            </div>
+
+            <table class="report-table" style="font-size: 11.5px; margin-bottom: 0;">
+              <tr>
+                <th style="width: 25%;">Sensibilité des données</th>
+                <td id="analyst-cadrage-data">--</td>
+                <th style="width: 25%;">Loi 25 (Pers.)</th>
+                <td id="analyst-cadrage-loi25">--</td>
+              </tr>
+              <tr>
+                <th>Supervision humaine</th>
+                <td id="analyst-cadrage-human">--</td>
+                <th>RTO (Résilience)</th>
+                <td id="analyst-cadrage-rto">--</td>
+              </tr>
+              <tr>
+                <th>Utilisateurs cibles</th>
+                <td id="analyst-cadrage-users">--</td>
+                <th>Sources documentaires</th>
+                <td id="analyst-cadrage-sources">--</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- SECTION ANALYSTE : FILTRE D'APPÉTIT AU RISQUE DGIR (GRILLE ÉVALUATION CAS USAGE) -->
+          <div style="margin: 22px 0; background: white; border: 1.5px solid #93C5FD; border-radius: var(--radius-md); padding: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">🛡️</span>
+                <div>
+                  <strong style="color: var(--iq-navy); font-size: 14px;">Filtre Préliminaire d'Appétit au Risque DGIR 2026</strong><br>
+                  <span style="font-size: 11.5px; color: #64748B;">Qualification officielle selon les 5 thématiques de la Grille d'évaluation cas usage d'IQ</span>
+                </div>
+              </div>
+              <span id="analyst-dgir-badge" style="font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 12px; background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;">
+                🟢 Appétit au Risque Respecté
+              </span>
+            </div>
+
+            <table class="dgir-table" style="margin-bottom: 0;">
+              <thead>
+                <tr>
+                  <th style="width: 18%;">Thématique IA</th>
+                  <th style="width: 28%;">Sous-risques IA & Amplification Entreprise</th>
+                  <th style="width: 38%;">Choix de Positionnement Corporatif</th>
+                  <th style="width: 16%; text-align: center;">Cible & Statut</th>
+                </tr>
+              </thead>
+              <tbody id="analyst-dgir-tbody">
+                <!-- Rempli dynamiquement -->
+              </tbody>
+            </table>
+
+            <!-- Attestation de passage du filtre du risque -->
+            <div class="risk-appetite-pass-card" id="analyst-risk-pass-card">
+              <div class="risk-pass-icon">✅</div>
+              <div class="risk-pass-content">
+                <div class="risk-pass-title">FILTRE D'APPÉTIT AU RISQUE DGIR 2026 : PASSÉ AVEC SUCCÈS</div>
+                <div class="risk-pass-text">
+                  L'initiative satisfait aux exigences de la Direction Générale de la Gestion Intégrée des Risques (DGIR). Les choix cochés dans les 5 thématiques respectent la zone de tolérance d'Investissement Québec sous réserve de l'encadrement opérationnel du Bureau de l'IA.
+                </div>
+                <div class="risk-pass-badges">
+                  <span class="pass-pill">✔ Données internes maîtrisées</span>
+                  <span class="pass-pill">✔ SIA environnement fermé sous licence</span>
+                  <span class="pass-pill">✔ Rôle d'assistance avec validation humaine</span>
+                  <span class="pass-pill">✔ RTO et résilience conformes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION ANALYSTE : GRILLE COMPLÈTE DES 28 CRITÈRES AVEC SCORES & JUSTIFICATIONS -->
+          <div style="margin: 22px 0; background: white; border: 1.5px solid #CBD5E1; border-radius: var(--radius-md); padding: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">📊</span>
+                <div>
+                  <strong style="color: var(--iq-navy); font-size: 14px;">Grille de Faisabilité Officielle Complétée (28 Critères — Grille DD)</strong><br>
+                  <span style="font-size: 11.5px; color: #64748B;">Scores calibrés et justifications officielles pour chacun des 28 critères</span>
+                </div>
+              </div>
+              <span id="analyst-feasibility-summary" style="font-size: 12px; font-weight: 700; color: var(--iq-navy);">
+                Total : -- / 112 pts
+              </span>
+            </div>
+
+            <table class="feasibility-detail-table" style="margin-bottom: 0;">
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">#</th>
+                  <th style="width: 32%;">Critère Officiel</th>
+                  <th style="width: 75px; text-align: center;">Note</th>
+                  <th>Justification Officielle Motivée</th>
+                </tr>
+              </thead>
+              <tbody id="analyst-feasibility-tbody">
+                <!-- Rempli dynamiquement -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- FORMULAIRE D'APPROBATION OFFICIELLE PAR L'ANALYSTE -->
+          <div style="background: white; border: 2px solid #002060; border-radius: var(--radius-md); padding: 20px; margin-top: 20px;">
+            <h4 style="font-size: 14px; font-weight: 700; color: var(--iq-navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>✍️</span> Signature & Décision d'Homologation Officielle par l'Humain
+            </h4>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
+              <label style="border: 1.5px solid #86EFAC; background: #F0FDF4; border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 12.5px;">
+                <input type="radio" name="analyst-decision-radio" value="🟢 VOIE ACCÉLÉRÉE : Approbation recommandée (Haute maturité)" checked>
+                <span>🟢 <strong>Voie accélérée</strong></span>
+              </label>
+              <label style="border: 1.5px solid #FCD34D; background: #FEFCE8; border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 12.5px;">
+                <input type="radio" name="analyst-decision-radio" value="🟡 HOMOLOGATION CONDITIONNELLE : Conditions de conformité ciblées">
+                <span>🟡 <strong>Conditionnelle</strong></span>
+              </label>
+              <label style="border: 1.5px solid #93C5FD; background: #EFF6FF; border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 12.5px;">
+                <input type="radio" name="analyst-decision-radio" value="🔵 EN PRÉPARATION : Accompagnement renforcé du Bureau de l'IA">
+                <span>🔵 <strong>En préparation</strong></span>
+              </label>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label style="font-size: 12px;">Conditions d'homologation & Notes d'accompagnement de l'Analyste :</label>
+              <textarea id="analyst-validation-notes" rows="2" style="font-size: 12.5px;" placeholder="Ex: Revue mensuelle conjointe requise, respect strict de la politique de non-rétention des données et validation de l'ÉFVP Loi 25."></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 12px; color: #64748B;">
+                Signataire : <strong>Analyste Principal en Gouvernance IA (Bureau de l'IA)</strong>
+              </div>
+              <button class="btn-primary" onclick="submitAnalystValidation()" style="background: #002060; padding: 8px 18px; font-size: 13px;">
+                <span>✅ Valider & Émettre l'Homologation Officielle</span>
+              </button>
+            </div>
+            <div id="analyst-validation-status" style="margin-top: 10px; font-size: 12px; font-weight: 700; display: none;"></div>
+          </div>
+
+          <div class="eval-actions-footer" style="margin-top: 20px;">
+            <button class="btn-secondary" onclick="returnToPhase4()">
+              <span>⬅️ Ajuster les Risques</span>
+            </button>
+            <button class="btn-primary" onclick="generateOfficialReport()">
+              <span>📄 Visualiser le Rapport d'Analyse Complet</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PHASE 6 : RAPPORT D'ANALYSE PRÉLIMINAIRE OFFICIEL -->
+    <section id="phase-6" style="display: none;">
+      <div class="report-sheet">
+        <div class="report-header-banner">
+          <div>
+            <div style="font-size: 11px; font-weight: 800; color: var(--iq-cyan); letter-spacing: 1px; text-transform: uppercase;">
+              Investissement Québec • Bureau de l'IA & Direction des TI
+            </div>
+            <h2 class="report-brand-title" id="rpt-title">Rapport d'Analyse Préliminaire de Faisabilité & Risques IA</h2>
+            <p style="font-size: 13px; color: var(--text-muted);" id="rpt-subtitle">Évaluation formelle pour arbitrage au Comité de Gouvernance IA</p>
+          </div>
+          <div>
+            <span class="report-badge-status" id="rpt-gate-badge">HOMOLOGATION CONDITIONNELLE</span>
+          </div>
+        </div>
+
+        <!-- KPIs Sommaire -->
+        <div class="report-summary-grid">
+          <div class="report-kpi-card">
+            <div class="report-kpi-val" id="rpt-score-val">76.4 %</div>
+            <div class="report-kpi-lbl">Score TOPSIS Global</div>
+          </div>
+          <div class="report-kpi-card">
+            <div class="report-kpi-val" id="rpt-val-val">3.6 / 4</div>
+            <div class="report-kpi-lbl">Valeur d'Affaires</div>
+          </div>
+          <div class="report-kpi-card">
+            <div class="report-kpi-val" id="rpt-tech-val">3.2 / 4</div>
+            <div class="report-kpi-lbl">Faisabilité Technique</div>
+          </div>
+          <div class="report-kpi-card">
+            <div class="report-kpi-val" id="rpt-risk-val" style="color: var(--iq-red);">MODÉRÉ</div>
+            <div class="report-kpi-lbl">Niveau de Risque Loi 25</div>
+          </div>
+        </div>
+
+        <!-- Section 1 : Fiche signalétique du projet -->
+        <h3 class="report-section-title">1. Renseignements Généraux sur l'Initiative</h3>
+        <table class="report-table">
+          <tr>
+            <th style="width: 25%;">Titre de l'initiative</th>
+            <td id="rpt-proj-name">--</td>
+            <th style="width: 25%;">Direction porteuse</th>
+            <td id="rpt-proj-dir">--</td>
+          </tr>
+          <tr>
+            <th>Porteur d'affaires</th>
+            <td id="rpt-proj-owner">--</td>
+            <th>Typologie de solution</th>
+            <td id="rpt-proj-type">--</td>
+          </tr>
+          <tr>
+            <th>Date d'évaluation</th>
+            <td id="rpt-proj-date">--</td>
+            <th>Évaluateur</th>
+            <td>Bureau de l'IA & Escouade IA</td>
+          </tr>
+        </table>
+
+        <!-- Section 2 : Filtre Préliminaire d'Appétit au Risque DGIR 2026 (Grille officielle du risque) -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin: 24px 0 12px 0;">
+          <h3 class="report-section-title" style="margin: 0;">2. Filtre Préliminaire d'Appétit au Risque DGIR 2026 (Grille Officielle du Risque)</h3>
+          <span id="rpt-dgir-badge" style="font-size: 11.5px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;">
+            🟢 Conforme à l'Appétit au Risque
+          </span>
+        </div>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px;">
+          Arrimage rigoureux avec la Grille d'évaluation cas usage de la Direction Générale de la Gestion Intégrée des Risques (DGIR 2026).
+        </p>
+        <table class="dgir-table" id="rpt-dgir-table">
+          <thead>
+            <tr>
+              <th style="width: 18%;">Thématique IA</th>
+              <th style="width: 28%;">Sous-risques IA & Amplification Entreprise</th>
+              <th style="width: 38%;">Choix de Positionnement Corporatif (Grille du Risque)</th>
+              <th style="width: 16%; text-align: center;">Cible & Statut</th>
+            </tr>
+          </thead>
+          <tbody id="rpt-dgir-tbody">
+            <!-- Rempli dynamiquement avec les 5 thématiques et cases cochées ☑ -->
+          </tbody>
+        </table>
+
+        <!-- Attestation de passage du filtre du risque -->
+        <div class="risk-appetite-pass-card" id="rpt-risk-pass-card">
+          <div class="risk-pass-icon">✅</div>
+          <div class="risk-pass-content">
+            <div class="risk-pass-title">FILTRE D'APPÉTIT AU RISQUE DGIR 2026 : PASSÉ AVEC SUCCÈS</div>
+            <div class="risk-pass-text">
+              L'initiative a franchi avec succès le filtre préliminaire d'appétit au risque de l'équipe du risque (DGIR 2026). Les caractéristiques opérationnelles de la solution et son niveau d'encadrement permettent sa prise en charge officielle par le Bureau de l'IA.
+            </div>
+            <div class="risk-pass-badges">
+              <span class="pass-pill">✔ Thématique 1 : Données qualifiées</span>
+              <span class="pass-pill">✔ Thématique 2 : Outil corporatif audité</span>
+              <span class="pass-pill">✔ Thématique 3 : Human-in-the-loop strict</span>
+              <span class="pass-pill">✔ Thématique 4 : Risque réputationnel sous contrôle</span>
+              <span class="pass-pill">✔ Thématique 5 : Résilience RTO validée</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3 : Synthèse de l'entrevue adaptative -->
+        <h3 class="report-section-title">3. Synthèse de l'Entrevue de Cadrage & Architecture Préliminaire</h3>
+        <table class="report-table" id="rpt-interview-table">
+          <thead>
+            <tr>
+              <th style="width: 45%;">Point d'attention qualifié</th>
+              <th>Constat & Orientation Technique</th>
+            </tr>
+          </thead>
+          <tbody id="rpt-interview-tbody"></tbody>
+        </table>
+
+        <!-- Section 4 : Évaluation par Axe de Faisabilité -->
+        <h3 class="report-section-title">4. Synthèse par Axe de Faisabilité (Moyennes & Pondérations)</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Axe d'Évaluation</th>
+              <th>Poids Relatif</th>
+              <th>Note (0-4)</th>
+              <th>Appréciation Officielle</th>
+            </tr>
+          </thead>
+          <tbody id="rpt-axes-tbody"></tbody>
+        </table>
+
+        <!-- Section 5 : Grille Complète de Faisabilité (28 Critères - Grille DD) -->
+        <h3 class="report-section-title">5. Grille de Faisabilité Détaillée Complétée (28 Critères — Grille DD)</h3>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px;">
+          Relevé exhaustif des 28 critères officiels de la Grille DD avec notes et justifications motivées pour le Comité IA.
+        </p>
+        <table class="feasibility-detail-table" id="rpt-feasibility-table">
+          <thead>
+            <tr>
+              <th style="width: 45px; text-align: center;">#</th>
+              <th style="width: 33%;">Critère de Faisabilité Officiel</th>
+              <th style="width: 75px; text-align: center;">Note (0-4)</th>
+              <th>Justification Officielle Motivée</th>
+            </tr>
+          </thead>
+          <tbody id="rpt-feasibility-tbody">
+            <!-- Rempli dynamiquement avec les 28 critères -->
+          </tbody>
+        </table>
+
+        <!-- Section 6 : Livrables Officiels Générés pour le Comité IA -->
+        <h3 class="report-section-title">6. Livrables Officiels Générés pour le Comité de Gouvernance IA</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 18px 0;" id="deliverables-container">
+          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: var(--radius-md); padding: 18px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase;">Gabarit Officiel Complété</div>
+              <h4 style="font-size: 14px; font-weight: 700; color: #14532D; margin: 2px 0;">📊 Grille de Faisabilité (Excel)</h4>
+              <p style="font-size: 12px; color: #166534;" id="excel-desc-text">28 critères notés, sous-totaux par axe et recommandation GO / No-Go</p>
+            </div>
+            <button id="btn-download-excel" onclick="downloadDeliverable('excel')" class="btn-primary" style="background: #16A34A; padding: 10px 16px; font-size: 13px; cursor: pointer;">
+              <span>⬇️ Télécharger .xlsx</span>
+            </button>
+          </div>
+
+          <div style="background: #EFF6FF; border: 1.5px solid #93C5FD; border-radius: var(--radius-md); padding: 18px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 11px; font-weight: 800; color: #1E40AF; text-transform: uppercase;">Mémo Exécutif d'Arbitrage</div>
+              <h4 style="font-size: 14px; font-weight: 700; color: #1E3A8A; margin: 2px 0;">📝 Mémo Décisionnel Comité IA (Word)</h4>
+              <p style="font-size: 12px; color: #1E40AF;" id="word-desc-text">Sommaire exécutif, valeur démontrée, RTO et matrice de mitigation</p>
+            </div>
+            <button id="btn-download-word" onclick="downloadDeliverable('word')" class="btn-primary" style="background: #2563EB; padding: 10px 16px; font-size: 13px; cursor: pointer;">
+              <span>⬇️ Télécharger .docx</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 36px;">
+          <button class="btn-secondary" onclick="window.print()">
+            <span>🖨️ Imprimer / Sauvegarder en PDF</span>
+          </button>
+          <a href="/" class="btn-primary">
+            <span>🏢 Visualiser dans la Tour 3D</span>
+            <span>➔</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- VOLET LATÉRAL DROIT : COPILOTE GOUVERNANCE IA INTERACTIF -->
+  <aside class="copilot-sidebar" id="copilot-sidebar">
+    <!-- En-tête Copilote avec sélecteur de voix -->
+    <div class="copilot-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="position: relative;">
+          <img src="mentor_avatar.jpg" alt="Analyste IA" class="copilot-avatar">
+          <span class="copilot-online-dot" title="En ligne"></span>
+        </div>
+        <div>
+          <div class="copilot-title-row">
+            <h3 class="copilot-title">Copilote Gouvernance IA</h3>
+            <span class="copilot-badge">STORM IA</span>
+          </div>
+          <p class="copilot-sub">Bureau de l'IA & Escouade IA — Investissement Québec</p>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <button class="copilot-btn-icon" id="copilot-voice-toggle-btn" onclick="toggleVoiceSpeech()" title="Activer / Désactiver la voix (muet par défaut)">
+          <span id="copilot-voice-icon">🔇</span>
+        </button>
+        <button class="copilot-btn-icon" onclick="toggleCopilotCollapse()" title="Réduire / Agrandir" id="btn-copilot-toggle">
+          <span>⤢</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barre d'état contextuelle -->
+    <div class="copilot-context-bar">
+      <span style="font-size: 11px; color: #1E40AF; font-weight: 700;">🎯 Contexte actif :</span>
+      <span id="copilot-context-name" style="font-size: 11px; color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 250px;">Nouveau cas d'usage</span>
+    </div>
+
+    <!-- Puces de suggestions rapides -->
+    <div class="copilot-quick-chips">
+      <button class="copilot-chip" onclick="quickPromptCopilot('prefill_clarif')">
+        <span>🪄 Pré-compléter les questions</span>
+      </button>
+      <button class="copilot-chip" onclick="quickPromptCopilot('prefill_grid')">
+        <span>📋 Pré-compléter la grille</span>
+      </button>
+      <button class="copilot-chip" onclick="quickPromptCopilot('loi25')">
+        <span>🛡️ Évaluer risque Loi 25</span>
+      </button>
+      <button class="copilot-chip" onclick="quickPromptCopilot('roi')">
+        <span>📊 Formuler un gain ROI</span>
+      </button>
+    </div>
+
+    <!-- Zone de messages de conversation -->
+    <div class="copilot-messages" id="copilot-messages">
+      <!-- Message d'accueil initial -->
+      <div class="copilot-msg copilot-msg-assistant">
+        <div class="copilot-msg-header">
+          <span class="copilot-msg-sender">Analyste en Gouvernance IA</span>
+          <span class="copilot-msg-time">À l'instant</span>
+        </div>
+        <div class="copilot-msg-bubble">
+          <p style="margin: 0 0 6px 0;">Bonjour ! Je suis votre <strong>Copilote du Bureau de l'IA d'Investissement Québec</strong>.</p>
+          <p style="margin: 0 0 6px 0;">Je suis là pour vous aider à :</p>
+          <ul style="margin: 4px 0 8px 18px; padding: 0; line-height: 1.5;">
+            <li><strong>Discuter de votre cas d'usage</strong> et formuler vos besoins métiers.</li>
+            <li><strong>Pré-compléter vos questions</strong> et calibrer votre grille de faisabilité.</li>
+            <li><strong>Identifier les lacunes avec bienveillance</strong> : <em>on n'exclut aucun projet</em>, le Bureau de l'IA vous accompagne pour mitiger chaque point d'attention.</li>
+          </ul>
+          <p style="margin: 0; font-size: 12.5px; color: #1E3A8A;">Décrivez votre projet ci-dessous ou cliquez sur un bouton d'action rapide !</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicateur de réflexion en cours -->
+    <div id="copilot-typing-indicator" style="display: none; padding: 8px 16px; font-size: 12px; color: #475569; background: #F1F5F9; border-top: 1px solid #E2E8F0; align-items: center; gap: 8px;">
+      <span class="copilot-dots-anim"><span>•</span><span>•</span><span>•</span></span>
+      <span>L'Analyste IA réfléchit et évalue votre cas d'usage...</span>
+    </div>
+
+    <!-- Zone de saisie Copilote avec micro intégré et envoi -->
+    <div class="copilot-input-bar">
+      <textarea id="copilot-input-text" rows="2" placeholder="Décrivez votre idée, posez une question ou dictez au micro..." onkeydown="handleCopilotKeydown(event)"></textarea>
+      <button type="button" class="copilot-mic-btn" id="copilot-mic-btn" title="Dicter votre réponse au micro (fr-CA)" onclick="toggleSpeechRecognition()">
+        <span>🎙️</span>
+      </button>
+      <button type="button" class="copilot-send-btn" id="copilot-send-btn" title="Envoyer" onclick="handleCopilotSubmit(event)">
+        <span>➔</span>
+      </button>
+    </div>
+    <div class="copilot-footer-hint">
+      <span>Appuyez sur <kbd>Entrée</kbd> pour envoyer · <kbd>Maj+Entrée</kbd> pour un saut de ligne</span>
+    </div>
+  </aside>
+</div>
+
+<script src="evaluation_form.js?v=4.3"></script>
+</body>
+</html>

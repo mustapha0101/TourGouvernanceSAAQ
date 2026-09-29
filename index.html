@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investissement Québec — L'Ascenseur du Cycle de Vie des Initiatives IA</title>
+  
+  <!-- Polices Google Fonts Premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Styles du Cycle de Vie de la Tour IQ -->
+  <link rel="stylesheet" href="style.css?v=5.3">
+</head>
+<body class="narrative-closed">
+
+  <!-- Conteneur 3D WebGL plein écran -->
+  <div id="webgl-canvas-container"></div>
+
+  <!-- Barre Supérieure : Marque & Commandes Principales Épurées -->
+  <header class="top-nav-bar">
+    <div class="brand-card">
+      <div class="brand-badge">
+        <div class="dot"></div>
+        <span>INVESTISSEMENT QUÉBEC • GOUVERNANCE DE L'IA</span>
+      </div>
+      <h1 class="brand-title">Cycle des initiatives IA</h1>
+    </div>
+
+    <!-- Console de pilotage épurée -->
+    <div class="elevator-top-controller">
+      <!-- Bouton d'accès rapide aux étages sur smartphone / tablette -->
+      <button id="btn-toggle-mobile-elevator" class="ctrl-btn mobile-only-btn" title="Afficher ou masquer la liste des étages">
+        <span>🛗 Étages</span>
+      </button>
+
+
+      <!-- Badge de Profil Apprenant Personnalisé -->
+      <button id="btn-top-profile-badge" class="ctrl-btn profile-badge" title="Personnaliser votre nom et rôle d'affaires pour adapter le discours du Conseiller IA" onclick="openProfileModal()">
+        <span class="profile-icon">👤</span>
+        <span id="top-profile-name">Apprenant</span>
+        <span class="profile-role-tag" id="top-profile-role">Directeur d'affaires</span>
+        <span class="profile-arrow">▾</span>
+      </button>
+
+      <!-- Bouton d'accès au Module d'Évaluation Intelligente -->
+      <a href="/evaluation.html" class="ctrl-btn eval-btn" title="Ouvrir le module d'évaluation de faisabilité et d'analyse de risques IA" style="background: linear-gradient(135deg, #0284c7 0%, #1e2977 100%); color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); font-weight: 700;">
+        <span>📝 Évaluer un Cas IA</span>
+      </a>
+
+      <!-- Bouton d'accès à l'Atelier Éthique, Dilemmes & Garde-fous (Masqué pour l'instant) -->
+      <a href="/formation_ethique_dilemmes_ia.html" class="ctrl-btn ethique-btn" title="Atelier Socratique : Éthique, Dilemmes Moraux et Garde-fous de l'IA (Bureau de l'IA)" style="display: none;">
+        <span>⚖️ Éthique & Garde-Fous</span>
+      </a>
+
+      <!-- Bouton d'accès au Playbook A.G.E.N.T. -->
+      <a href="/coach_playbook_agent.html" class="ctrl-btn harvard-btn" title="Atelier de Coconception : Playbook A.G.E.N.T." style="background: linear-gradient(135deg, #002060 0%, #1e293b 100%); color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.35); font-weight: 700; box-shadow: 0 2px 10px rgba(0, 32, 96, 0.35);">
+        <span>🏛️ Playbook A.G.E.N.T.</span>
+      </a>
+
+      <!-- Bouton Vue d'ensemble de la tour -->
+      <button id="btn-overview" class="ctrl-btn" title="Vue panoramique de la tour">
+        <span>🏢 Vue Tour</span>
+      </button>
+
+      <!-- Bouton Quitter -->
+      <button id="btn-logout" class="ctrl-btn logout-btn" title="Quitter la session sécurisée" onclick="handleLogout()">
+        <span>🔒 Quitter</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MODAL D'EMBARQUEMENT & DÉCLENCHEUR VOCAL DE L'EXPÉRIENCE GUIDÉE PAR LE MENTOR -->
+  <div id="experience-welcome-overlay" class="experience-welcome-overlay">
+    <div class="welcome-card">
+      <button class="welcome-close-corner" onclick="dismissWelcomeOverlay()" title="Fermer et explorer la tour 3D librement">✕</button>
+      <div class="welcome-header-badge">🏛️ INVESTISSEMENT QUÉBEC • BUREAU DE L'IA</div>
+      <div class="welcome-avatar-wrap">
+        <img src="mentor_avatar.jpg" alt="Conseiller Bureau de l'IA" class="welcome-avatar-img">
+        <span class="welcome-online-dot"></span>
+        <div class="welcome-sound-ring"></div>
+      </div>
+
+      <!-- Histogramme visuel de voix / égaliseur sonore actif quand Antoine ou Sylvie parle -->
+      <div id="mentor-voice-visualizer" class="voice-equalizer-bars" style="display: none;">
+        <span class="eq-bar bar-1"></span>
+        <span class="eq-bar bar-2"></span>
+        <span class="eq-bar bar-3"></span>
+        <span class="eq-bar bar-4"></span>
+        <span class="eq-bar bar-5"></span>
+        <span class="eq-bar bar-6"></span>
+        <span class="eq-bar bar-7"></span>
+        <span class="visualizer-voice-label">Antoine vous parle</span>
+      </div>
+
+      <!-- ÉTAPE 1 : IDENTIFICATION APPRENANT & RÔLE -->
+      <div id="welcome-step-identification">
+        <h2 class="welcome-title">Bienvenue au Bureau de l'IA</h2>
+        <p class="welcome-text">
+          Je suis <strong>Antoine</strong>, votre Mentor en Gouvernance de l'IA d'Investissement Québec. Veuillez renseigner votre identité et votre direction pour débuter votre accompagnement.
+        </p>
+
+        <div class="welcome-form-grid">
+          <div class="welcome-form-group">
+            <label class="welcome-field-label" for="welcome-name-input">
+              <span>👤</span> Votre Prénom / Nom :
+            </label>
+            <input 
+              type="text" 
+              id="welcome-name-input" 
+              class="welcome-form-input" 
+              placeholder="Votre prénom ou nom" 
+              value="" 
+              maxlength="40"
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="welcome-form-group">
+            <label class="welcome-field-label" for="welcome-role-input">
+              <span>💼</span> Votre Rôle / Direction Métier :
+            </label>
+            <input 
+              type="text" 
+              id="welcome-role-input" 
+              class="welcome-form-input" 
+              placeholder="Ex: Direction du Financement, Conseiller d'affaires..." 
+              value="" 
+              maxlength="80"
+            />
+          </div>
+        </div>
+
+        <!-- SÉLECTEUR OFFICIEL DE VOIX DU MENTOR EN GOUVERNANCE IA -->
+        <div class="welcome-form-group" style="margin-top: 14px;">
+          <label class="welcome-field-label">
+            <span>🎙️</span> Voix du Mentor / Conseiller en IA :
+          </label>
+          <div class="mentor-voice-buttons-group">
+            <button type="button" class="btn-mentor-voice-card active" id="btn-voice-antoine" onclick="selectMentorVoice('Antoine')" title="Choisir Antoine (Voix masculine québécoise officielle)">
+              <div class="voice-card-avatar">👨</div>
+              <div class="voice-card-info">
+                <div class="voice-card-title">Antoine</div>
+                <div class="voice-card-subtitle">Voix masculine québécoise • Conseiller officiel IQ</div>
+              </div>
+              <div class="voice-card-radio-circle">✓</div>
+            </button>
+
+            <button type="button" class="btn-mentor-voice-card" id="btn-voice-sylvie" onclick="selectMentorVoice('Sylvie')" title="Choisir Sylvie (Voix féminine québécoise officielle)">
+              <div class="voice-card-avatar">👩</div>
+              <div class="voice-card-info">
+                <div class="voice-card-title">Sylvie</div>
+                <div class="voice-card-subtitle">Voix féminine québécoise • Conseillère officielle IQ</div>
+              </div>
+              <div class="voice-card-radio-circle">✓</div>
+            </button>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <button type="button" class="btn-start-guided-tour" onclick="proceedToWelcomeChoices()">
+            <span>Accéder au Bureau de l'IA</span>
+            <span class="btn-arrow">➔</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ÉTAPE 2 : CHOIX DU PARCOURS D'ORIENTATION -->
+      <div id="welcome-step-choices" style="display: none; width: 100%;">
+        <h2 class="welcome-title" style="margin-bottom: 6px;">Bienvenue <span id="welcome-user-display-name" style="color: #0284c7;">collègue</span> !</h2>
+        <p class="welcome-text" style="margin-bottom: 20px;">
+          Choisissez votre parcours d'accompagnement pour débuter :
+        </p>
+
+        <div class="welcome-choices-container">
+          
+          <!-- 1. Capsule d'initiation (En première position) -->
+          <button type="button" class="welcome-choice-card option-tour highlighted" onclick="startMentorOrchestratedExperience(0)">
+            <div class="choice-card-icon">🏛️</div>
+            <div class="choice-card-body">
+              <div class="choice-card-header">
+                <strong class="choice-card-title">Capsule d'initiation — Le parcours en 6 étapes</strong>
+                <span class="choice-card-tag tag-tour">RECOMMANDÉ</span>
+              </div>
+              <p class="choice-card-desc">
+                Visite guidée immersive de la Tour 3D avec votre Mentor pour maîtriser le cycle de gouvernance d'Investissement Québec.
+              </p>
+            </div>
+            <div class="choice-card-arrow">➔</div>
+          </button>
+
+          <!-- 2. Atelier Playbook A.G.E.N.T. (En deuxième position sans mention tournée des directions) -->
+          <a href="/coach_playbook_agent.html" class="welcome-choice-card option-harvard" style="text-decoration: none;">
+            <div class="choice-card-icon" style="background: linear-gradient(135deg, #002060 0%, #1e293b 100%); color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 32, 96, 0.3);">🏛️</div>
+            <div class="choice-card-body">
+              <div class="choice-card-header">
+                <strong class="choice-card-title">Atelier Playbook A.G.E.N.T.</strong>
+                <span class="choice-card-tag" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-weight: 800;">🚀 CADRE A.G.E.N.T.</span>
+              </div>
+              <p class="choice-card-desc">
+                Accompagnement en direct par le Coach IA pour redéfinir vos flux de travail métiers (Audit, Gauge, Engineer, Navigate, Track). Export direct du gabarit Word officiel et du diaporama 16:9.
+              </p>
+            </div>
+            <div class="choice-card-arrow">➔</div>
+          </a>
+
+          <!-- 3. Déposer une Demande d'Analyse d'Initiative IA (En troisième position) -->
+          <a href="/evaluation.html" class="welcome-choice-card option-intake">
+            <div class="choice-card-icon">📝</div>
+            <div class="choice-card-body">
+              <div class="choice-card-header">
+                <strong class="choice-card-title">Déposer une Demande d'Analyse d'Initiative IA</strong>
+                <span class="choice-card-tag" style="background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; font-weight: 800;">⚡ 3 JOURS ➔ 3 MIN</span>
+              </div>
+              <p class="choice-card-desc">
+                Formulaire automatisé : complétez votre demande d'analyse supportée par l'IA et validée par l'humain. Processus accéléré de 3 jours à seulement 3 minutes !
+              </p>
+            </div>
+            <div class="choice-card-arrow">➔</div>
+          </a>
+
+          <!-- Option masquée : Atelier Socratique Éthique -->
+          <a href="/formation_ethique_dilemmes_ia.html" class="welcome-choice-card option-ethique" style="display: none; text-decoration: none;">
+            <div class="choice-card-icon" style="background: linear-gradient(135deg, #7c3aed 0%, #4338ca 100%); color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);">⚖️</div>
+            <div class="choice-card-body">
+              <div class="choice-card-header">
+                <strong class="choice-card-title">Atelier Socratique — Éthique, Dilemmes & Garde-Fous</strong>
+                <span class="choice-card-tag" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #c4b5fd; font-weight: 800;">⚖️ GOUVERNANCE IA</span>
+              </div>
+              <p class="choice-card-desc">
+                Dialogue interactif guidé par l'IA : explorez le fossé de David Hume, le dilemme du tramway et les trois écoles philosophiques pour établir vos garde-fous et votre supervision humaine.
+              </p>
+            </div>
+            <div class="choice-card-arrow">➔</div>
+          </a>
+
+        </div>
+
+        <div style="margin-top: 18px; text-align: center;">
+          <button type="button" class="btn-back-link" onclick="backToWelcomeIdentification()">
+            ◀ Modifier mes informations
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- BANNIÈRE HERO D'ÉTAPE (CENTRE HAUT) -->
+  <div id="lifecycle-hero-banner" class="lifecycle-hero-banner">
+    <div id="hero-num" class="hero-num-circle resp-bureau">0</div>
+    <div>
+      <div id="hero-tag" class="hero-tag">CYCLE DE VIE IA • ÉTAPE 0</div>
+      <h2 id="hero-name" class="hero-step-title">0. Dépôt de la demande</h2>
+      <p id="hero-role" class="hero-step-actor">Rez-de-chaussée : Lignes d'Affaires — Demandeur</p>
+    </div>
+  </div>
+
+  <!-- BARRE DU MODE IMMERSION SALLE DU BUREAU DE L'IA -->
+  <aside id="immersion-room-bar" class="immersion-room-bar hidden">
+    <div class="immersion-badge-group">
+      <span class="immersion-pulse-dot"></span>
+      <span class="immersion-title">BUREAU DE L'IA : LES 4 ÉTAPES DU TRAVAIL</span>
+    </div>
+
+    <!-- Contrôleur de visite guidée automatique des 4 sous-étapes -->
+    <div class="immersion-stepper-row">
+      <button id="btn-substep-prev" class="substep-pill-btn" title="Étape précédente">◀</button>
+      <button id="btn-substep-1" class="substep-pill-btn active" onclick="goToRoomSubStep(0)">
+        <span>1.1</span> Valeur
+      </button>
+      <button id="btn-substep-2" class="substep-pill-btn" onclick="goToRoomSubStep(1)">
+        <span>1.2</span> Accompagnement
+      </button>
+      <button id="btn-substep-3" class="substep-pill-btn" onclick="goToRoomSubStep(2)">
+        <span>1.3</span> Faisabilité & Risques
+      </button>
+      <button id="btn-substep-4" class="substep-pill-btn" onclick="goToRoomSubStep(3)">
+        <span>1.4</span> Sélection Outil IA
+      </button>
+      <button id="btn-substep-next" class="substep-pill-btn" title="Étape suivante">▶</button>
+      
+      <button id="btn-room-tour-toggle" class="tour-play-pause-btn" title="Pause / Reprendre la visite guidée">
+        <span id="room-tour-icon">⏸</span>
+        <span id="room-tour-text">Auto</span>
+      </button>
+    </div>
+
+    <button id="btn-exit-room" class="immersion-exit-btn" title="Quitter la pièce et revenir à la vue d'ensemble">
+      <span>⬅️</span>
+      <span>Sortir (Vue Tour)</span>
+    </button>
+  </aside>
+
+  <!-- TOILE DE FOND MOBILE POUR L'ASCENSEUR -->
+  <div id="elevator-mobile-backdrop" class="elevator-mobile-backdrop hidden"></div>
+
+  <!-- SÉLECTEUR VERTICAL D'ASCENSEUR (LES 7 ÉTAPES DU CYCLE DE VIE) -->
+  <nav class="elevator-sidebar" id="elevator-sidebar">
+    <div class="elevator-header">
+      <div class="elevator-led-screen">
+        <span class="led-arrow">▲</span>
+        <span id="led-floor-num">0</span>
+        <span id="led-step-name">DÉPÔT OCTOPUS</span>
+      </div>
+      <div class="elevator-sub-label">ASCENSEUR INITIATIVE IA</div>
+      <button id="btn-close-mobile-elevator" class="elevator-mobile-close-btn mobile-only-btn" title="Fermer le menu des étages">✕</button>
+    </div>
+    
+    <div class="elevator-buttons-col">
+      <button class="elevator-floor-btn resp-ti" data-step="6" title="Étage 6 : Exploitation et surveillance (TI)">
+        <span class="floor-num-badge">6</span>
+        <span class="floor-text-wrap">
+          <span class="floor-main-name">Exploitation & Surveillance</span>
+          <span class="floor-actor-tag">TI (En continu)</span>
+        </span>
+        <span class="floor-light-indicator"></span>
+      </button>
+      
+      <button class="elevator-floor-btn resp-shared" data-step="5" title="Étage 5 : Déploiement contrôlé (TI + Bureau IA)">
+        <span class="floor-num-badge">5</span>
+        <span class="floor-text-wrap">
+          <span class="floor-main-name">Déploiement contrôlé</span>
+          <span class="floor-actor-tag">Bureau IA + TI + Affaires</span>
+        </span>
+        <span class="floor-light-indicator"></span>
+      </button>
+      
+      <button class="elevator-floor-btn resp-shared" data-step="4" title="Étage 4 : Développement encadré - Pilote (Bureau IA + TI + affaires)">
+        <span class="floor-num-badge">4</span>
+        <span class="floor-text-wrap">
+          <span class="floor-main-name">Développement encadré (Pilote)</span>
+          <span class="floor-actor-tag">Bureau IA + TI + Affaires</span>
+        </span>
+        <span class="floor-light-indicator"></span>
+      </button>
+      
+      <button class="elevator-floor-btn resp-shared" data-step="3" title="Étage 3 : Décision Go / No Go (Comité de gouvernance IA / CD)">
+        <span class="floor-num-badge">3</span>
+        <span class="floor-text-wrap">
+          <span class="floor-main-name">Décision Go / No Go</span>
+          <span class="floor-actor-tag">Bureau IA / Comité IA / CD</span>
+        </span>
+        <span class="floor-light-indicator"></span>
+      </button>
+      
+      <button class="elevator-floor-btn resp-shared" data-step="2" title="Étage 2 : Évaluation des risques et priorisation (Bureau IA + expertises)">
+        <span class="floor-num-badge">2</span>
+        <span class="floor-text-wrap">
+          <span class="floor-main-name">Risques & Priorisation</span>
+          <span class="floor-actor-tag">Bureau IA + Expertises</span>
+        </span>
+        <span class="floor-light-indicator"></span>
+      </button>
+      
+      <button class="elevator-floor-btn resp-bureau" data-step="1" title="Étage 1 : Qualification (Bureau IA)">
+        <span class="floor-num-badge">1</span>
+        <span class="floor-text-wrap">
+          <span class="floor-main-name">Qualification</span>
+          <span class="floor-actor-tag">Bureau IA</span>
+        </span>
+        <span class="floor-light-indicator"></span>
+      </button>
+      
+      <button class="elevator-floor-btn resp-bureau active" data-step="0" title="Rez-de-chaussée : Dépôt de la demande (Demandeur / Octopus)">
+        <span class="floor-num-badge">0</span>
+        <span class="floor-text-wrap">
+          <span class="floor-main-name">Dépôt de la demande</span>
+          <span class="floor-actor-tag">Demandeur • Octopus</span>
+        </span>
+        <span class="floor-light-indicator"></span>
+      </button>
+    </div>
+
+    <!-- Commandes d'ambiance et visite guidée -->
+    <div class="elevator-actions-panel">
+      <button id="btn-auto-tour" class="elevator-tool-btn" title="Lancer le cycle de vie complet de l'ascenseur en automatique">
+        <span id="auto-tour-icon">▶</span>
+        <span id="auto-tour-text">Visite Guidée</span>
+      </button>
+      <button id="btn-sound-toggle" class="elevator-tool-btn" title="Activer / Couper la cloche d'ascenseur (Ding)">
+        <span>🔔</span>
+        <span>Son Carillon</span>
+      </button>
+      <button id="btn-video-autoplay-toggle" class="elevator-tool-btn active-video" title="Activer / Couper le lancement automatique de la capsule vidéo Synthesia" onclick="toggleVideoAutoPlay()" style="grid-column: span 2;">
+        <span id="video-autoplay-icon">🎬</span>
+        <span id="video-autoplay-label">Vidéo Auto : Active</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PANNEAU NARRATIF D'INFORMATION (Fermé par défaut pour dégager la vue 3D) -->
+  <aside id="narrative-panel" class="narrative-panel hidden">
+    <div class="panel-header">
+      <div class="panel-header-content">
+        <span id="panel-resp-tag" class="panel-step-badge">RESPONSABILITÉ BUREAU IA</span>
+        <h2 id="panel-title" class="panel-title">0. Dépôt de la demande</h2>
+        <p id="panel-subtitle" class="panel-subtitle">Rez-de-chaussée : Lignes d'Affaires • Demandeur</p>
+      </div>
+      <button id="panel-close" class="panel-close-btn" title="Fermer le volet">✕</button>
+    </div>
+
+    <div id="panel-body-content" class="panel-body">
+      <!-- Injecté dynamiquement par main.js -->
+    </div>
+
+    <div class="panel-footer">
+      <button class="panel-nav-btn" id="panel-prev-btn">
+        <span>⬇️ Jalon Précédent</span>
+      </button>
+      <button class="panel-nav-btn btn-next" id="panel-next-btn">
+        <span>Jalon Suivant ⬆️</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- BOUTON FLOTTANT POUR ROUVRIR LA FICHE JALON QUAND ELLE EST FERMÉE -->
+  <button id="btn-reopen-narrative" class="btn-reopen-narrative" title="Afficher la fiche descriptive du jalon">
+    <span class="reopen-icon">📋</span>
+    <span class="reopen-text">Fiche Détails</span>
+    <span class="reopen-arrow">◀</span>
+  </button>
+
+  <!-- STATION MENTOR DU BUREAU DE L'IA (AVATAR EXÉCUTIF & CONVERSATION VOCALE) -->
+  <div id="copilot-coach-hud" class="copilot-coach-hud">
+    <!-- Bulle de dialogue et de guidage en direct du coach (dépliable / repliable) -->
+    <div id="coach-speech-bubble" class="coach-speech-bubble hidden">
+      <div class="coach-bubble-header">
+        <div class="coach-badge">
+          <span class="coach-pulse-dot"></span>
+          <span id="coach-bubble-tag">MENTOR BUREAU IA • GUIDAGE CONSEIL</span>
+        </div>
+        <button id="coach-bubble-close" class="coach-close-btn" title="Masquer la bulle de texte" onclick="toggleCoachBubble(false)">✕</button>
+      </div>
+
+      <div id="coach-speech-text" class="coach-speech-text">
+        Bonjour ! Je suis votre conseiller en gouvernance IA du Bureau de l'IA. Cliquez sur <strong>« Parler au Mentor »</strong> pour échanger de vive voix ou utilisez les actions rapides !
+      </div>
+
+      <div id="coach-actions-box" class="coach-actions-box">
+        <button class="coach-action-pill" onclick="executeCopilotAction({type:'NAVIGATE_STEP', step:1})">🏢 Qualification Bureau IA</button>
+        <button class="coach-action-pill" onclick="executeCopilotAction({type:'NAVIGATE_STEP', step:5})">🚀 Building des TI</button>
+        <button class="coach-action-pill" onclick="executeCopilotAction({type:'OPEN_VIDEO'})">🎬 Capsule Vidéo</button>
+      </div>
+
+      <!-- Bandeau de reprise intelligente après interruption par une question -->
+      <div id="tour-interrupted-banner" class="tour-interrupted-banner hidden">
+        <div class="banner-content">
+          <span class="banner-icon">⏸️</span>
+          <div class="banner-text">
+            <strong>Visite suspendue</strong> : <span id="banner-tour-step-name">Jalon 0</span>
+            <div id="banner-countdown-text">Reprise automatique dans 4s...</div>
+          </div>
+        </div>
+        <div class="banner-actions">
+          <button id="btn-banner-resume" class="btn-banner-action primary" onclick="resumeInterruptedPresentation()">▶ Reprendre</button>
+          <button id="btn-banner-cancel" class="btn-banner-action secondary" onclick="cancelInterruptedPresentation()">⏹ Rester ici</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Station de commande du Mentor & Avatar interactif -->
+    <div class="mentor-station-card">
+      <!-- Pilule Minimaliste Étage Mobile (Titre de l'étage seul sur smartphone) -->
+      <div class="mobile-floor-pill" id="mobile-floor-pill" onclick="toggleCoachBubble()" title="Cliquer pour afficher la synthèse de cet étage">
+        <span class="mobile-floor-icon">🛗</span>
+        <span class="mobile-floor-badge" id="mobile-floor-num">0</span>
+        <span class="mobile-floor-name" id="mobile-floor-title">Dépôt de la demande</span>
+      </div>
+
+      <!-- Portrait Avatar Haute Définition du Conseiller Bureau IA -->
+      <div class="mentor-avatar-container" id="btn-coach-avatar" title="Cliquer pour afficher / masquer la bulle de dialogue" onclick="toggleCoachBubble()">
+        <img src="mentor_avatar.jpg" alt="Conseiller Bureau de l'IA" class="mentor-avatar-img">
+        <div class="mentor-online-badge" title="Mentor connecté et prêt à vous conseiller"></div>
+        <div class="mentor-halo-ring"></div>
+      </div>
+
+      <!-- Informations & Rôle -->
+      <div class="mentor-info-col">
+        <div class="mentor-role-label">Conseiller Bureau IA</div>
+        <div class="mentor-status-text" id="mentor-status-indicator">À votre écoute</div>
+      </div>
+
+      <!-- Bouton d'action principal : PARLER AU MICRO -->
+      <button id="btn-voice-mic" class="btn-mentor-speak" title="Parler au micro en français (Reconnaissance vocale québécoise fr-CA)" onclick="toggleVoiceRecording()">
+        <span class="speak-mic-icon" id="mic-main-icon">🎙️</span>
+        <span class="speak-btn-text" id="mic-label">Parler au Mentor</span>
+        <div class="mic-live-bars hidden" id="mic-wave-indicator">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </button>
+
+      <!-- Bouton PAUSE / REPRENDRE la présentation en cours -->
+      <button class="btn-mentor-icon-action" id="btn-mentor-pause" title="Mettre en pause ou reprendre la présentation" onclick="toggleMentorPause()">
+        <span class="icon-label" id="mentor-pause-icon">⏸️</span>
+        <span class="btn-subtext" id="mentor-pause-label">Pause</span>
+      </button>
+
+
+
+      <!-- Bouton d'ouverture / fermeture de la bulle de texte -->
+      <button class="btn-mentor-icon-action" id="btn-toggle-bubble" title="Afficher ou masquer la bulle de texte" onclick="toggleCoachBubble()">
+        <span class="icon-label">💬</span>
+        <span class="btn-subtext">Bulle</span>
+      </button>
+
+      <!-- Bouton Clavardage complet & Gabarits -->
+      <button class="btn-mentor-icon-action" title="Ouvrir le panneau de clavardage détaillé et les gabarits" onclick="toggleChatDrawer()">
+        <span class="icon-label">📋</span>
+        <span class="btn-subtext">Chat</span>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- CAPSULE VIDÉO SYNTHESIA EN HAUT DE LA PAGE (DOCK VIDÉO HAUTE DÉFINITION) -->
+  <div id="synthesia-video-modal" class="synthesia-top-dock hidden">
+    <div class="dock-header">
+      <div class="dock-header-info">
+        <span class="dock-badge">🎬 CAPSULE VIDÉO SYNTHESIA HD</span>
+        <h3 id="synthesia-video-title" class="dock-title">0. Dépôt de la demande</h3>
+        <p id="synthesia-video-subtitle" class="dock-subtitle">Formation officielle • Investissement Québec</p>
+      </div>
+      <div class="dock-header-actions">
+        <span id="dock-status-badge" class="dock-status-badge">⏳ Capsule en cours</span>
+        <button id="btn-dock-pause" class="dock-action-btn" title="Mettre en pause ou reprendre la capsule" onclick="toggleSynthesiaPause()">
+          <span id="dock-pause-icon">⏸</span>
+        </button>
+        <button id="btn-synthesia-expand" class="dock-action-btn" title="Agrandir / Réduire le format vidéo" onclick="toggleSynthesiaExpand()">
+          <span id="expand-icon">🗖</span>
+        </button>
+        <button id="synthesia-modal-close" class="dock-action-btn close" title="Fermer la capsule vidéo" onclick="closeSynthesiaVideo()">✕</button>
+      </div>
+    </div>
+
+    <!-- Barre de progression temps réel de la capsule vidéo -->
+    <div id="dock-video-progress-bar" class="dock-video-progress-container">
+      <div id="dock-video-progress-fill" class="dock-video-progress-fill"></div>
+    </div>
+
+    <div class="dock-video-body">
+      <video id="synthesia-player" class="dock-player" controls playsinline preload="auto">
+        <source id="synthesia-source" src="" type="video/mp4">
+        Votre navigateur ne prend pas en charge la lecture de vidéos HTML5.
+      </video>
+
+      <!-- Avertissement élégant si la vidéo MP4 n'a pas encore été déposée -->
+      <div id="synthesia-placeholder" class="synthesia-placeholder hidden">
+        <div class="placeholder-icon">🎬</div>
+        <div class="placeholder-title" id="synthesia-placeholder-title">Capsule Vidéo de Formation Synthesia</div>
+        <div class="placeholder-desc" id="synthesia-placeholder-desc">
+          Script officiel rédigé par le Bureau de l'IA. Déposez votre vidéo MP4 pour lecture native.
+        </div>
+        <div class="placeholder-script-box" id="synthesia-script-preview"></div>
+        <div class="placeholder-tags">
+          <span class="tag-pill">Format : MP4 1080p</span>
+          <span class="tag-pill">Voix : Québécoise (fr-CA)</span>
+          <span class="tag-pill">Durée cible : ~75s</span>
+          <span class="tag-pill" id="synthesia-timer-pill">⏳ Défilement : 8s</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dock-footer">
+      <div class="dock-footer-file">
+        <span>📁 Fichier officiel :</span>
+        <strong id="synthesia-footer-file">Grille_faisabilite_cas_usage_IA.xlsx</strong>
+      </div>
+      <div class="dock-footer-actions">
+        <a id="synthesia-download-tool" href="#" target="_blank" class="dock-tool-link">
+          📊 Ouvrir le gabarit associé
+        </a>
+        <button id="btn-dock-next-step" class="dock-tool-link btn-dock-advance" onclick="goToNextOrchestratedStep()">
+          <span>⏭️ Jalon Suivant</span>
+          <span>➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIROIR ASSISTANT VOCAL & RAG DOCUMENTAIRE DU BUREAU DE L'IA -->
+  <aside id="ai-bot-drawer" class="ai-bot-drawer hidden">
+    <div class="bot-drawer-header">
+      <div class="bot-drawer-title-group">
+        <div class="bot-header-avatar">🤖</div>
+        <div>
+          <h3 class="bot-drawer-title">Mentor IA de Gouvernance</h3>
+          <span class="bot-drawer-status">
+            <span class="status-dot"></span> Connecté aux gabarits officiels IQ (RAG)
+          </span>
+        </div>
+      </div>
+      <div class="bot-drawer-header-actions">
+        <button id="btn-voice-toggle" class="btn-voice-toggle active" title="Activer / Couper la synthèse vocale">
+          <span id="voice-icon">🔊</span>
+          <span id="voice-text">Voix Active</span>
+        </button>
+        <button id="ai-bot-close" class="bot-close-btn" title="Fermer l'assistant">✕</button>
+      </div>
+    </div>
+
+    <!-- Bandeau de géolocalisation 3D en temps réel dans la séquence -->
+    <div id="bot-context-tracker" class="bot-context-tracker">
+      <span class="tracker-live-beacon"></span>
+      <span id="bot-context-text" class="tracker-text">📍 Jalon 0 : Dépôt • Vue Tour Globale</span>
+    </div>
+
+    <!-- Corps des messages clavardage -->
+    <div id="bot-chat-history" class="bot-chat-history">
+      <div class="bot-message bot-agent">
+        <div class="message-bubble">
+          <p><strong>Bonjour ! Je suis le Mentor Virtuel de Gouvernance IA d'Investissement Québec.</strong></p>
+          <p>Je connais votre position exacte dans la tour 3D et je peux manipuler l'ascenseur, entrer dans les salles, ouvrir les capsules vidéo Synthesia et vous guider pas à pas.</p>
+          <p>Dites-moi ce que vous souhaitez explorer ou cliquez sur les actions rapides ci-dessous :</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions rapides de pilotage & questions types de formation -->
+    <div class="bot-quick-chips">
+      <div class="chips-label">🎮 Pilotage & Questions de formation :</div>
+        <button class="bot-chip chip-action" onclick="window.location.href='/formation_ethique_dilemmes_ia.html'" style="display: none;">
+          ⚖️ Atelier Éthique & Garde-Fous
+        </button>
+        <button class="bot-chip chip-action" onclick="window.location.href='/coach_playbook_agent.html'" style="background: linear-gradient(135deg, #002060 0%, #1e293b 100%); color: white; border: 1px solid rgba(255,255,255,0.4); font-weight: 700;">
+          🏛️ Playbook A.G.E.N.T.
+        </button>
+        <button class="bot-chip chip-action" onclick="askBotQuestion('Affiche la capsule vidéo de ce jalon')">
+          🎬 Voir la vidéo
+        </button>
+        <button class="bot-chip chip-action" onclick="askBotQuestion('Entre dans la salle du Bureau de l\'IA')">
+          🏢 Entrer Bureau IA (Jalon 1)
+        </button>
+        <button class="bot-chip chip-action" onclick="askBotQuestion('Où en sommes-nous dans la séquence ?')">
+          🧭 Où sommes-nous ?
+        </button>
+        <button class="bot-chip chip-action" onclick="askBotQuestion('Passe à l\'étape suivante')">
+          ➡️ Étape Suivante
+        </button>
+        <button class="bot-chip" onclick="askBotQuestion('Comment évaluer la faisabilité technique et la valeur métier ?')">
+          📊 Faisabilité & Valeur Métier
+        </button>
+        <button class="bot-chip" onclick="askBotQuestion('Pourquoi utilise-t-on un arbre de décision avant d\'investir ?')">
+          🌳 Arbre de Décision
+        </button>
+        <button class="bot-chip" onclick="askBotQuestion('Quels sont les 11 risques de gouvernance DGIR 2026 ?')">
+          ⚖️ Les 11 Risques DGIR
+        </button>
+        <button class="bot-chip" onclick="askBotQuestion('Que faire si le cas d\'usage touche des renseignements personnels (Loi 25) ?')">
+          🛡️ Renseignements Personnels (Loi 25)
+        </button>
+        <button class="bot-chip" onclick="askBotQuestion('Quelles sont les 4 portes de décision d\'homologation AHP-TOPSIS ?')">
+          🚦 4 Portes d'Homologation
+        </button>
+      </div>
+    </div>
+
+    <!-- Champ de saisie et envoi avec dictée vocale -->
+    <form id="bot-input-form" class="bot-input-form" onsubmit="handleBotFormSubmit(event)">
+      <button type="button" id="bot-mic-input-btn" class="bot-mic-input-btn" title="Dicter vocalement votre question" onclick="toggleVoiceRecording()">
+        <span id="bot-form-mic-icon">🎙️</span>
+      </button>
+      <input type="text" id="bot-user-input" class="bot-input-field" placeholder="Posez votre question ou utilisez le micro..." autocomplete="off">
+      <button type="submit" id="bot-send-btn" class="bot-send-btn" title="Envoyer la question">
+        <span>Envoyer</span>
+        <span>➤</span>
+      </button>
+    </form>
+  </aside>
+
+  <!-- TABLEAU DE BORD EXÉCUTIF OFFICIEL : REPRODUCTION INTÉGRALE DE LA SLIDE 8 -->
+  <!-- TABLEAU DE BORD EXÉCUTIF OFFICIEL (REPLIÉ PAR DÉFAUT POUR LAISSER LA PLACE À LA 3D) -->
+  <section class="slide8-official-dashboard collapsed" id="slide8-dashboard">
+    <!-- Barre de titre et bouton toggle de la slide -->
+    <div class="slide8-top-header">
+      <div class="slide8-titles-block">
+        <h2 class="slide8-main-title">Cycle de vie des initiatives IA</h2>
+        <p class="slide8-sub-title">De la demande à la mise en production — le parcours cible respecte la politique IA.</p>
+      </div>
+      <div class="slide8-header-tools">
+        <span class="active-step-badge" id="active-step-badge">Jalon Actif : 0 • Dépôt</span>
+        <button id="btn-toggle-dashboard" class="btn-toggle-dashboard" title="Afficher ou masquer la diapositive officielle complète">
+          <span id="toggle-icon">▲</span>
+          <span id="toggle-label">📊 Afficher le cycle complet</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Grille des 7 Colonnes Officielles (0 à 6) -->
+    <div class="slide8-columns-grid">
+      <!-- 0 : Dépôt de la demande -->
+      <div class="slide8-card-col active" data-step="0">
+        <div class="card-num-circle resp-bureau">0</div>
+        <div class="card-step-title">Dépôt de la demande</div>
+        <div class="card-actor">Demandeur</div>
+        <div class="card-details">
+          Requête de service (formulaire Octopus)<br>
+          Besoin et valeur attendue
+        </div>
+        <div class="card-status-flag">EN TRANSIT</div>
+      </div>
+
+      <!-- 1 : Qualification -->
+      <div class="slide8-card-col" data-step="1">
+        <div class="card-num-circle resp-bureau">1</div>
+        <div class="card-step-title">Qualification</div>
+        <div class="card-actor">Bureau IA</div>
+        <div class="card-details">
+          Analyse de la valeur et faisabilité
+        </div>
+        <div class="card-status-flag">EN ATTENTE</div>
+      </div>
+
+      <!-- 2 : Évaluation des risques et priorisation -->
+      <div class="slide8-card-col" data-step="2">
+        <div class="card-num-circle resp-shared">2</div>
+        <div class="card-step-title">Évaluation des risques et priorisation</div>
+        <div class="card-actor">Bureau IA + expertises</div>
+        <div class="card-details">
+          Risques, PRP, cybersécurité<br>
+          Priorisation portefeuille<br>
+          Conditions d'usage
+        </div>
+        <div class="card-status-flag">EN ATTENTE</div>
+      </div>
+
+      <!-- 3 : Décision Go / No Go -->
+      <div class="slide8-card-col" data-step="3">
+        <div class="card-num-circle resp-shared">3</div>
+        <div class="card-step-title">Décision Go / No Go</div>
+        <div class="card-actor">Bureau IA / Comité de gouvernance IA / CD</div>
+        <div class="card-details">
+          Approbation, refus, conditions ou escalade
+        </div>
+        <div class="card-status-flag">EN ATTENTE</div>
+      </div>
+
+      <!-- 4 : Développement encadré (Pilote) -->
+      <div class="slide8-card-col" data-step="4">
+        <div class="card-num-circle resp-shared">4</div>
+        <div class="card-step-title">Développement encadré (Pilote)</div>
+        <div class="card-actor">Bureau IA + TI + affaires</div>
+        <div class="card-details">
+          Expérimentation encadrée<br>
+          Bilan valeur-risques
+        </div>
+        <div class="card-status-flag">EN ATTENTE</div>
+      </div>
+
+      <!-- 5 : Déploiement contrôlé -->
+      <div class="slide8-card-col" data-step="5">
+        <div class="card-num-circle resp-shared">5</div>
+        <div class="card-step-title">Déploiement contrôlé</div>
+        <div class="card-actor">Bureau IA + TI + affaires</div>
+        <div class="card-details">
+          Mise en production, intégration, adoption, accompagnement, encadrement
+        </div>
+        <div class="card-status-flag">EN ATTENTE</div>
+      </div>
+
+      <!-- 6 : Exploitation et surveillance -->
+      <div class="slide8-card-col" data-step="6">
+        <div class="card-num-circle resp-ti">6</div>
+        <div class="card-step-title color-ti">Exploitation et surveillance</div>
+        <div class="card-actor">TI</div>
+        <div class="card-details">
+          Exploitation, entretien, suivi indicateurs et incidents
+        </div>
+        <div class="card-status-flag">EN ATTENTE</div>
+      </div>
+    </div>
+
+    <!-- Légende officielle des 3 Responsabilités -->
+    <div class="slide8-official-legend">
+      <div class="legend-item">
+        <span class="legend-square square-bureau"></span>
+        <span class="legend-text"><strong>Responsabilité Bureau IA</strong> — Demande, qualification, portefeuille, pilotes, inventaire, reddition</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-square square-shared"></span>
+        <span class="legend-text"><strong>Responsabilité partagée</strong> — Pilotes avec TI et affaires ; expertises mobilisées selon le risque</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-square square-ti"></span>
+        <span class="legend-text"><strong>Responsabilité TI</strong> — Production, intégration, sécurité, support, exploitation, entretien</span>
+      </div>
+    </div>
+
+    <!-- Grand ruban officiel du Point de Contrôle -->
+    <div class="slide8-control-ribbon">
+      <strong>Point de contrôle :</strong> aucun passage en production sans décision documentée, propriétaire d'affaires identifié, conditions d'usage et indicateurs de suivi.
+    </div>
+
+    <!-- Ligne de pied de page institutionnelle -->
+    <div class="slide8-footer-line">
+      <span class="footer-left">INTERNE</span>
+      <span class="footer-center">Investissement Québec — Gouvernance IA</span>
+      <span class="footer-right">
+        <span class="iq-slash-blue"></span>
+        <span class="iq-slash-red"></span>
+      </span>
+    </div>
+  </section>
+
+  <!-- MODAL DE PERSONNALISATION DU PROFIL APPRENANT (DÉMONSTRATION SUR MESURE) -->
+  <div id="user-profile-modal" class="profile-modal-backdrop hidden">
+    <div class="profile-modal-card">
+      <div class="profile-modal-header">
+        <div class="profile-header-badge">🎯 EXPÉRIENCE DE FORMATION SUR MESURE</div>
+        <h2 class="profile-modal-title">Personnaliser votre profil apprenant</h2>
+        <p class="profile-modal-subtitle">Le Mentor du Bureau de l'IA adapte instantanément son vocabulaire, ses conseils et ses priorités à votre rôle d'affaires.</p>
+        <button class="profile-close-btn" onclick="closeProfileModal()" title="Fermer">✕</button>
+      </div>
+
+      <div class="profile-modal-body">
+        <div class="profile-input-group">
+          <label class="profile-label" for="profile-name-input">Votre Nom ou Prénom :</label>
+          <input type="text" id="profile-name-input" class="profile-input" placeholder="Votre prénom ou nom (optionnel)" value="">
+        </div>
+
+        <div class="profile-role-selection">
+          <label class="profile-label">Choisissez votre rôle métier pour la simulation :</label>
+          <div class="role-cards-grid">
+            <div class="role-card active" data-role="business" onclick="selectRoleCard('business')">
+              <div class="role-icon">💼</div>
+              <div class="role-info">
+                <strong>Directeur / Gestionnaire d'affaires</strong>
+                <span>Focus : Valeur d'affaires, rentabilité (ROI), heures économisées et préparation des Mémos pour comités.</span>
+              </div>
+              <div class="role-check">✓</div>
+            </div>
+
+            <div class="role-card" data-role="risk" onclick="selectRoleCard('risk')">
+              <div class="role-icon">🛡️</div>
+              <div class="role-info">
+                <strong>Conseiller en Risques & Conformité</strong>
+                <span>Focus : Loi 25 (ÉFVP), 11 risques DGIR 2026, calcul multicritère AHP-TOPSIS et portes d'homologation.</span>
+              </div>
+              <div class="role-check">✓</div>
+            </div>
+
+            <div class="role-card" data-role="ti" onclick="selectRoleCard('ti')">
+              <div class="role-icon">💻</div>
+              <div class="role-info">
+                <strong>Architecte & Équipe TI</strong>
+                <span>Focus : Architecture infonuagique d'IQ, modèles RAG, Zéro Rétention et sécurité des interfaces.</span>
+              </div>
+              <div class="role-check">✓</div>
+            </div>
+
+            <div class="role-card" data-role="pm" onclick="selectRoleCard('pm')">
+              <div class="role-icon">🚀</div>
+              <div class="role-info">
+                <strong>Chargé de projet / Escouade IA</strong>
+                <span>Focus : Cadrage de cas d'usage, prototypage rapide (POC), tests utilisateurs et passage à l'échelle.</span>
+              </div>
+              <div class="role-check">✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-modal-footer">
+        <button class="btn-confirm-profile" onclick="confirmUserProfile()">
+          <span>✨ Appliquer mon profil & Adapter le discours du Coach</span>
+          <span>➜</span>
+        </button>
+      </div>
+    </div>
+  <!-- MODAL PARCOURS D'ACCOMPAGNEMENT OFFICIEL (SLIDE 10 : BUREAU DE L'IA vs TI) -->
+  <div id="modal-parcours-accompagnement" class="modal-overlay hidden">
+    <div class="modal-card modal-card-large">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge-amber">🤝 ENTRÉE DIRECTE SLIDE 10 • ACCOMPAGNEMENT</span>
+          <h2 class="modal-title">Parcours d'Accompagnement en Intelligence Artificielle</h2>
+          <p class="modal-subtitle">Investissement Québec • Bureau de l'IA & Direction des TI</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeAccompagnementModal()">✕</button>
+      </div>
+
+      <div class="modal-body-scroll">
+        <!-- Bannière dorée du principe fondamental -->
+        <div class="focus-usecase-banner">
+          <div class="focus-banner-icon">🎯</div>
+          <div class="focus-banner-text">
+            <strong>RÈGLE D'OR CHEZ INVESTISSEMENT QUÉBEC : EN IA, ON MET LE FOCUS SUR LE CAS D'USAGE EN PREMIER !</strong>
+            <p>La technologie n'est qu'un accélérateur. La réussite d'un projet repose d'abord sur la résolution d'un besoin d'affaires réel, la clarté du problème et la création de valeur mesurable pour nos équipes et nos clients.</p>
+          </div>
+        </div>
+
+        <p class="accompagnement-choice-intro">
+          Selon la nature de votre besoin, choisissez le parcours d'accompagnement adapté :
+        </p>
+
+        <!-- Grille des 2 Voies : Bureau de l'IA (Cas d'usage en premier) vs Équipe TI (Technique) -->
+        <div class="accompagnement-pathways-grid">
+          <!-- Voie 1 : Bureau de l'IA (Cas d'usage Métier en premier) -->
+          <div class="pathway-card priority-card" onclick="selectAccompagnementPathway('business')">
+            <div class="pathway-card-badge business">PRIORITAIRE • CAS D'USAGE MÉTIER</div>
+            <div class="pathway-icon">💡</div>
+            <h3 class="pathway-title">Bureau de l'IA & Escouade IA</h3>
+            <p class="pathway-role">Accompagnement Stratégique, Cadrage & Formations</p>
+            
+            <div class="pathway-for-whom">
+              <strong>Pour qui ?</strong>
+              <span>Vous avez un défi métier, une idée d'automatisation, un besoin d'analyser vos processus ou un souhait de formation pratique pour vos équipes.</span>
+            </div>
+
+            <div class="pathway-features">
+              <div class="feature-item">
+                <span class="feature-bullet">1</span>
+                <div>
+                  <strong>Atelier de Cadrage & Design Thinking IA</strong>
+                  <p>Définition du problème d'affaires, qualification de la valeur et confirmation des bénéfices concrets.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-bullet">2</span>
+                <div>
+                  <strong>Vérification d'outils autorisés</strong>
+                  <p>Si un outil homologué (Copilot M365, Claude Enterprise) répond à votre besoin, activation et formation sans délai d'acquisition !</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-bullet">3</span>
+                <div>
+                  <strong>Formations & Ateliers Pratiques</strong>
+                  <p>Montée en compétences de votre équipe, ingénierie de requêtes (prompts), éthique et conformité Loi 25.</p>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-choose-pathway business">
+              <span>🚀 Choisir l'Accompagnement Cas d'Usage (Bureau IA)</span>
+              <span>➔</span>
+            </button>
+          </div>
+
+          <!-- Voie 2 : Équipe TI (Accompagnement Technique) -->
+          <div class="pathway-card" onclick="selectAccompagnementPathway('ti')">
+            <div class="pathway-card-badge ti">INFRASTRUCTURE • TECHNIQUE</div>
+            <div class="pathway-icon">⚙️</div>
+            <h3 class="pathway-title">Équipe TI & Support</h3>
+            <p class="pathway-role">Architecture Technique, Intégration & Licences</p>
+            
+            <div class="pathway-for-whom">
+              <strong>Pour qui ?</strong>
+              <span>Votre besoin est strictement d'ordre technique : architecture logicielle, tuyauterie de données, connectivité d'API ou demande de licence pour un outil déjà approuvé.</span>
+            </div>
+
+            <div class="pathway-features">
+              <div class="feature-item">
+                <span class="feature-bullet">1</span>
+                <div>
+                  <strong>Faisabilité Technique & Connectivité</strong>
+                  <p>Validation des interfaces (APIs), sécurité des flux et compatibilité avec les systèmes TI maîtres d'IQ.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-bullet">2</span>
+                <div>
+                  <strong>Attribution de Licences Logicielles</strong>
+                  <p>Gestion des billets Octopus pour l'attribution individuelle des outils homologués au catalogue TI.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-bullet">3</span>
+                <div>
+                  <strong>Cybersécurité & Identités (CSI)</strong>
+                  <p>Revue de conformité technique, gestion des accès et protection des environnements infonuagiques.</p>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn-choose-pathway ti">
+              <span>🔧 Choisir l'Accompagnement Technique (TI)</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 11px; color: #94a3b8;">
+          💡 <em>Vous hésitez ? Choisissez l'option Bureau de l'IA : nous qualifierons ensemble votre cas d'usage !</em>
+        </span>
+        <button class="modal-dismiss-btn" onclick="closeAccompagnementModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Librairies Three.js & Animation GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Manifeste dynamique des documents officiels par étape -->
+  <script src="documents_phases/manifest.js"></script>
+
+  <!-- Script principal de la Tour IQ officiel -->
+  <script src="main.js?v=4.1"></script>
+</body>
+</html>
+

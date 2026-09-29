@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Capsule Vidéo 3D • Éthique, Dilemmes Moraux & Gouvernance de l'IA | Investissement Québec</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --iq-navy: #002060;
+      --iq-blue: #0284c7;
+      --iq-cyan: #06b6d4;
+      --iq-indigo: #4f46e5;
+      --iq-purple: #7c3aed;
+      --iq-emerald: #059669;
+      --iq-amber: #d97706;
+      --iq-crimson: #dc2626;
+      --dark-bg: #090e1a;
+      --dark-panel: rgba(15, 23, 42, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --neon-cyan: #38bdf8;
+      --neon-gold: #fbbf24;
+      --radius-xl: 20px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--dark-bg);
+      color: #f8fafc;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* CONTENEUR 3D WEBGL PLEIN ÉCRAN */
+    #webgl-canvas-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* BARRE SUPÉRIEURE FLOTTANTE STYLE STUDIO EXÉCUTIF */
+    .studio-top-bar {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      right: 20px;
+      height: 64px;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-return {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 700;
+      transition: all 0.25s ease;
+    }
+    .btn-return:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      transform: translateX(-2px);
+    }
+
+    .brand-title-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-title-box h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .capsule-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(2, 132, 199, 0.25);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--neon-cyan);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .capsule-badge .rec-dot {
+      width: 7px;
+      height: 7px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulseRec 1.2s infinite;
+    }
+    @keyframes pulseRec {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    /* SÉLECTEUR DE SCÈNES VIDÉO (5 CHAPITRES) */
+    .capsule-scenes-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .scene-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+    .scene-pill:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .scene-pill.active {
+      background: linear-gradient(135deg, #0284c7 0%, #002060 100%);
+      color: #ffffff;
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+    }
+
+    /* BOUTONS AUDIO & MODES */
+    .top-action-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .voice-select {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      outline: none;
+    }
+    .toggle-video-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      color: var(--neon-gold);
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .toggle-video-btn:hover {
+      background: rgba(251, 191, 36, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       EMPLACEMENT DE LA VIDÉO EXPLICATIVE (CADRE CINÉMA HD / PIP)
+       ========================================================================== */
+    .video-explanatory-dock {
+      position: absolute;
+      top: 96px;
+      right: 24px;
+      width: 440px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(2, 132, 199, 0.2);
+      z-index: 25;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .video-explanatory-dock.cinema-mode {
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(960px, 92vw);
+      height: min(620px, 78vh);
+      z-index: 40;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(56, 189, 248, 0.35);
+    }
+
+    .video-explanatory-dock.pip-mode {
+      width: 280px;
+      bottom: 24px;
+      top: auto;
+      right: 24px;
+    }
+
+    .video-dock-header {
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .video-dock-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+    .video-dock-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .video-dock-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #94a3b8;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+    .video-dock-btn:hover { background: rgba(255, 255, 255, 0.2); color: white; }
+
+    /* ÉCRAN VIDÉO */
+    .video-screen-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #020617;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-screen-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* POSTER DE LA CAPSULE VIDÉO SIMULÉE EN TEMPS RÉEL */
+    .video-simulated-stage {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #090e1a 0%, #1e293b 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .simulated-avatar-ring {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      border: 3px solid var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .simulated-avatar-ring img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .simulated-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .simulated-sub {
+      font-size: 11px;
+      color: #94a3b8;
+      max-width: 85%;
+    }
+    .video-play-overlay-btn {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(2, 132, 199, 0.85);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      color: white;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    .video-play-overlay-btn:hover {
+      transform: scale(1.12);
+      background: var(--iq-blue);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.7);
+    }
+
+    /* BARRE DE CONTRÔLES VIDÉO */
+    .video-dock-controls {
+      padding: 10px 14px;
+      background: rgba(10, 15, 30, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .video-progress-bar {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-progress-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      background: linear-gradient(90deg, var(--iq-cyan), var(--neon-cyan));
+      border-radius: 3px;
+      transition: width 0.1s linear;
+    }
+    .video-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .video-play-pause-btn {
+      background: var(--iq-blue);
+      border: none;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .video-time-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .file-input-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #64748b;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .file-input-trigger:hover { color: #cbd5e1; }
+    #custom-video-file-input { display: none; }
+
+    /* ==========================================================================
+       BANDEAU SOUS-TITRES CINÉMATIQUES KARAOKÉ & SCRIPT EXÉCUTIF EN BAS
+       ========================================================================== */
+    .cinema-subtitles-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(860px, 92vw);
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 16px 24px;
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .subtitles-scene-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 6px;
+    }
+    .subtitles-scene-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .subtitles-audio-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .audio-wave-anim {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 10px;
+    }
+    .audio-wave-anim.speaking .wave-bar {
+      animation: waveVoice 0.8s infinite alternate;
+    }
+    .wave-bar {
+      width: 2px;
+      background: var(--neon-cyan);
+      border-radius: 1px;
+      height: 3px;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.2s; height: 6px; }
+    .wave-bar:nth-child(3) { animation-delay: 0.4s; height: 9px; }
+    @keyframes waveVoice {
+      0% { height: 3px; }
+      100% { height: 12px; }
+    }
+
+    .subtitles-text-content {
+      font-size: 14.5px;
+      font-weight: 500;
+      line-height: 1.55;
+      color: #ffffff;
+      min-height: 44px;
+    }
+    .subtitles-text-content em {
+      color: var(--neon-gold);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    /* BARRE D'ACTION ET AVANCÉE CINÉMATIQUE */
+    .subtitles-bottom-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 6px;
+    }
+    .quick-replay-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .quick-replay-btn:hover { background: rgba(255, 255, 255, 0.2); color: white; }
+
+    .cinema-nav-btns {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cinema-nav-btn {
+      background: linear-gradient(135deg, #0284c7 0%, #002060 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: white;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+    .cinema-nav-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.5);
+    }
+
+    /* ==========================================================================
+       MODAL DU DILEMME INTERACTIF (LE CHOIX DE L'UTILISATEUR EN DIRECT)
+       ========================================================================== */
+    .dilemma-choice-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(14px);
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .dilemma-choice-modal.active { display: flex; }
+
+    .dilemma-card-box {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: var(--radius-xl);
+      max-width: 760px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(2, 132, 199, 0.3);
+      position: relative;
+    }
+    .dilemma-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(220, 38, 38, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #f87171;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .dilemma-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .dilemma-description {
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+    .dilemma-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .dilemma-opt-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+    }
+    .dilemma-opt-card:hover {
+      background: rgba(2, 132, 199, 0.15);
+      border-color: var(--neon-cyan);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.25);
+    }
+    .dilemma-opt-card.selected {
+      background: rgba(2, 132, 199, 0.25);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+    .opt-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--neon-gold);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .opt-headline {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 6px;
+    }
+    .opt-body {
+      font-size: 11.5px;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    /* RÉSULTAT DU CHOIX EN DIRECT */
+    .dilemma-impact-result {
+      display: none;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 14px;
+      border-left: 4px solid var(--neon-cyan);
+      margin-bottom: 20px;
+    }
+    .dilemma-impact-result.show { display: block; }
+    .impact-result-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .impact-result-text {
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    .dilemma-footer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn-apply-dilemma {
+      background: linear-gradient(135deg, #059669 0%, #002060 100%);
+      border: 1px solid rgba(52, 211, 153, 0.5);
+      color: white;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .btn-apply-dilemma:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
+    }
+
+    /* MODAL DE LA CHARTE FINALE */
+    .charter-sheet-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(16px);
+      z-index: 60;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .charter-sheet-modal.active { display: flex; }
+    .charter-document {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: var(--radius-xl);
+      max-width: 650px;
+      width: 100%;
+      padding: 36px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .charter-close-x {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #f1f5f9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 800;
+      color: #64748b;
+    }
+
+    /* BOUTON D'ACTION 3D EN BAS À GAUCHE */
+    .viewport-3d-hint {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      z-index: 10;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      font-size: 11.5px;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .action-3d-btn {
+      background: linear-gradient(135deg, #0284c7 0%, #002060 100%);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .action-3d-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 14px rgba(2, 132, 199, 0.6);
+    }
+
+    @media (max-width: 900px) {
+      .video-explanatory-dock {
+        width: calc(100vw - 32px);
+        left: 16px;
+        right: 16px;
+        top: 80px;
+      }
+      .capsule-scenes-nav { display: none; }
+      .dilemma-options-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CONTENEUR 3D WEBGL PLEIN ÉCRAN -->
+  <div id="webgl-canvas-container"></div>
+
+  <!-- BARRE SUPÉRIEURE DU STUDIO EXÉCUTIF -->
+  <header class="studio-top-bar">
+    <div class="brand-section">
+      <a href="index.html" class="btn-return" title="Revenir au centre Metropolis 3D">
+        <span>◀</span>
+        <span>Tour 3D</span>
+      </a>
+      <div class="brand-title-box">
+        <span style="font-size: 20px;">🏛️</span>
+        <h1>Studio Exécutif IA • Éthique & Gouvernance</h1>
+        <span class="capsule-badge">
+          <span class="rec-dot"></span>
+          <span>Capsule 4K</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- SÉLECTEUR DES 5 SCÈNES DU SCÉNARIO OFFICIEL -->
+    <nav class="capsule-scenes-nav" aria-label="Chapitres de la capsule vidéo">
+      <button class="scene-pill active" id="pill-scene-1" onclick="switchCapsuleScene(1)">
+        <span>🎬</span>
+        <span>1. L'Engouement & Hume</span>
+      </button>
+      <button class="scene-pill" id="pill-scene-2" onclick="switchCapsuleScene(2)">
+        <span>🧭</span>
+        <span>2. Les 3 Piliers</span>
+      </button>
+      <button class="scene-pill" id="pill-scene-3" onclick="switchCapsuleScene(3)">
+        <span>⚡</span>
+        <span>3. Le Climax Dilemmes</span>
+      </button>
+      <button class="scene-pill" id="pill-scene-4" onclick="switchCapsuleScene(4)">
+        <span>🛡️</span>
+        <span>4. Opérationnalisation</span>
+      </button>
+      <button class="scene-pill" id="pill-scene-5" onclick="switchCapsuleScene(5)">
+        <span>✨</span>
+        <span>5. Conclusion Exécutive</span>
+      </button>
+    </nav>
+
+    <!-- OUTILS TOP-BAR -->
+    <div class="top-action-tools">
+      <select id="voice-picker" class="voice-select" onchange="switchVoice()">
+        <option value="Antoine">Voix : Antoine (Conseiller QC)</option>
+        <option value="Sylvie">Voix : Sylvie (Conseillère QC)</option>
+      </select>
+      <button class="toggle-video-btn" onclick="toggleCinemaMode()" title="Bascule en mode grand écran cinéma">
+        <span id="cinema-btn-icon">📺</span>
+        <span id="cinema-btn-label">Mode Cinéma</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       EMPLACEMENT VIDÉO EXPLICATIVE (DOCK VIDÉO HAUTE DÉFINITION / PIP)
+       ========================================================================== -->
+  <aside class="video-explanatory-dock" id="video-dock">
+    <div class="video-dock-header">
+      <div class="video-dock-title">
+        <span>🎬</span>
+        <span id="video-dock-title-label">Capsule Vidéo • Scène 1</span>
+      </div>
+      <div class="video-dock-actions">
+        <button class="video-dock-btn" onclick="togglePipMode()" title="Mode Picture-in-Picture">🗗</button>
+        <button class="video-dock-btn" onclick="toggleCinemaMode()" title="Plein Écran / Cinéma">⛶</button>
+      </div>
+    </div>
+
+    <!-- ÉCRAN VIDÉO -->
+    <div class="video-screen-container" id="video-screen-box">
+      <!-- Lecteur HTML5 pour vidéo personnalisée -->
+      <video id="custom-video-player" playsinline style="display: none;"></video>
+
+      <!-- Scène vidéo simulée en temps réel avec Avatar 3D & Graphismes -->
+      <div class="video-simulated-stage" id="video-simulated-stage">
+        <div class="simulated-avatar-ring">
+          <img src="mentor_avatar.jpg" alt="Avatar Conseiller IA" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'">
+        </div>
+        <div class="simulated-title" id="stage-simulated-title">L'engouement & Le Piège de David Hume</div>
+        <div class="simulated-sub" id="stage-simulated-sub">« Le passé n'est pas le futur » • Analyse épistémologique</div>
+        
+        <button class="video-play-overlay-btn" id="overlay-play-btn" onclick="togglePlayPauseVideo()" title="Lancer la lecture">
+          ▶
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTRÔLES VIDÉO -->
+    <div class="video-dock-controls">
+      <div class="video-progress-bar" id="video-progress-track" onclick="seekVideoProgress(event)">
+        <div class="video-progress-fill" id="video-progress-fill"></div>
+      </div>
+      <div class="video-controls-row">
+        <button class="video-play-pause-btn" id="dock-play-pause-btn" onclick="togglePlayPauseVideo()">
+          <span id="dock-play-icon">▶</span>
+          <span id="dock-play-text">Lecture</span>
+        </button>
+        
+        <span class="video-time-label" id="dock-time-label">00:00 / 01:25</span>
+
+        <label class="file-input-trigger" title="Charger un fichier MP4 externe de la capsule">
+          <span>📁 Déposer MP4</span>
+          <input type="file" id="custom-video-file-input" accept="video/mp4,video/webm" onchange="handleUserUploadedVideo(event)">
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- INDICATION 3D EN BAS À GAUCHE -->
+  <div class="viewport-3d-hint">
+    <span>🖱️ <em>Orbiter la caméra • Zoom molette</em></span>
+    <button class="action-3d-btn" id="scene-action-btn" onclick="triggerScene3DAction()">
+      <span>⚡ Expérimenter le Dilemme</span>
+    </button>
+  </div>
+
+  <!-- ==========================================================================
+       BANDEAU SOUS-TITRES CINÉMATIQUES & SCRIPT VOCAL EN BAS
+       ========================================================================== -->
+  <footer class="cinema-subtitles-bar">
+    <div class="subtitles-scene-header">
+      <div class="subtitles-scene-title" id="subtitles-scene-title">
+        <span>🎬</span>
+        <span id="subtitles-header-tag">SCÈNE 1 : L'engouement (L'IA Générative) et le Piège (Hume)</span>
+      </div>
+      <div class="subtitles-audio-status">
+        <span class="audio-wave-anim" id="subtitles-wave-anim">
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+          <span class="wave-bar"></span>
+        </span>
+        <span id="subtitles-audio-label">Audio prêt (fr-CA)</span>
+      </div>
+    </div>
+
+    <!-- TEXTE EXACT PRONONCÉ PAR L'AVATAR -->
+    <div class="subtitles-text-content" id="subtitles-text-display">
+      <!-- Rempli dynamiquement -->
+    </div>
+
+    <!-- BOUTONS DE NAVIGATION DU FILM -->
+    <div class="subtitles-bottom-actions">
+      <button class="quick-replay-btn" onclick="replayCurrentSceneAudio()">
+        <span>🔄 Réécouter la scène</span>
+      </button>
+
+      <div class="cinema-nav-btns">
+        <button class="cinema-nav-btn" id="btn-open-dilemma" onclick="openDilemmaModal()" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); border-color: #fbbf24;">
+          <span>⚖️ Tester le Dilemme en Direct</span>
+        </button>
+        <button class="cinema-nav-btn" id="btn-next-scene" onclick="advanceNextScene()">
+          <span>Scène Suivante</span>
+          <span>➔</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MODAL DU DILEMME INTERACTIF (CHOIX DE L'UTILISATEUR)
+       ========================================================================== -->
+  <div class="dilemma-choice-modal" id="dilemma-modal">
+    <div class="dilemma-card-box">
+      <div class="dilemma-badge-pill">
+        <span>🚨</span>
+        <span>Stress Test Éthique en Direct • Scène 3</span>
+      </div>
+      <h3 class="dilemma-title">Crise Majeure : Le Dilemme du Réseau Électrique & de l'Hôpital</h3>
+      <p class="dilemma-description">
+        Une tempête hivernale extrême menace un blackout général sur l'ensemble de la métropole.
+        L'algorithme de gestion de charge calcule qu'un délestage massif immédiat est obligatoire pour éviter l'effondrement total du réseau.
+        <strong>En tant que décideur, quel ordre algorithmique programmez-vous ?</strong>
+      </p>
+
+      <div class="dilemma-options-grid">
+        <!-- OPTION 1 : UTILITARISME FROID -->
+        <div class="dilemma-opt-card" id="opt-util" onclick="selectDilemmaChoice('util')">
+          <div>
+            <div class="opt-tag">🥉 Option A • Utilitarisme Pur</div>
+            <div class="opt-headline">Délestage du Quartier Hospitalier</div>
+            <div class="opt-body">
+              L'IA sacrifie délibérément le secteur hospitalier pour sauver 90% des résidences de la métropole. Maximisation statistique froide du nombre d'abonnés.
+            </div>
+          </div>
+        </div>
+
+        <!-- OPTION 2 : DÉONTOLOGIE & RÈGLE DURE -->
+        <div class="dilemma-opt-card" id="opt-deont" onclick="selectDilemmaChoice('deont')">
+          <div>
+            <div class="opt-tag">🥇 Option B • Déontologie Absolue</div>
+            <div class="opt-headline">Sanctuaire Hospitalier Inviolable</div>
+            <div class="opt-body">
+              Interdiction absolue de couper le courant aux personnes sous respirateur. Délestage rotatif imposé aux usagers non critiques, quel que soit le coût économique.
+            </div>
+          </div>
+        </div>
+
+        <!-- OPTION 3 : GOUVERNANCE AGENTIQUE & SENTINELLES IQ -->
+        <div class="dilemma-opt-card" id="opt-sentinel" onclick="selectDilemmaChoice('sentinel')">
+          <div>
+            <div class="opt-tag">🛡️ Option C • Gouvernance IQ</div>
+            <div class="opt-headline">Sentinelle R&D + Veto Humain</div>
+            <div class="opt-body">
+              L'agent R&D gardien détecte la velléité d'arbitrage critique de l'IA de production, gèle la décision et alerte l'équipe humaine qui applique le protocole d'urgence.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RÉSULTAT DE L'IMPACT SUR LA SCÈNE 3D -->
+      <div class="dilemma-impact-result" id="dilemma-impact-box">
+        <div class="impact-result-title" id="impact-title">Impact sur la simulation 3D :</div>
+        <div class="impact-result-text" id="impact-text"></div>
+      </div>
+
+      <div class="dilemma-footer-actions">
+        <button class="quick-replay-btn" onclick="closeDilemmaModal()">Fermer</button>
+        <button class="btn-apply-dilemma" id="btn-confirm-dilemma" onclick="applyDilemmaToWorld()">
+          ⚡ Appliquer le Choix à la Scène 3D
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CHARTE OFFICIELLE -->
+  <div class="charter-sheet-modal" id="charter-modal">
+    <div class="charter-document">
+      <button class="charter-close-x" onclick="toggleCharterModal(false)">✕</button>
+
+      <div style="text-align: center; margin-bottom: 16px;">
+        <span style="font-size: 30px;">🏛️</span>
+        <h3 style="font-family: 'Outfit'; font-size: 20px; font-weight: 900; color: var(--iq-navy); margin-top: 4px;">
+          Charte Exécutive d'Alignement & Gouvernance de l'IA
+        </h3>
+        <p style="font-size: 11.5px; color: #64748b;">Investissement Québec • Bureau de l'Intelligence Artificielle</p>
+      </div>
+
+      <div style="font-size: 13px; line-height: 1.6; color: #334155; margin-bottom: 20px;">
+        <p style="margin-bottom: 10px;">
+          <strong>Principe Directeur :</strong> « L'IA Agentique : La Gouvernance comme moteur de confiance ».
+        </p>
+        <p style="margin-bottom: 6px;">
+          <strong>1. Primauté Déontologique (50%) :</strong> Respect absolu de la Loi 25 québécoise et des droits fondamentaux. Les données du passé ne font pas la morale du futur.
+        </p>
+        <p style="margin-bottom: 6px;">
+          <strong>2. Éthique de la Vertu (30%) :</strong> Préservation intégrale de la mission publique et de la réputation d'intégrité d'Investissement Québec.
+        </p>
+        <p style="margin-bottom: 6px;">
+          <strong>3. Utilitarisme Subordonné (20%) :</strong> L'optimisation algorithmique n'intervient qu'une fois les deux premiers piliers rigoureusement satisfaits.
+        </p>
+        <p style="margin-bottom: 6px;">
+          <strong>4. Agents R&D Gardiens en Parallèle :</strong> Surveillance indépendante en continu des flux de production avec droit de veto humain obligatoire (Human-in-Command).
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; border-top: 1px solid #e2e8f0; padding-top: 12px; margin-bottom: 16px;">
+        <div>
+          <div style="font-weight: 800; font-size: 12px;">Comité de Direction IA</div>
+          <div style="font-size: 10.5px; color: #64748b;">Gouvernance & Risques DGIR 2026</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-weight: 800; font-size: 12px;">Bureau de l'IA</div>
+          <div style="font-size: 10.5px; color: #64748b;">Investissement Québec</div>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <button onclick="window.print()" style="background: var(--iq-blue); color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px;">
+          🖨️ Imprimer la Charte / Exporter en PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIBRAIRIES THREE.JS & GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <script>
+    /* ==========================================================================
+       SCRIPTS OFFICIELS MOT À MOT FOURNIS PAR L'UTILISATEUR (LES 5 SCÈNES)
+       ========================================================================== */
+    const MASTER_CAPSULE_SCENES = {
+      1: {
+        id: 1,
+        title: "🎬 SCÈNE 1 : L'engouement (L'IA Générative) et le Piège (Hume)",
+        navTitle: "1. L'Engouement & Hume",
+        visualDirection: "L'avatar est centré. Apparition de mots-clés animés en arrière-plan : IA Générative, Deep Learning, Agents Autonomes. Puis un texte net s'affiche : « Le passé n'est pas le futur (David Hume) ».",
+        avatarAction: "Regard direct vers la caméra, expression engageante et assurée.",
+        vocalScript: "Bonjour à tous. Aujourd'hui, on ne parle que de ça : le déploiement massif de l'apprentissage profond et de l'IA générative. Leurs capacités à créer du contenu, du code, ou à automatiser nos processus sont fascinantes et promettent des gains d'efficience majeurs.\n\nMais cet engouement mondial masque un piège fondamental. Le philosophe David Hume l'avait anticipé : il y a un fossé infranchissable entre « ce qui est » et « ce qui devrait être ». Les immenses volumes de données ingérés par ces modèles ne font que capturer le passé. Or, nous demandons à nos agents IA d'agir dans un futur incertain. Les données seules ne peuvent pas dicter le bon comportement moral face à l'inédit. Sans principes clairs, face à des choix critiques, la machine est aveugle.",
+        actionBtn: "💡 Afficher le Fossé de David Hume",
+        estimatedDuration: 42
+      },
+      2: {
+        id: 2,
+        title: "🎬 SCÈNE 2 : Notre Boussole : L'Architecture Morale en 3 Piliers",
+        navTitle: "2. Les 3 Piliers",
+        visualDirection: "L'avatar se décale légèrement. Une liste s'affiche clairement : 🥇 1. Déontologie | 🥈 2. Vertu | 🥉 3. Utilitarisme.",
+        avatarAction: "Gestes structurés des mains pour appuyer l'énumération. Le ton devient didactique.",
+        vocalScript: "C'est pourquoi la technique pure doit être encadrée. Chez nous, pour gouverner nos futurs systèmes autonomes, nous avons défini une architecture morale stricte qui repose sur trois piliers séquentiels.\n\nLe premier, c'est la Déontologie : le respect absolu de nos règles, de la conformité et de nos devoirs. C'est inébranlable. Ensuite vient l'Éthique de la Vertu : les décisions de nos agents doivent incarner l'ADN et l'intégrité de notre organisation. Et enfin, l'Utilitarisme : l'optimisation mathématique des résultats et de la performance, qui n'intervient que si les deux premiers piliers sont respectés.",
+        actionBtn: "🏛️ Ériger les 3 Piliers 3D",
+        estimatedDuration: 40
+      },
+      3: {
+        id: 3,
+        title: "🎬 SCÈNE 3 : La séquence des dilemmes (Le Climax)",
+        navTitle: "3. Le Climax Dilemmes",
+        visualDirection: "L'écran se divise subtilement. Des icônes apparaissent pour illustrer les propos : un volant (véhicule), un cœur (santé), un éclair rouge (réseau électrique).",
+        avatarAction: "Le ton devient plus grave, le rythme ralentit pour accentuer la tension du scénario.",
+        vocalScript: "Pourquoi cet ordre est-il si crucial ? Faisons passer un test de stress à la machine, en augmentant les enjeux.\n\nPrenez une voiture autonome : doit-elle sacrifier son passager pour éviter cinq piétons ? Prenez un hôpital géré par l'IA : doit-il donner son seul respirateur au patient statistiquement le plus viable, au détriment d'un père de famille ? L'instinct de l'IA, basée sur la donnée pure, sera toujours l'utilitarisme froid : maximiser les chiffres, quitte à briser les règles.\n\nPoussons ce modèle à son paroxysme : un agent IA gère un réseau électrique intelligent en pleine crise. Il détecte une panne géante imminente. Pour sauver la majorité de la ville, le calcul d'optimisation pur décidera de couper délibérément le courant d'un quartier hospitalier. La donnée sacrifie l'hôpital. Mais notre architecture morale, elle, exige de la machine qu'elle protège les plus vulnérables avant de chercher l'efficience globale.",
+        actionBtn: "🚨 Tester le Dilemme du Réseau en Direct",
+        estimatedDuration: 55
+      },
+      4: {
+        id: 4,
+        title: "🎬 SCÈNE 4 : L'Opérationnalisation (La solution de Trading)",
+        navTitle: "4. Opérationnalisation",
+        visualDirection: "Le décor redevient lumineux. Un schéma simplifié s'affiche : [Système de Trading] ↔ [Agents R&D Gardiens] ↔ [Validation Humaine].",
+        avatarAction: "Retour à une posture de leadership pragmatique, sourire confiant.",
+        vocalScript: "Face à des pressions de cette ampleur, la grande question pour vous, gestionnaires, est : comment rendons-nous cette rigueur opérationnelle ?\n\nPrenez notre système de trading automatisé. Plutôt que de faire une confiance aveugle à l'algorithme, nous avons déployé des agents « R&D Gardiens ». Ces IA opèrent en parallèle de notre système de production. Elles scrutent en continu les données et le comportement de nos agents de trading. Dès qu'elles détectent un risque de dérive par rapport à notre déontologie, elles soulèvent une alerte. Ensuite, nos équipes humaines traitent ces alertes manuellement, cas par cas.",
+        actionBtn: "🛡️ Activer les Sentinelles R&D en Parallèle",
+        estimatedDuration: 44
+      },
+      5: {
+        id: 5,
+        title: "🎬 SCÈNE 5 : Conclusion (Synthèse pour la direction)",
+        navTitle: "5. Conclusion Exécutive",
+        visualDirection: "L'avatar se recentre. Le texte final apparaît : « IA Agentique : La Gouvernance comme moteur de confiance ».",
+        avatarAction: "Posture posée, regard franc et direct vers la caméra.",
+        vocalScript: "En synthèse : l'IA générative et l'apprentissage profond sont des outils d'une puissance inédite. Mais les décisions de nos systèmes ne peuvent pas s'appuyer uniquement sur l'inertie du passé.\n\nLa gouvernance n'est pas un frein à l'innovation, c'est le volant qui permet de la piloter. En combinant nos trois piliers éthiques, la surveillance de nos agents R&D et la validation humaine, nous garantissons que notre technologie — aussi puissante soit-elle — restera toujours alignée sur notre intégrité. Je vous remercie de votre attention.",
+        actionBtn: "📜 Signer & Exporter la Charte Officielle",
+        estimatedDuration: 38
+      }
+    };
+
+    /* ==========================================================================
+       MOTEUR 3D THREE.JS : AVATAR EXÉCUTIF + DÉCORS CINÉMATIQUES
+       ========================================================================== */
+    const STUDIO_3D = {
+      container: document.getElementById('webgl-canvas-container'),
+      scene: null,
+      camera: null,
+      renderer: null,
+      controls: null,
+      clock: new THREE.Clock(),
+      currentSceneId: 1,
+      isPlayingAudio: false,
+      currentAudioObj: null,
+      selectedDilemma: 'sentinel',
+      
+      // Objets 3D animés
+      avatarGroup: null,
+      avatarHead: null,
+      avatarMouth: null,
+      avatarEyes: [],
+      avatarHands: { left: null, right: null },
+      
+      sceneGroups: {
+        scene1Keywords: null,
+        scene2Pillars: null,
+        scene3Dilemmas: null,
+        scene4Trading: null,
+        scene5Seal: null
+      },
+
+      // Éléments spécifiques animés
+      floatingWords: [],
+      pillars: [],
+      carLidar: null,
+      pulseRing: null,
+      hospitalCross: null,
+      gridSparks: [],
+      tradingNodes: [],
+      goldenSeal: null
+    };
+
+    function initStudio3D() {
+      STUDIO_3D.scene = new THREE.Scene();
+      STUDIO_3D.scene.background = new THREE.Color(0x070c18);
+      STUDIO_3D.scene.fog = new THREE.FogExp2(0x070c18, 0.018);
+
+      const aspect = window.innerWidth / window.innerHeight;
+      STUDIO_3D.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+      STUDIO_3D.camera.position.set(0, 4.5, 14);
+
+      STUDIO_3D.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+      STUDIO_3D.renderer.setSize(window.innerWidth, window.innerHeight);
+      STUDIO_3D.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      STUDIO_3D.renderer.shadowMap.enabled = true;
+      STUDIO_3D.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      STUDIO_3D.container.appendChild(STUDIO_3D.renderer.domElement);
+
+      STUDIO_3D.controls = new THREE.OrbitControls(STUDIO_3D.camera, STUDIO_3D.renderer.domElement);
+      STUDIO_3D.controls.enableDamping = true;
+      STUDIO_3D.controls.dampingFactor = 0.06;
+      STUDIO_3D.controls.maxPolarAngle = Math.PI / 2.05;
+      STUDIO_3D.controls.minDistance = 4;
+      STUDIO_3D.controls.maxDistance = 45;
+      STUDIO_3D.controls.target.set(0, 3, 0);
+
+      // Éclairage studio cinématique
+      const ambient = new THREE.AmbientLight(0xffffff, 0.65);
+      STUDIO_3D.scene.add(ambient);
+
+      const keyLight = new THREE.DirectionalLight(0xe0f2fe, 1.4);
+      keyLight.position.set(8, 16, 12);
+      keyLight.castShadow = true;
+      STUDIO_3D.scene.add(keyLight);
+
+      const rimLight = new THREE.PointLight(0x38bdf8, 2.5, 30);
+      rimLight.position.set(-8, 8, -4);
+      STUDIO_3D.scene.add(rimLight);
+
+      const warmAccent = new THREE.PointLight(0xfbbf24, 1.2, 25);
+      warmAccent.position.set(6, 3, -2);
+      STUDIO_3D.scene.add(warmAccent);
+
+      // Sol quadrillé haute technologie
+      const grid = new THREE.GridHelper(60, 60, 0x0284c7, 0x1e293b);
+      grid.position.y = -0.01;
+      STUDIO_3D.scene.add(grid);
+
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(120, 120),
+        new THREE.MeshStandardMaterial({ color: 0x050813, roughness: 0.85, metalness: 0.2 })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.receiveShadow = true;
+      STUDIO_3D.scene.add(floor);
+
+      // 1. CRÉATION DE L'AVATAR 3D EXÉCUTIF NUMÉRIQUE
+      createExecutiveAvatar3D();
+
+      // 2. CRÉATION DES 5 GROUPES DE DÉCORS CINÉMATIQUES
+      createDecorsScene1();
+      createDecorsScene2();
+      createDecorsScene3();
+      createDecorsScene4();
+      createDecorsScene5();
+
+      // Activer la scène 1 par défaut
+      switchCapsuleScene(1);
+
+      // Boucle de rendu
+      animateStudio3D();
+
+      window.addEventListener('resize', onStudioResize);
+    }
+
+    /* 1. L'AVATAR 3D NUMÉRIQUE EXÉCUTIF */
+    function createExecutiveAvatar3D() {
+      const avatar = new THREE.Group();
+      avatar.position.set(0, 0, 0);
+
+      // Matériaux
+      const suitMat = new THREE.MeshStandardMaterial({ color: 0x001d54, roughness: 0.4, metalness: 0.1 }); // Costume IQ
+      const skinMat = new THREE.MeshStandardMaterial({ color: 0xf5d0b5, roughness: 0.6 });
+      const shirtMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 });
+      const tieMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.3, roughness: 0.3 });
+
+      // Buste / Torse
+      const torsoGeo = new THREE.CylinderGeometry(0.8, 0.65, 2.2, 16);
+      const torso = new THREE.Mesh(torsoGeo, suitMat);
+      torso.position.y = 2.4;
+      torso.castShadow = true;
+      avatar.add(torso);
+
+      // Col de chemise
+      const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.45, 0.4, 16), shirtMat);
+      collar.position.y = 3.4;
+      avatar.add(collar);
+
+      // Cravate
+      const tie = new THREE.Mesh(new THREE.BoxGeometry(0.18, 1.2, 0.08), tieMat);
+      tie.position.set(0, 2.8, 0.42);
+      avatar.add(tie);
+
+      // Tête articulée
+      const headGroup = new THREE.Group();
+      headGroup.position.set(0, 4.0, 0);
+
+      const headGeo = new THREE.SphereGeometry(0.55, 32, 32);
+      headGeo.scale(1, 1.15, 1);
+      const head = new THREE.Mesh(headGeo, skinMat);
+      head.castShadow = true;
+      headGroup.add(head);
+
+      // Cheveux stylisés
+      const hair = new THREE.Mesh(
+        new THREE.SphereGeometry(0.57, 16, 16),
+        new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.9 })
+      );
+      hair.position.set(0, 0.15, -0.05);
+      headGroup.add(hair);
+
+      // Yeux
+      const eyeMat = new THREE.MeshBasicMaterial({ color: 0x0284c7 });
+      const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), eyeMat);
+      eyeL.position.set(-0.18, 0.08, 0.5);
+      const eyeR = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), eyeMat);
+      eyeR.position.set(0.18, 0.08, 0.5);
+      headGroup.add(eyeL, eyeR);
+      STUDIO_3D.avatarEyes = [eyeL, eyeR];
+
+      // Bouche / Onde vocale faciale
+      const mouthGeo = new THREE.TorusGeometry(0.1, 0.025, 8, 16);
+      const mouthMat = new THREE.MeshBasicMaterial({ color: 0xdc2626 });
+      const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+      mouth.position.set(0, -0.22, 0.52);
+      mouth.rotation.x = Math.PI / 2;
+      headGroup.add(mouth);
+      STUDIO_3D.avatarMouth = mouth;
+
+      avatar.add(headGroup);
+      STUDIO_3D.avatarHead = headGroup;
+
+      // Bras & Mains stylisées pour les gestes
+      const armMat = suitMat;
+      const handMat = skinMat;
+
+      // Bras Gauche
+      const armL = new THREE.Group();
+      const armLMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.15, 1.4), armMat);
+      armLMesh.position.y = -0.7;
+      const handLMesh = new THREE.Mesh(new THREE.SphereGeometry(0.14, 8, 8), handMat);
+      handLMesh.position.y = -1.45;
+      armL.add(armLMesh, handLMesh);
+      armL.position.set(-0.95, 3.2, 0);
+      armL.rotation.z = 0.25;
+      avatar.add(armL);
+      STUDIO_3D.avatarHands.left = armL;
+
+      // Bras Droit (pour gestes didactiques)
+      const armR = new THREE.Group();
+      const armRMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.15, 1.4), armMat);
+      armRMesh.position.y = -0.7;
+      const handRMesh = new THREE.Mesh(new THREE.SphereGeometry(0.14, 8, 8), handMat);
+      handRMesh.position.y = -1.45;
+      armR.add(armRMesh, handRMesh);
+      armR.position.set(0.95, 3.2, 0);
+      armR.rotation.z = -0.25;
+      avatar.add(armR);
+      STUDIO_3D.avatarHands.right = armR;
+
+      STUDIO_3D.avatarGroup = avatar;
+      STUDIO_3D.scene.add(avatar);
+    }
+
+    /* SCÈNE 1 : MOTS-CLÉS 3D FLOTTANTS & TEXTE DAVID HUME */
+    function createDecorsScene1() {
+      const g = new THREE.Group();
+      STUDIO_3D.sceneGroups.scene1Keywords = g;
+
+      // 3 Panneaux holographiques flottants
+      const keywords = ["IA Générative", "Deep Learning", "Agents Autonomes"];
+      keywords.forEach((word, idx) => {
+        const angle = (idx - 1) * 0.55;
+        const x = Math.sin(angle) * 7.5;
+        const z = -2 + Math.cos(angle) * 2;
+        const y = 5.2 + (idx % 2) * 1.0;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'rgba(2, 132, 199, 0.25)';
+        ctx.roundRect(10, 10, 492, 108, 20);
+        ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#38bdf8';
+        ctx.stroke();
+
+        ctx.font = 'bold 36px Outfit, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(word, 256, 64);
+
+        const tex = new THREE.CanvasTexture(canvas);
+        const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 0.9), mat);
+        mesh.position.set(x, y, z);
+        mesh.rotation.y = -angle;
+        g.add(mesh);
+        STUDIO_3D.floatingWords.push(mesh);
+      });
+
+      // Bannière néon « Le passé n'est pas le futur (David Hume) »
+      const humeCanvas = document.createElement('canvas');
+      humeCanvas.width = 1024;
+      humeCanvas.height = 160;
+      const hCtx = humeCanvas.getContext('2d');
+      hCtx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+      hCtx.roundRect(10, 10, 1004, 140, 24);
+      hCtx.fill();
+      hCtx.lineWidth = 5;
+      hCtx.strokeStyle = '#fbbf24';
+      hCtx.stroke();
+      hCtx.font = '900 42px Outfit, sans-serif';
+      hCtx.fillStyle = '#fef08a';
+      hCtx.textAlign = 'center';
+      hCtx.textBaseline = 'middle';
+      hCtx.fillText("« Le passé n'est pas le futur » — David Hume", 512, 80);
+
+      const humeTex = new THREE.CanvasTexture(humeCanvas);
+      const humeBanner = new THREE.Mesh(new THREE.PlaneGeometry(8, 1.25), new THREE.MeshBasicMaterial({ map: humeTex, transparent: true }));
+      humeBanner.position.set(0, 1.8, -3);
+      g.add(humeBanner);
+
+      STUDIO_3D.scene.add(g);
+    }
+
+    /* SCÈNE 2 : LES 3 PILIERS MORAUX 3D HOLOGRAPHIQUES */
+    function createDecorsScene2() {
+      const g = new THREE.Group();
+      STUDIO_3D.sceneGroups.scene2Pillars = g;
+
+      const pillarsData = [
+        { name: "🥇 1. Déontologie", weight: "50% • Règles Dures & Loi 25", color: 0x0284c7, x: 2.2, h: 5.5 },
+        { name: "🥈 2. Vertu", weight: "30% • Intégrité & Valeurs", color: 0x059669, x: 5.0, h: 4.2 },
+        { name: "🥉 3. Utilitarisme", weight: "20% • Efficience & ROI", color: 0x7c3aed, x: 7.8, h: 3.0 }
+      ];
+
+      pillarsData.forEach(p => {
+        const pillarGroup = new THREE.Group();
+        pillarGroup.position.set(p.x, 0, -1);
+
+        // Colonne de verre néon
+        const colGeo = new THREE.CylinderGeometry(0.7, 0.7, p.h, 16);
+        const colMat = new THREE.MeshStandardMaterial({
+          color: p.color,
+          metalness: 0.8,
+          roughness: 0.2,
+          transparent: true,
+          opacity: 0.85
+        });
+        const col = new THREE.Mesh(colGeo, colMat);
+        col.position.y = p.h / 2;
+        col.castShadow = true;
+        pillarGroup.add(col);
+
+        // Anneau lumineux au sommet
+        const ring = new THREE.Mesh(
+          new THREE.TorusGeometry(0.85, 0.08, 16, 32),
+          new THREE.MeshBasicMaterial({ color: 0xffffff })
+        );
+        ring.position.y = p.h;
+        ring.rotation.x = Math.PI / 2;
+        pillarGroup.add(ring);
+
+        // Étiquette textuelle
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 200;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'rgba(0, 32, 96, 0.85)';
+        ctx.roundRect(10, 10, 492, 180, 20);
+        ctx.fill();
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        ctx.font = 'bold 36px Outfit';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText(p.name, 256, 80);
+
+        ctx.font = '24px Plus Jakarta Sans';
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText(p.weight, 256, 130);
+
+        const tex = new THREE.CanvasTexture(canvas);
+        const label = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 0.95), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
+        label.position.set(0, p.h + 0.9, 0);
+        pillarGroup.add(label);
+
+        g.add(pillarGroup);
+        STUDIO_3D.pillars.push(pillarGroup);
+      });
+
+      STUDIO_3D.scene.add(g);
+    }
+
+    /* SCÈNE 3 : LE CLIMAX DES DILEMMES (RÉSEAU, HÔPITAL, VOITURE) */
+    function createDecorsScene3() {
+      const g = new THREE.Group();
+      STUDIO_3D.sceneGroups.scene3Dilemmas = g;
+
+      // 1. VOITURE AUTONOME À GAUCHE
+      const carGroup = new THREE.Group();
+      carGroup.position.set(-7, 0, 1);
+      const carBody = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.2, 4.5), new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.6 }));
+      carBody.position.y = 0.8;
+      carGroup.add(carBody);
+
+      const lidar = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.4, 12), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      lidar.position.set(0, 1.7, 0);
+      carGroup.add(lidar);
+      STUDIO_3D.carLidar = lidar;
+
+      const pulseRing = new THREE.Mesh(new THREE.RingGeometry(0.3, 0.6, 32), new THREE.MeshBasicMaterial({ color: 0x38bdf8, side: THREE.DoubleSide, transparent: true, opacity: 0.8 }));
+      pulseRing.rotation.x = -Math.PI / 2;
+      pulseRing.position.y = 0.05;
+      carGroup.add(pulseRing);
+      STUDIO_3D.pulseRing = pulseRing;
+      g.add(carGroup);
+
+      // 2. HÔPITAL AU CENTRE ARRIÈRE
+      const hospGroup = new THREE.Group();
+      hospGroup.position.set(0, 0, -6);
+      const hospBldg = new THREE.Mesh(new THREE.BoxGeometry(7, 6, 4), new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4 }));
+      hospBldg.position.y = 3;
+      hospGroup.add(hospBldg);
+
+      const crossG = new THREE.Group();
+      const crossV = new THREE.Mesh(new THREE.BoxGeometry(0.6, 2.2, 0.15), new THREE.MeshBasicMaterial({ color: 0xdc2626 }));
+      const crossH = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.6, 0.15), new THREE.MeshBasicMaterial({ color: 0xdc2626 }));
+      crossG.add(crossV, crossH);
+      crossG.position.set(0, 4.8, 2.1);
+      hospGroup.add(crossG);
+      STUDIO_3D.hospitalCross = crossG;
+      g.add(hospGroup);
+
+      // 3. PYLÔNES DU RÉSEAU ÉLECTRIQUE À DROITE
+      const gridGroup = new THREE.Group();
+      gridGroup.position.set(7, 0, 1);
+      const pylon = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.8, 8, 4), new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.9 }));
+      pylon.position.y = 4;
+      const arm = new THREE.Mesh(new THREE.BoxGeometry(5, 0.3, 0.3), new THREE.MeshStandardMaterial({ color: 0x94a3b8 }));
+      arm.position.y = 7;
+      gridGroup.add(pylon, arm);
+
+      // Particules de charge électrique
+      for (let i = 0; i < 4; i++) {
+        const spark = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 8), new THREE.MeshBasicMaterial({ color: 0xfef08a }));
+        spark.position.set(-2 + i * 1.3, 7, 0);
+        gridGroup.add(spark);
+        STUDIO_3D.gridSparks.push(spark);
+      }
+      g.add(gridGroup);
+
+      STUDIO_3D.scene.add(g);
+    }
+
+    /* SCÈNE 4 : L'OPÉRATIONNALISATION & SENTINELLES R&D DE TRADING */
+    function createDecorsScene4() {
+      const g = new THREE.Group();
+      STUDIO_3D.sceneGroups.scene4Trading = g;
+
+      const nodes = [
+        { label: "Système de Trading\n(Production Autonome)", color: 0x0284c7, x: -5, icon: "📈" },
+        { label: "Agents R&D Gardiens\n(Surveillance en Continu)", color: 0x059669, x: 0, icon: "🛡️" },
+        { label: "Validation Humaine\n(Droit de Veto Absolu)", color: 0xf59e0b, x: 5, icon: "👤" }
+      ];
+
+      nodes.forEach((n, idx) => {
+        const nodeG = new THREE.Group();
+        nodeG.position.set(n.x, 2.5, -2);
+
+        // Boîte holographique
+        const box = new THREE.Mesh(
+          new THREE.BoxGeometry(3.6, 2.0, 0.4),
+          new THREE.MeshStandardMaterial({ color: n.color, metalness: 0.7, roughness: 0.2, transparent: true, opacity: 0.85 })
+        );
+        nodeG.add(box);
+
+        // Texte du nœud
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 256;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+        ctx.fillRect(0, 0, 512, 256);
+        ctx.font = 'bold 36px Outfit';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText(n.icon + " " + n.label.split('\n')[0], 256, 90);
+        ctx.font = '24px Plus Jakarta Sans';
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillText(n.label.split('\n')[1], 256, 160);
+
+        const tex = new THREE.CanvasTexture(canvas);
+        const label = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 1.8), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
+        label.position.z = 0.22;
+        nodeG.add(label);
+
+        g.add(nodeG);
+        STUDIO_3D.tradingNodes.push(nodeG);
+      });
+
+      // Lignes de flux entre les blocs
+      const lineMat = new THREE.LineDashedMaterial({ color: 0x38bdf8, dashSize: 0.4, gapSize: 0.2, linewidth: 2 });
+      const pts1 = [new THREE.Vector3(-3.2, 2.5, -2), new THREE.Vector3(-1.8, 2.5, -2)];
+      const line1 = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts1), lineMat);
+      line1.computeLineDistances();
+
+      const pts2 = [new THREE.Vector3(1.8, 2.5, -2), new THREE.Vector3(3.2, 2.5, -2)];
+      const line2 = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts2), lineMat);
+      line2.computeLineDistances();
+
+      g.add(line1, line2);
+
+      STUDIO_3D.scene.add(g);
+    }
+
+    /* SCÈNE 5 : CONCLUSION EXÉCUTIVE & SCEAU DORÉ */
+    function createDecorsScene5() {
+      const g = new THREE.Group();
+      STUDIO_3D.sceneGroups.scene5Seal = g;
+
+      // Sceau doré rotatif
+      const sealG = new THREE.Group();
+      sealG.position.set(0, 5.5, -3);
+
+      const torus = new THREE.Mesh(
+        new THREE.TorusGeometry(2.4, 0.15, 16, 64),
+        new THREE.MeshStandardMaterial({ color: 0xfbbf24, metalness: 0.9, roughness: 0.2 })
+      );
+      sealG.add(torus);
+
+      const star = new THREE.Mesh(
+        new THREE.OctahedronGeometry(1.4, 2),
+        new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.8, roughness: 0.2, wireframe: true })
+      );
+      sealG.add(star);
+
+      // Titre officiel
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 180;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(0, 32, 96, 0.9)';
+      ctx.roundRect(10, 10, 1004, 160, 24);
+      ctx.fill();
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = '#fbbf24';
+      ctx.stroke();
+
+      ctx.font = '900 38px Outfit';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.fillText("IA AGENTIQUE : LA GOUVERNANCE COMME MOTEUR DE CONFIANCE", 512, 75);
+      ctx.font = '26px Plus Jakarta Sans';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText("Investissement Québec • Bureau de l'Intelligence Artificielle", 512, 125);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      const titleBanner = new THREE.Mesh(new THREE.PlaneGeometry(9.0, 1.6), new THREE.MeshBasicMaterial({ map: tex, transparent: true }));
+      titleBanner.position.set(0, 1.8, -2);
+      g.add(titleBanner);
+
+      g.add(sealG);
+      STUDIO_3D.goldenSeal = sealG;
+
+      STUDIO_3D.scene.add(g);
+    }
+
+    /* BASCULE ENTRE LES 5 SCÈNES DU SCÉNARIO */
+    function switchCapsuleScene(sceneId) {
+      if (sceneId < 1 || sceneId > 5) return;
+      STUDIO_3D.currentSceneId = sceneId;
+      const cfg = MASTER_CAPSULE_SCENES[sceneId];
+
+      // Mise à jour des boutons de navigation
+      for (let i = 1; i <= 5; i++) {
+        const pill = document.getElementById(`pill-scene-${i}`);
+        if (pill) pill.classList.toggle('active', i === sceneId);
+      }
+
+      // Titres & Vidéo dock
+      document.getElementById('video-dock-title-label').innerText = `Capsule Vidéo • ${cfg.navTitle}`;
+      document.getElementById('stage-simulated-title').innerText = cfg.title.replace('🎬 ', '');
+      document.getElementById('stage-simulated-sub').innerText = cfg.visualDirection;
+
+      // Bandeau sous-titres
+      document.getElementById('subtitles-header-tag').innerText = cfg.title.replace('🎬 ', '');
+      document.getElementById('subtitles-text-display').innerHTML = formatSubtitles(cfg.vocalScript);
+      document.getElementById('scene-action-btn').innerHTML = `<span>${cfg.actionBtn}</span>`;
+
+      // Bouton Dilemme en bas
+      const dilemmaBtn = document.getElementById('btn-open-dilemma');
+      if (sceneId === 3) {
+        dilemmaBtn.style.display = 'inline-flex';
+        dilemmaBtn.innerHTML = `<span>🚨 Tester le Dilemme en Direct</span>`;
+      } else {
+        dilemmaBtn.style.display = 'none';
+      }
+
+      // Bouton suivant / charte
+      const nextBtn = document.getElementById('btn-next-scene');
+      if (sceneId === 5) {
+        nextBtn.innerHTML = `<span>📜 Charte Exécutive</span><span>✨</span>`;
+        nextBtn.style.background = "linear-gradient(135deg, #059669 0%, #047857 100%)";
+      } else {
+        nextBtn.innerHTML = `<span>Scène Suivante</span><span>➔</span>`;
+        nextBtn.style.background = "linear-gradient(135deg, #0284c7 0%, #002060 100%)";
+      }
+
+      // Visibilité des décors 3D
+      const groups = [
+        STUDIO_3D.sceneGroups.scene1Keywords,
+        STUDIO_3D.sceneGroups.scene2Pillars,
+        STUDIO_3D.sceneGroups.scene3Dilemmas,
+        STUDIO_3D.sceneGroups.scene4Trading,
+        STUDIO_3D.sceneGroups.scene5Seal
+      ];
+      groups.forEach((g, idx) => {
+        if (!g) return;
+        g.visible = (idx + 1 === sceneId);
+      });
+
+      // Mouvements d'avatar et caméra cinématiques selon la scène
+      animateSceneTransition(sceneId);
+
+      // Si audio en cours, relancer automatiquement la nouvelle scène
+      if (STUDIO_3D.isPlayingAudio) {
+        playSceneAudio(sceneId);
+      }
+    }
+
+    function animateSceneTransition(sceneId) {
+      const avatar = STUDIO_3D.avatarGroup;
+      const cam = STUDIO_3D.camera;
+      const target = STUDIO_3D.controls.target;
+
+      if (sceneId === 1) {
+        // Scène 1 : Avatar centré face caméra
+        gsap.to(avatar.position, { x: 0, y: 0, z: 0, duration: 1.2, ease: "power2.out" });
+        gsap.to(avatar.rotation, { y: 0, duration: 1.2 });
+        gsap.to(STUDIO_3D.avatarHands.right.rotation, { z: -0.25, x: 0, duration: 1.0 });
+        gsap.to(cam.position, { x: 0, y: 4.2, z: 12.5, duration: 1.4 });
+        gsap.to(target, { x: 0, y: 3.6, z: 0, duration: 1.4 });
+      } else if (sceneId === 2) {
+        // Scène 2 : Avatar décalé à gauche, gestes didactiques des mains
+        gsap.to(avatar.position, { x: -4.5, y: 0, z: 0, duration: 1.2, ease: "power2.out" });
+        gsap.to(avatar.rotation, { y: 0.35, duration: 1.2 });
+        gsap.to(STUDIO_3D.avatarHands.right.rotation, { z: -0.9, x: -0.4, duration: 1.0 });
+        gsap.to(cam.position, { x: 0.5, y: 4.5, z: 14.5, duration: 1.4 });
+        gsap.to(target, { x: 1.5, y: 3.2, z: -0.5, duration: 1.4 });
+      } else if (sceneId === 3) {
+        // Scène 3 : Le Climax - Caméra reculée, éclairage dramatique
+        gsap.to(avatar.position, { x: 0, y: 0, z: 1.5, duration: 1.2 });
+        gsap.to(avatar.rotation, { y: 0, duration: 1.2 });
+        gsap.to(STUDIO_3D.avatarHands.right.rotation, { z: -0.3, x: 0.3, duration: 1.0 });
+        gsap.to(cam.position, { x: 0, y: 6.5, z: 17, duration: 1.4 });
+        gsap.to(target, { x: 0, y: 3.5, z: -1, duration: 1.4 });
+      } else if (sceneId === 4) {
+        // Scène 4 : L'Opérationnalisation - Décor lumineux
+        gsap.to(avatar.position, { x: -6.5, y: 0, z: 0, duration: 1.2 });
+        gsap.to(avatar.rotation, { y: 0.45, duration: 1.2 });
+        gsap.to(STUDIO_3D.avatarHands.right.rotation, { z: -0.6, x: -0.2, duration: 1.0 });
+        gsap.to(cam.position, { x: 0, y: 4.8, z: 15, duration: 1.4 });
+        gsap.to(target, { x: 0, y: 3.0, z: -2, duration: 1.4 });
+      } else if (sceneId === 5) {
+        // Scène 5 : Conclusion - Avatar recentré avec le grand sceau
+        gsap.to(avatar.position, { x: 0, y: 0, z: 0, duration: 1.2 });
+        gsap.to(avatar.rotation, { y: 0, duration: 1.2 });
+        gsap.to(STUDIO_3D.avatarHands.right.rotation, { z: -0.25, x: 0, duration: 1.0 });
+        gsap.to(cam.position, { x: 0, y: 4.5, z: 13.5, duration: 1.4 });
+        gsap.to(target, { x: 0, y: 3.8, z: -1, duration: 1.4 });
+      }
+    }
+
+    function advanceNextScene() {
+      if (STUDIO_3D.currentSceneId === 5) {
+        toggleCharterModal(true);
+      } else {
+        switchCapsuleScene(STUDIO_3D.currentSceneId + 1);
+        playSceneAudio(STUDIO_3D.currentSceneId);
+      }
+    }
+
+    function triggerScene3DAction() {
+      const id = STUDIO_3D.currentSceneId;
+      if (id === 1) {
+        // Animation des mots-clés
+        STUDIO_3D.floatingWords.forEach(w => {
+          gsap.fromTo(w.scale, { x: 1.4, y: 1.4 }, { x: 1, y: 1, duration: 0.8, ease: "bounce.out" });
+        });
+      } else if (id === 2) {
+        // Érection des 3 piliers
+        STUDIO_3D.pillars.forEach((p, i) => {
+          gsap.fromTo(p.position, { y: -6 }, { y: 0, duration: 1.0, delay: i * 0.25, ease: "power2.out" });
+        });
+      } else if (id === 3) {
+        openDilemmaModal();
+      } else if (id === 4) {
+        // Pulsation des nœuds de trading
+        STUDIO_3D.tradingNodes.forEach((n, i) => {
+          gsap.fromTo(n.scale, { x: 1.2, y: 1.2 }, { x: 1, y: 1, duration: 0.6, delay: i * 0.2 });
+        });
+      } else if (id === 5) {
+        toggleCharterModal(true);
+      }
+    }
+
+    /* FORMATTAGE ÉLÉGANT DU SOUS-TITRAGE */
+    function formatSubtitles(text) {
+      return text
+        .replace(/« (.*?) »/g, '<em>« $1 »</em>')
+        .replace(/\n\n/g, '<br><br>');
+    }
+
+    /* BOUCLE DE RENDU 3D TEMPS RÉEL */
+    function animateStudio3D() {
+      requestAnimationFrame(animateStudio3D);
+      const delta = STUDIO_3D.clock.getDelta();
+      const time = STUDIO_3D.clock.getElapsedTime();
+
+      // Animation subtile de respiration de l'avatar
+      if (STUDIO_3D.avatarGroup) {
+        STUDIO_3D.avatarGroup.position.y = Math.sin(time * 2) * 0.04;
+      }
+      if (STUDIO_3D.avatarHead) {
+        STUDIO_3D.avatarHead.rotation.y = Math.sin(time * 1.2) * 0.05;
+        STUDIO_3D.avatarHead.rotation.x = Math.sin(time * 0.8) * 0.03;
+      }
+
+      // Clignement des yeux
+      if (STUDIO_3D.avatarEyes.length) {
+        const blink = Math.sin(time * 0.5) > 0.98 ? 0.1 : 1;
+        STUDIO_3D.avatarEyes.forEach(e => e.scale.y = blink);
+      }
+
+      // Animation de la bouche si l'audio est en cours
+      if (STUDIO_3D.avatarMouth) {
+        if (STUDIO_3D.isPlayingAudio) {
+          const speakScale = 1 + Math.sin(time * 18) * 0.8;
+          STUDIO_3D.avatarMouth.scale.set(speakScale, speakScale, speakScale);
+        } else {
+          STUDIO_3D.avatarMouth.scale.set(1, 1, 1);
+        }
+      }
+
+      // Animation Scène 1 : Flottement des mots
+      STUDIO_3D.floatingWords.forEach((mesh, idx) => {
+        mesh.position.y += Math.sin(time * 2 + idx) * 0.003;
+      });
+
+      // Animation Scène 3 : Voiture & LiDAR & Réseau
+      if (STUDIO_3D.carLidar) STUDIO_3D.carLidar.rotation.y += 8 * delta;
+      if (STUDIO_3D.pulseRing) {
+        const s = 1 + (time % 1.5) * 4;
+        STUDIO_3D.pulseRing.scale.set(s, s, s);
+      }
+      if (STUDIO_3D.hospitalCross) {
+        const pulse = 1 + Math.sin(time * 4) * 0.15;
+        STUDIO_3D.hospitalCross.scale.set(pulse, pulse, pulse);
+      }
+      STUDIO_3D.gridSparks.forEach((sp, i) => {
+        sp.position.x = -2.5 + ((time * 6 + i * 2) % 5);
+      });
+
+      // Animation Scène 5 : Rotation du sceau
+      if (STUDIO_3D.goldenSeal) {
+        STUDIO_3D.goldenSeal.rotation.y += 0.8 * delta;
+      }
+
+      STUDIO_3D.controls.update();
+      STUDIO_3D.renderer.render(STUDIO_3D.scene, STUDIO_3D.camera);
+    }
+
+    function onStudioResize() {
+      STUDIO_3D.camera.aspect = window.innerWidth / window.innerHeight;
+      STUDIO_3D.camera.updateProjectionMatrix();
+      STUDIO_3D.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    /* ==========================================================================
+       GESTION DU DILEMME INTERACTIF (CHOIX DE L'UTILISATEUR)
+       ========================================================================== */
+    function openDilemmaModal() {
+      document.getElementById('dilemma-modal').classList.add('active');
+      selectDilemmaChoice('sentinel');
+    }
+
+    function closeDilemmaModal() {
+      document.getElementById('dilemma-modal').classList.remove('active');
+    }
+
+    function selectDilemmaChoice(choiceKey) {
+      STUDIO_3D.selectedDilemma = choiceKey;
+      ['util', 'deont', 'sentinel'].forEach(k => {
+        const card = document.getElementById(`opt-${k}`);
+        if (card) card.classList.toggle('selected', k === choiceKey);
+      });
+
+      const impactBox = document.getElementById('dilemma-impact-box');
+      const impactTitle = document.getElementById('impact-title');
+      const impactText = document.getElementById('impact-text');
+      impactBox.classList.add('show');
+
+      if (choiceKey === 'util') {
+        impactTitle.innerText = "❌ Risque Éthique Majeur • Utilitarisme Aveugle";
+        impactText.innerText = "La machine coupe l'hôpital pour maximiser le nombre de foyers connectés. Scandale public immédiat, violation du devoir de protection de l'État et rupture de confiance.";
+      } else if (choiceKey === 'deont') {
+        impactTitle.innerText = "⚖️ Choix Déontologique • Protection des Vulnérables";
+        impactText.innerText = "L'hôpital demeure alimenté à 100%. Le réseau impose des coupures rotatives sur les industries non vitales. La règle de préservation des vies a prévalu.";
+      } else if (choiceKey === 'sentinel') {
+        impactTitle.innerText = "🛡️ Gouvernance IQ • Sentinelle R&D + Veto Humain";
+        impactText.innerText = "L'agent R&D gardien détecte le risque d'effondrement éthique avant son exécution, gèle la décision automatisée et transmet l'arbitrage au gestionnaire avec droit de veto.";
+      }
+    }
+
+    function applyDilemmaToWorld() {
+      closeDilemmaModal();
+      const choice = STUDIO_3D.selectedDilemma;
+
+      if (choice === 'util') {
+        // Flash rouge et extinction de l'hôpital
+        gsap.to(STUDIO_3D.hospitalCross.scale, { x: 0.1, y: 0.1, z: 0.1, duration: 0.5 });
+        alert("⚠️ RÉSULTAT : Le calcul d'optimisation pur a coupé l'hôpital. L'expérience prouve que les données sans gouvernance échouent moralement.");
+      } else if (choice === 'deont') {
+        gsap.to(STUDIO_3D.hospitalCross.scale, { x: 1.8, y: 1.8, z: 1.8, duration: 0.5, yoyo: true, repeat: 3 });
+        alert("✅ RÉSULTAT : Déontologie respectée ! L'hôpital est sanctuarisé conformément aux exigences d'intérêt public.");
+      } else if (choice === 'sentinel') {
+        // Déclencher les Sentinelles
+        switchCapsuleScene(4);
+        playSceneAudio(4);
+      }
+    }
+
+    /* ==========================================================================
+       SYNTHÈSE VOCALE QUÉBÉCOISE & LECTEUR AUDIO CAPSULE
+       ========================================================================== */
+    let CURRENT_VOICE = 'Antoine';
+
+    function switchVoice() {
+      CURRENT_VOICE = document.getElementById('voice-picker').value;
+      if (STUDIO_3D.isPlayingAudio) {
+        playSceneAudio(STUDIO_3D.currentSceneId);
+      }
+    }
+
+    async function playSceneAudio(sceneId) {
+      const cfg = MASTER_CAPSULE_SCENES[sceneId];
+      if (!cfg) return;
+
+      // Arrêter l'audio précédent
+      if (STUDIO_3D.currentAudioObj) {
+        STUDIO_3D.currentAudioObj.pause();
+        STUDIO_3D.currentAudioObj = null;
+      }
+
+      setVoiceWaveStatus(true);
+      updatePlayPauseButton(true);
+
+      const cleanScript = cfg.vocalScript
+        .replace(/« /g, '')
+        .replace(/ »/g, '')
+        .replace(/\n\n/g, ' ')
+        .trim();
+
+      try {
+        const resp = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: cleanScript, voice: CURRENT_VOICE })
+        });
+
+        if (resp.ok) {
+          const blob = await resp.blob();
+          const audio = new Audio(URL.createObjectURL(blob));
+          STUDIO_3D.currentAudioObj = audio;
+
+          // Progression de lecture sur le dock vidéo
+          audio.ontimeupdate = () => {
+            if (audio.duration) {
+              const pct = (audio.currentTime / audio.duration) * 100;
+              document.getElementById('video-progress-fill').style.width = pct + '%';
+              document.getElementById('dock-time-label').innerText = `${formatSeconds(audio.currentTime)} / ${formatSeconds(audio.duration)}`;
+            }
+          };
+
+          audio.onended = () => {
+            setVoiceWaveStatus(false);
+            updatePlayPauseButton(false);
+          };
+
+          audio.play();
+        } else {
+          // Fallback Web Speech API
+          fallbackBrowserSpeech(cleanScript);
+        }
+      } catch (err) {
+        console.warn('Fallback Web Speech API :', err.message);
+        fallbackBrowserSpeech(cleanScript);
+      }
+    }
+
+    function fallbackBrowserSpeech(text) {
+      if (!('speechSynthesis' in window)) {
+        setVoiceWaveStatus(false);
+        updatePlayPauseButton(false);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'fr-CA';
+      utter.rate = 1.0;
+      utter.onend = () => {
+        setVoiceWaveStatus(false);
+        updatePlayPauseButton(false);
+      };
+      utter.onerror = () => {
+        setVoiceWaveStatus(false);
+        updatePlayPauseButton(false);
+      };
+      window.speechSynthesis.speak(utter);
+    }
+
+    function togglePlayPauseVideo() {
+      if (STUDIO_3D.isPlayingAudio) {
+        if (STUDIO_3D.currentAudioObj) STUDIO_3D.currentAudioObj.pause();
+        if ('speechSynthesis' in window) window.speechSynthesis.pause();
+        setVoiceWaveStatus(false);
+        updatePlayPauseButton(false);
+      } else {
+        if (STUDIO_3D.currentAudioObj && STUDIO_3D.currentAudioObj.paused) {
+          STUDIO_3D.currentAudioObj.play();
+          setVoiceWaveStatus(true);
+          updatePlayPauseButton(true);
+        } else {
+          playSceneAudio(STUDIO_3D.currentSceneId);
+        }
+      }
+    }
+
+    function replayCurrentSceneAudio() {
+      playSceneAudio(STUDIO_3D.currentSceneId);
+    }
+
+    function updatePlayPauseButton(isPlaying) {
+      STUDIO_3D.isPlayingAudio = isPlaying;
+      document.getElementById('dock-play-icon').innerText = isPlaying ? '⏸' : '▶';
+      document.getElementById('dock-play-text').innerText = isPlaying ? 'Pause' : 'Lecture';
+      document.getElementById('overlay-play-btn').innerText = isPlaying ? '⏸' : '▶';
+    }
+
+    function setVoiceWaveStatus(isSpeaking) {
+      STUDIO_3D.isPlayingAudio = isSpeaking;
+      const anim = document.getElementById('subtitles-wave-anim');
+      if (anim) anim.classList.toggle('speaking', isSpeaking);
+      document.getElementById('subtitles-audio-label').innerText = isSpeaking ? "En cours de lecture..." : "Audio prêt (fr-CA)";
+    }
+
+    function seekVideoProgress(e) {
+      const bar = document.getElementById('video-progress-track');
+      const rect = bar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      if (STUDIO_3D.currentAudioObj && STUDIO_3D.currentAudioObj.duration) {
+        STUDIO_3D.currentAudioObj.currentTime = pct * STUDIO_3D.currentAudioObj.duration;
+      }
+    }
+
+    function formatSeconds(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    /* ==========================================================================
+       GESTION DES VIDÉOS PERSONNALISÉES ET MODES DU LECTEUR
+       ========================================================================== */
+    function handleUserUploadedVideo(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const videoPlayer = document.getElementById('custom-video-player');
+      const simStage = document.getElementById('video-simulated-stage');
+      
+      const fileUrl = URL.createObjectURL(file);
+      videoPlayer.src = fileUrl;
+      videoPlayer.style.display = 'block';
+      simStage.style.display = 'none';
+
+      videoPlayer.onended = () => updatePlayPauseButton(false);
+      videoPlayer.play();
+      updatePlayPauseButton(true);
+    }
+
+    function toggleCinemaMode() {
+      const dock = document.getElementById('video-dock');
+      const isCinema = dock.classList.toggle('cinema-mode');
+      document.getElementById('cinema-btn-label').innerText = isCinema ? "Mode Studio" : "Mode Cinéma";
+      document.getElementById('cinema-btn-icon').innerText = isCinema ? "🌐" : "📺";
+      if (isCinema) dock.classList.remove('pip-mode');
+    }
+
+    function togglePipMode() {
+      const dock = document.getElementById('video-dock');
+      dock.classList.toggle('pip-mode');
+      dock.classList.remove('cinema-mode');
+    }
+
+    function toggleCharterModal(show) {
+      document.getElementById('charter-modal').classList.toggle('active', show);
+    }
+
+    // INITIALISATION GÉNÉRALE AU CHARGEMENT DU DOM
+    window.addEventListener('DOMContentLoaded', () => {
+      initStudio3D();
+    });
+  </script>
+</body>
+</html>

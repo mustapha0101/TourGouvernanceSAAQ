@@ -1,0 +1,18 @@
+services:
+  iq_postgres:
+    image: postgres:16-alpine
+    container_name: iq-initiatives-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: iquser
+      POSTGRES_PASSWORD: iqpassword2026!
+      POSTGRES_DB: iq_initiatives_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - iq_postgres_data:/var/lib/postgresql/data
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+
+volumes:
+  iq_postgres_data:
+    driver: local

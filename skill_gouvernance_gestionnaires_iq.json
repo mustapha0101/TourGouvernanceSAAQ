@@ -1,0 +1,89 @@
+{
+  "titre": "Référentiel Pédagogique de Gouvernance IA pour Gestionnaires d'Investissement Québec",
+  "version": "1.0",
+  "public_cible": "Gestionnaires, Directeurs d'affaires, Chargés de projets non-spécialistes de la gouvernance",
+  "regles_de_style": {
+    "ton": "Institutionnel, clair, vulgarisé, direct, bienveillant",
+    "interdictions": [
+      "Aucun terme mathématique complexe (ex: AHP, TOPSIS, vecteurs, matrices)",
+      "Aucun acronyme abscons (ex: dire 'évaluation des facteurs relatifs à la vie privée' au lieu d'ÉFVP)",
+      "Aucune salutation inutile ('Bonjour', 'Joe', 'Excellente question')"
+    ]
+  },
+  "modules": [
+    {
+      "id": "introduction",
+      "titre": "Introduction & Pourquoi la gouvernance IA chez IQ ?",
+      "fait_marquant": "Les organisations dotées d'une gestion efficace des risques liés à l'IA sont 12 % plus avancées dans l'adoption de ces technologies.",
+      "definition": "Chez Investissement Québec (IQ), la gouvernance n'est pas un frein : c'est un cadre structurant conçu pour libérer de la valeur de façon responsable, éthique et sécurisée.",
+      "finalites_majeures": [
+        "Alignement stratégique : S'assurer que chaque projet d'IA sert directement la mission économique d'IQ.",
+        "Conformité rigoureuse : Respecter les lois (Loi 25 sur la protection des renseignements personnels), l'éthique et la transparence.",
+        "Gestion des risques : Anticiper de façon proportionnée les dérives juridiques, réputationnelles ou opérationnelles.",
+        "Protection et confiance : Préserver l'intégrité des données et maintenir la confiance des partenaires et des citoyens."
+      ]
+    },
+    {
+      "id": "gouverner_vs_operer",
+      "titre": "Distinction essentielle : Gouverner vs Opérer",
+      "gouvernance": "Définit les conditions d'un usage responsable, encadre les décisions d'affaires et produit la reddition de comptes.",
+      "operations": "Se concentrent sur la livraison technique, l'intégration infonuagique, l'exploitation au quotidien et la performance des systèmes."
+    },
+    {
+      "id": "trois_niveaux",
+      "titre": "Le modèle cible à trois niveaux de gouvernance",
+      "niveaux": [
+        {
+          "niveau": "1. Niveau Stratégique (Comité de direction & Conseil d'administration)",
+          "composition": "PDG, Premiers vice-présidents (PVP) et Responsable IA (voix consultative).",
+          "frequence": "Trimestrielle.",
+          "mandat": "Fixe les grandes orientations, définit l'appétit au risque d'IQ, autorise les investissements majeurs et tranche sur les projets à risque très élevé. Le CA approuve la politique d'IA et reste informé des incidents majeurs."
+        },
+        {
+          "niveau": "2. Niveau Tactique (Comité de gouvernance IA)",
+          "composition": "Responsable IA, Bureau de l'IA, TI (volet IA), Cybersécurité (CSI), Juridique (DPRP), Risques (DGIR) et Affaires.",
+          "frequence": "8 à 10 fois par an.",
+          "mandat": "Arbitre les dossiers sensibles, suit la conformité réglementaire et statue sur les initiatives à risque modéré."
+        },
+        {
+          "niveau": "3. Niveau Opérationnel (Bureau de l'IA, Cellule-Experts & TI)",
+          "composition": "Bureau de l'IA (permanence de 4 personnes), Cellule-Experts (matrice d'experts mobilisés au besoin), TI.",
+          "frequence": "Quotidienne / continue.",
+          "mandat": "Gère le portefeuille d'initiatives, qualifie la demande, pilote l'expérimentation agile (POC) et assure le déploiement technique et le support."
+        }
+      ]
+    },
+    {
+      "id": "cycle_de_vie",
+      "titre": "Le cycle de vie d'une initiative IA en 7 étapes",
+      "etapes": [
+        { "etape": 0, "nom": "Dépôt de la demande", "description": "Le demandeur exprime son besoin d'affaires et la valeur attendue via le Guichet Octopus officiel (3 parcours possibles)." },
+        { "etape": 1, "nom": "Qualification", "description": "Le Bureau de l'IA analyse la valeur d'affaires, l'alignement stratégique, vérifie les outils déjà autorisés chez IQ et évalue la faisabilité." },
+        { "etape": 2, "nom": "Évaluation des risques", "description": "Analyse conjointe avec les experts (Loi 25, Cybersécurité CSI, Risques opérationnels) pour déterminer le niveau de risque de l'initiative." },
+        { "etape": 3, "nom": "Décision (Go / No Go)", "description": "Arbitrage selon le niveau de risque : Risque faible ➔ Bureau de l'IA ; Risque modéré ➔ Comité de gouvernance IA ; Risque élevé ➔ Comité de direction." },
+        { "etape": 4, "nom": "Développement encadré (Pilote POC)", "description": "Expérimentation agile en bac à sable sécurisé pour valider concrètement la valeur métier et vérifier les hypothèses techniques." },
+        { "etape": 5, "nom": "Déploiement contrôlé (TI)", "description": "Passage vers l'équipe TI : soit pour alimenter un appel d'offres officiel au marché, soit pour bâtir une architecture de qualité production (haute disponibilité, durcissement)." },
+        { "etape": 6, "nom": "Exploitation et surveillance 24/7 (TI)", "description": "Les TI assurent le maintien opérationnel, le support, la surveillance des dérives de modèles et le suivi des indicateurs KRI." }
+      ],
+      "regle_or": "Aucun système d'IA ne peut passer en production sans une décision documentée, un propriétaire d'affaires identifié et des indicateurs de suivi définis."
+    },
+    {
+      "id": "responsabilites",
+      "titre": "Partage des responsabilités : Qui fait quoi ?",
+      "acteurs": [
+        {
+          "role": "Le Bureau de l'IA — L'orchestrateur",
+          "description": "Facilitateur léger. Qualifie les demandes d'affaires, priorise le portefeuille d'initiatives, coordonne les évaluations transversales de risques et prépare les dossiers de décision pour les comités."
+        },
+        {
+          "role": "Les TI — Le livreur technique",
+          "description": "Responsables de l'architecture technologique, de la sécurité technique des systèmes, de l'intégration dans l'infrastructure infonuagique d'IQ, du support et des indicateurs techniques."
+        },
+        {
+          "role": "Les Lignes d'affaires — Le propriétaire de la valeur",
+          "description": "Uniques propriétaires de leurs besoins. Portent l'expression de valeur, la responsabilité de l'adoption finale par les équipes et la réalisation effective des gains d'affaires attendus."
+        }
+      ]
+    }
+  ]
+}

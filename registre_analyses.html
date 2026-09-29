@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registre Officiel des Analyses & Homologations IA — Investissement Québec</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --iq-navy: #002060;
+      --iq-blue: #003366;
+      --iq-cyan: #00A3E0;
+      --iq-light-bg: #F4F7FB;
+      --iq-card-bg: #FFFFFF;
+      --iq-border: #CBD5E1;
+      --iq-green: #16A34A;
+      --iq-amber: #D97706;
+      --iq-blue-prep: #2563EB;
+      --iq-text-dark: #0F172A;
+      --iq-text-muted: #64748B;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0, 32, 96, 0.08);
+      --shadow-lg: 0 10px 25px rgba(0, 32, 96, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--iq-light-bg);
+      color: var(--iq-text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Barre supérieure institutionnelle */
+    .reg-navbar {
+      background: linear-gradient(135deg, #001233 0%, #002060 48%, #08296B 100%);
+      color: white;
+      padding: 12px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 20, 60, 0.4);
+      border-bottom: 2px solid rgba(0, 163, 224, 0.4);
+    }
+    .reg-brand { display: flex; align-items: center; gap: 14px; }
+    .eval-institution-tag {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #E0F2FE;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .eval-nav-separator {
+      width: 1px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.22);
+    }
+    .eval-bureau-ia-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, rgba(0, 163, 224, 0.22) 0%, rgba(37, 99, 235, 0.32) 100%);
+      border: 1.5px solid #38BDF8;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      padding: 5px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .pulse-beacon {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #22C55E;
+      box-shadow: 0 0 10px #22C55E;
+      animation: pulse-beacon-anim 2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-beacon-anim {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+    .bureau-ia-meta { display: flex; flex-direction: column; }
+    .bureau-ia-tag {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13.5px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      color: #FFFFFF;
+      line-height: 1.1;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    .bureau-ia-sub {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #7DD3FC;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .reg-title-wrap h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.2px;
+      margin: 0;
+    }
+    .reg-title-wrap p {
+      font-size: 11.5px;
+      color: #93C5FD;
+      margin-top: 1px;
+    }
+    .reg-nav-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-nav-outline {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: white;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-nav-outline:hover {
+      background: white;
+      color: var(--iq-navy);
+      transform: translateY(-1px);
+    }
+
+    /* Conteneur principal */
+    .reg-container {
+      max-width: 1540px;
+      margin: 24px auto;
+      padding: 0 24px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Grille de cartes KPI */
+    .reg-kpis-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .reg-kpi-card {
+      background: var(--iq-card-bg);
+      border: 1px solid var(--iq-border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .reg-kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--kpi-color, var(--iq-navy));
+    }
+    .reg-kpi-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--iq-navy);
+      margin: 4px 0;
+    }
+    .reg-kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--iq-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    /* Barre d'outils et de filtres */
+    .reg-toolbar {
+      background: var(--iq-card-bg);
+      border: 1px solid var(--iq-border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .reg-search-box {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+    .reg-search-box input {
+      width: 100%;
+      padding: 9px 14px 9px 36px;
+      font-size: 13px;
+      border: 1.5px solid var(--iq-border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-family: inherit;
+    }
+    .reg-search-box input:focus { border-color: var(--iq-navy); }
+    .reg-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--iq-text-muted);
+      font-size: 14px;
+    }
+    .reg-filters { display: flex; align-items: center; gap: 10px; }
+    .reg-select {
+      padding: 8px 12px;
+      font-size: 12.5px;
+      border: 1.5px solid var(--iq-border);
+      border-radius: var(--radius-sm);
+      background: white;
+      color: var(--iq-text-dark);
+      font-family: inherit;
+      outline: none;
+    }
+
+    /* Table institutionnelle des analyses */
+    .reg-table-card {
+      background: var(--iq-card-bg);
+      border: 1px solid var(--iq-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .reg-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    .reg-table thead {
+      background: #F8FAFC;
+      border-bottom: 1.5px solid var(--iq-border);
+    }
+    .reg-table th {
+      padding: 14px 16px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--iq-navy);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .reg-table td {
+      padding: 16px;
+      border-bottom: 1px solid #E2E8F0;
+      vertical-align: middle;
+    }
+    .reg-table tr:hover td {
+      background-color: #F8FAFC;
+    }
+
+    /* Badges de statut & homologation */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status-pending { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+    .status-accel { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+    .status-cond { background: #FEF9C3; color: #854D0E; border: 1px solid #FDE047; }
+    .status-prep { background: #EFF6FF; color: #1E40AF; border: 1px solid #93C5FD; }
+
+    /* Boutons d'action */
+    .btn-action {
+      background: white;
+      border: 1px solid var(--iq-border);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--iq-navy);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-action:hover {
+      background: #F1F5F9;
+      border-color: var(--iq-navy);
+      transform: translateY(-1px);
+    }
+    .btn-validate-highlight {
+      background: #002060;
+      color: white;
+      border: none;
+    }
+    .btn-validate-highlight:hover {
+      background: #003366;
+      color: white;
+    }
+
+    /* Modal de validation humaine */
+    .reg-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 32, 96, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .reg-modal-overlay.active { display: flex; }
+    .reg-modal-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      max-width: 1080px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: modal-fade-in 0.25s ease-out;
+    }
+    @keyframes modal-fade-in {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .reg-modal-header {
+      background: linear-gradient(135deg, var(--iq-navy) 0%, var(--iq-blue) 100%);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .reg-modal-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .reg-modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .reg-modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Onglets de navigation dans le modal */
+    .modal-nav-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .modal-tab-btn {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .modal-tab-btn:hover {
+      background: #EFF6FF;
+      border-color: #93C5FD;
+      color: #1E40AF;
+    }
+    .modal-tab-btn.active {
+      background: #002060;
+      color: white;
+      border-color: #002060;
+    }
+    .modal-tab-content { display: none; }
+    .modal-tab-content.active { display: block; }
+
+    /* Tableau d'appétit au risque DGIR 2026 */
+    .dgir-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+    .dgir-table th {
+      background: #002060;
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+    .dgir-table td {
+      padding: 10px 12px;
+      border: 1px solid #E2E8F0;
+      vertical-align: top;
+    }
+    .choice-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 5px;
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-size: 11.5px;
+      color: #475569;
+      border: 1px solid transparent;
+    }
+    .choice-box.active-choice {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+      font-weight: 700;
+      color: #1E3A8A;
+    }
+    .choice-box.active-choice.active-warn {
+      background: #FEF9C3;
+      border-color: #FACC15;
+      color: #854D0E;
+    }
+    .choice-box.active-choice.active-danger {
+      background: #FEF2F2;
+      border-color: #F87171;
+      color: #991B1B;
+    }
+
+    /* Grille de faisabilité détaillée */
+    .feasibility-detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin-top: 10px;
+    }
+    .feasibility-detail-table th {
+      background: #F1F5F9;
+      color: #002060;
+      padding: 8px 10px;
+      font-weight: 700;
+      border: 1px solid #CBD5E1;
+      text-align: left;
+    }
+    .feasibility-detail-table td {
+      padding: 8px 10px;
+      border: 1px solid #E2E8F0;
+      vertical-align: top;
+    }
+    .score-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 11px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .score-4 { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+    .score-3 { background: #DBEAFE; color: #1E40AF; border: 1px solid #93C5FD; }
+    .score-2 { background: #FEF9C3; color: #854D0E; border: 1px solid #FDE047; }
+    .score-1 { background: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
+    .score-0 { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+    /* Styles de la Console Multi-Agents STORM */
+    .agent-tab-btn {
+      background: #F8FAFC;
+      border: 1.5px solid #CBD5E1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .agent-tab-btn:hover {
+      background: #EFF6FF;
+      border-color: #93C5FD;
+      color: #1E40AF;
+    }
+    .agent-tab-btn.active {
+      background: #002060;
+      color: white;
+      border-color: #002060;
+      box-shadow: 0 4px 10px rgba(0, 32, 96, 0.2);
+    }
+    .agent-pane { display: none; }
+    .agent-pane.active { display: block; }
+
+    .agent-card-banner {
+      background: white;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .agent-badge-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .switch-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .switch-toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: #CBD5E1;
+      border-radius: 12px;
+      transition: background 0.2s ease;
+      display: inline-block;
+    }
+    .switch-toggle::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: white;
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+    input[type="checkbox"]:checked + .switch-toggle {
+      background: #16A34A;
+    }
+    input[type="checkbox"]:checked + .switch-toggle::after {
+      transform: translateX(20px);
+    }
+    .rule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .rule-table th {
+      background: #002060;
+      color: white;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: left;
+    }
+    .rule-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #E2E8F0;
+      vertical-align: top;
+    }
+    .rule-source-badge {
+      display: inline-block;
+      font-size: 10.5px;
+      background: #EFF6FF;
+      color: #1E40AF;
+      border: 1px solid #BFDBFE;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-top: 3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Barre Supérieure Institutionnelle & Bureau de l'IA -->
+  <header class="reg-navbar">
+    <div class="reg-brand">
+      <div class="eval-institution-tag">
+        <span style="font-size: 14px;">⚜️</span>
+        <span>Investissement Québec</span>
+      </div>
+      <div class="eval-nav-separator"></div>
+      <div class="eval-bureau-ia-badge">
+        <span class="pulse-beacon"></span>
+        <div class="bureau-ia-meta">
+          <div class="bureau-ia-tag">BUREAU DE L'IA</div>
+          <div class="bureau-ia-sub">Gouvernance & Prise en Charge</div>
+        </div>
+      </div>
+      <div class="eval-nav-separator"></div>
+      <div class="reg-title-wrap">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <h1 style="display: flex; align-items: center; gap: 8px; margin: 0;">
+            <span>👨‍💼</span> Espace Analyste en Gouvernance IA & Registre Officiel
+          </h1>
+          <span style="font-size: 10px; font-weight: 800; background: #38BDF8; color: #002060; padding: 3px 8px; border-radius: 10px; letter-spacing: 0.6px; text-transform: uppercase;">CONSOLE DÉDIÉE</span>
+        </div>
+        <p>Gestion exclusive des livrables officiels (.docx / .xlsx), révision collégiale des 28 critères et homologation pour le Comité IA</p>
+      </div>
+    </div>
+    <div class="reg-nav-actions">
+      <div style="font-size: 11.5px; background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #86EFAC; padding: 4px 10px; border-radius: 20px; font-weight: 600;">
+        🟢 Base PostgreSQL Connectée
+      </div>
+      <a href="/evaluation.html" class="btn-nav-outline" style="border-color: #38BDF8; color: #E0F2FE;">
+        <span>📝 Nouvelle Évaluation</span>
+      </a>
+      <a href="/" class="btn-nav-outline">
+        <span>🏛️ Processus de Gouvernance</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Contenu Principal -->
+  <main class="reg-container">
+
+    <!-- Grille KPIs Sommaire -->
+    <div class="reg-kpis-grid">
+      <div class="reg-kpi-card" style="--kpi-color: var(--iq-navy);">
+        <div class="reg-kpi-label">Total des Initiatives</div>
+        <div class="reg-kpi-val" id="kpi-total-initiatives">--</div>
+        <span style="font-size: 11.5px; color: var(--iq-text-muted);">Consignées au Registre</span>
+      </div>
+      <div class="reg-kpi-card" style="--kpi-color: var(--iq-amber);">
+        <div class="reg-kpi-label">En Attente de Validation</div>
+        <div class="reg-kpi-val" id="kpi-pending-validation" style="color: var(--iq-amber);">--</div>
+        <span style="font-size: 11.5px; color: var(--iq-amber);">Revue humaine requise</span>
+      </div>
+      <div class="reg-kpi-card" style="--kpi-color: var(--iq-green);">
+        <div class="reg-kpi-label">Voie Accélérée</div>
+        <div class="reg-kpi-val" id="kpi-accelerated" style="color: var(--iq-green);">--</div>
+        <span style="font-size: 11.5px; color: var(--iq-green);">Haute maturité (> 80%)</span>
+      </div>
+      <div class="reg-kpi-card" style="--kpi-color: #CA8A04;">
+        <div class="reg-kpi-label">Homologations Conditionnelles</div>
+        <div class="reg-kpi-val" id="kpi-conditional" style="color: #CA8A04;">--</div>
+        <span style="font-size: 11.5px; color: #CA8A04;">Mitigations Loi 25 / CSI</span>
+      </div>
+      <div class="reg-kpi-card" style="--kpi-color: var(--iq-blue-prep);">
+        <div class="reg-kpi-label">En Préparation (Accompagnement)</div>
+        <div class="reg-kpi-val" id="kpi-in-preparation" style="color: var(--iq-blue-prep);">--</div>
+        <span style="font-size: 11.5px; color: var(--iq-blue-prep);">Prise en charge Bureau IA</span>
+      </div>
+    </div>
+
+    <!-- Barre d'outils et de filtres -->
+    <div class="reg-toolbar">
+      <div class="reg-search-box">
+        <span class="reg-search-icon">🔍</span>
+        <input type="text" id="reg-search-input" placeholder="Rechercher par titre de projet, demandeur ou direction..." oninput="filterInitiatives()">
+      </div>
+      <div class="reg-filters">
+        <select class="reg-select" id="reg-filter-status" onchange="filterInitiatives()">
+          <option value="ALL">Tous les statuts</option>
+          <option value="PENDING">⏳ En attente de validation</option>
+          <option value="ACCEL">🟢 Voie accélérée</option>
+          <option value="COND">🟡 Conditionnelle</option>
+          <option value="PREP">🔵 En préparation & Accompagnement</option>
+        </select>
+        <button class="btn-action" onclick="fetchInitiatives()">
+          <span>🔄 Actualiser</span>
+        </button>
+        <button class="btn-action" onclick="openAgentsConfigModal()" style="background: linear-gradient(135deg, #002060 0%, #0284C7 100%); color: white; border: 1.5px solid #38BDF8; font-weight: 700; padding: 8px 15px; border-radius: 6px; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.28); display: inline-flex; align-items: center; gap: 8px;">
+          <span>🤖 4 Agents STORM & Règles d'Analyse</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Table des initiatives -->
+    <div class="reg-table-card">
+      <table class="reg-table">
+        <thead>
+          <tr>
+            <th style="width: 70px;">Réf.</th>
+            <th>Initiative & Porteur d'affaires</th>
+            <th>Direction</th>
+            <th>Typologie</th>
+            <th style="text-align: center;">Score Faisabilité</th>
+            <th>Statut Officiel</th>
+            <th style="text-align: center;">Livrables Comité IA</th>
+            <th style="text-align: right;">Action Analyste</th>
+          </tr>
+        </thead>
+        <tbody id="initiatives-tbody">
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 36px; color: var(--iq-text-muted);">
+              Chargement des dossiers depuis PostgreSQL...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- MODAL DE VALIDATION HUMAINE OFFICIELLE PAR L'ANALYSTE -->
+  <div class="reg-modal-overlay" id="val-modal">
+    <div class="reg-modal-card">
+      <div class="reg-modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 22px;">⚖️</span>
+          <div>
+            <h3 id="modal-project-title" style="margin: 0; font-size: 16px;">Validation Officielle de l'Initiative</h3>
+            <span style="font-size: 11px; color: #93C5FD;" id="modal-project-sub">Dossier d'évaluation formelle — Bureau de l'IA & Escouade IA</span>
+          </div>
+        </div>
+        <button class="reg-modal-close" onclick="closeValidationModal()">✕</button>
+      </div>
+
+      <div class="reg-modal-body" id="modal-body-container">
+        <!-- Bannière d'état & téléchargement direct des livrables -->
+        <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+              <span id="modal-badge-score" style="font-size: 18px; font-weight: 900; font-family: 'Outfit', sans-serif; color: var(--iq-navy);">-- %</span>
+              <span id="modal-badge-gate" class="status-badge status-pending">Calcul en cours</span>
+            </div>
+            <div style="font-size: 12px; color: #475569;" id="modal-meta-line">Direction : -- · Porteur : -- · Typologie : --</div>
+          </div>
+          <div style="display: flex; gap: 8px;" id="modal-download-actions">
+            <!-- Rempli dynamiquement avec boutons Word et Excel -->
+          </div>
+        </div>
+
+        <!-- Barre d'onglets pour navigation fluide -->
+        <div class="modal-nav-tabs">
+          <button type="button" class="modal-tab-btn active" id="tab-btn-1" onclick="switchModalTab(1)">
+            <span>📋 1. Réponses & Cadrage Métier</span>
+          </button>
+          <button type="button" class="modal-tab-btn" id="tab-btn-2" onclick="switchModalTab(2)">
+            <span>🛡️ 2. Filtre d'Appétit au Risque DGIR</span>
+          </button>
+          <button type="button" class="modal-tab-btn" id="tab-btn-3" onclick="switchModalTab(3)">
+            <span>📊 3. Grille de Faisabilité (28 critères)</span>
+          </button>
+          <button type="button" class="modal-tab-btn" id="tab-btn-4" onclick="switchModalTab(4)">
+            <span>✍️ 4. Homologation Humaine</span>
+          </button>
+        </div>
+
+        <!-- CONTENU ONGLET 1 : RÉPONSES & CADRAGE MÉTIER -->
+        <div class="modal-tab-content active" id="modal-pane-1">
+          <div style="background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+            <h4 style="font-size: 13.5px; font-weight: 700; color: var(--iq-navy); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <span>🎯</span> Description du Besoin & Objectifs de Valeur
+            </h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+              <div>
+                <strong style="font-size: 11.5px; color: #64748B; text-transform: uppercase;">Description du Besoin :</strong>
+                <p id="modal-cadrage-desc" style="font-size: 12.5px; color: #1E293B; line-height: 1.5; margin: 4px 0 0 0;"></p>
+              </div>
+              <div>
+                <strong style="font-size: 11.5px; color: #64748B; text-transform: uppercase;">Objectif de Valeur Métier :</strong>
+                <p id="modal-cadrage-obj" style="font-size: 12.5px; color: #1E293B; line-height: 1.5; margin: 4px 0 0 0;"></p>
+              </div>
+            </div>
+
+            <h4 style="font-size: 13.5px; font-weight: 700; color: var(--iq-navy); margin: 16px 0 10px 0; display: flex; align-items: center; gap: 6px;">
+              <span>⚙️</span> Paramètres Opérationnels & Conformité Réglementaire
+            </h4>
+            <table class="report-table" style="font-size: 12px; margin-bottom: 0;">
+              <tr>
+                <th style="width: 25%;">Données & Sensibilité</th>
+                <td id="modal-cadrage-data">--</td>
+                <th style="width: 25%;">Loi 25 (Pers.)</th>
+                <td id="modal-cadrage-loi25">--</td>
+              </tr>
+              <tr>
+                <th>Supervision humaine</th>
+                <td id="modal-cadrage-human">--</td>
+                <th>RTO (Résilience)</th>
+                <td id="modal-cadrage-rto">--</td>
+              </tr>
+              <tr>
+                <th>Utilisateurs cibles</th>
+                <td id="modal-cadrage-users">--</td>
+                <th>Sources de données</th>
+                <td id="modal-cadrage-sources">--</td>
+              </tr>
+            </table>
+          </div>
+
+          <div id="modal-interview-section" style="display: none; background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px;">
+            <h4 style="font-size: 13.5px; font-weight: 700; color: var(--iq-navy); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+              <span>💬</span> Réponses Complémentaires recueillies lors de l'Entrevue de Cadrage
+            </h4>
+            <div id="modal-interview-qa-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+          </div>
+        </div>
+
+        <!-- CONTENU ONGLET 2 : FILTRE D'APPÉTIT AU RISQUE DGIR 2026 -->
+        <div class="modal-tab-content" id="modal-pane-2">
+          <div style="background: #EFF6FF; border: 1.5px solid #93C5FD; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 18px;">🛡️</span>
+                <div>
+                  <strong style="color: #1E40AF; font-size: 13px;">Filtre Préliminaire de Gouvernance — Appétit au Risque DGIR 2026</strong><br>
+                  <span style="font-size: 11.5px; color: #3B82F6;">Arrimage conforme à la Grille d'évaluation cas usage de la Direction Générale de la Gestion Intégrée des Risques (DGIR)</span>
+                </div>
+              </div>
+              <span id="modal-dgir-status-badge" style="font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 12px; background: #DCFCE7; color: #166534; border: 1px solid #86EFAC;">
+                🟢 Appétit au Risque Respecté
+              </span>
+            </div>
+          </div>
+
+          <!-- Tableau officiel des 5 Thématiques DGIR -->
+          <table class="dgir-table" id="modal-dgir-table">
+            <thead>
+              <tr>
+                <th style="width: 18%;">Thématique IA</th>
+                <th style="width: 28%;">Sous-risques IA & Amplification Entreprise</th>
+                <th style="width: 38%;">Choix de Positionnement Corporatif (Grille du Risque)</th>
+                <th style="width: 16%; text-align: center;">Cible & Statut</th>
+              </tr>
+            </thead>
+            <tbody id="modal-dgir-tbody">
+              <!-- Rempli dynamiquement avec cases cochées ☑/☐ -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- CONTENU ONGLET 3 : GRILLE DE FAISABILITÉ COMPLÈTE (28 CRITÈRES) -->
+        <div class="modal-tab-content" id="modal-pane-3">
+          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <strong style="color: #166534; font-size: 13px;">📊 Grille de Faisabilité Officielle d'Investissement Québec (28 Critères — Grille DD)</strong><br>
+              <span style="font-size: 11.5px; color: #15803D;">Notes attribuées (0 à 4) et justifications officielles rédigées pour chaque critère</span>
+            </div>
+            <div style="font-size: 13px; font-weight: 700; color: #14532D;" id="modal-feasibility-summary-score">
+              Total : -- / 112 pts
+            </div>
+          </div>
+
+          <table class="feasibility-detail-table">
+            <thead>
+              <tr>
+                <th style="width: 60px; text-align: center;">#</th>
+                <th style="width: 32%;">Critère d'Évaluation de Faisabilité</th>
+                <th style="width: 80px; text-align: center;">Note (0-4)</th>
+                <th>Justification Officielle Motivée</th>
+              </tr>
+            </thead>
+            <tbody id="modal-feasibility-tbody">
+              <!-- Rempli dynamiquement avec les 28 critères -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- CONTENU ONGLET 4 : FORMULAIRE D'HOMOLOGATION OFFICIELLE -->
+        <div class="modal-tab-content" id="modal-pane-4">
+          <div style="background: white; border: 2px solid #002060; border-radius: var(--radius-md); padding: 20px;">
+            <h4 style="font-size: 14px; font-weight: 700; color: var(--iq-navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+              <span>✍️</span> Attribution Formelle de la Décision d'Homologation
+            </h4>
+            <p style="font-size: 12.5px; color: #475569; margin-bottom: 16px;">
+              En tant qu'Analyste en Gouvernance IA du Bureau de l'IA, confirmez la porte d'homologation selon le niveau de préparation et les mesures d'atténuation.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px;">
+              <label style="border: 1.5px solid #86EFAC; background: #F0FDF4; border-radius: 8px; padding: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 13px;">
+                <input type="radio" name="modal-decision" value="🟢 VOIE ACCÉLÉRÉE : Approbation recommandée (Haute maturité)" checked>
+                <div>
+                  <strong style="color: #166534;">🟢 Voie accélérée (Approbation recommandée)</strong><br>
+                  <span style="font-size: 11.5px; color: #166534;">Dossier hautement mature (> 80%), aucun audit complémentaire requis.</span>
+                </div>
+              </label>
+
+              <label style="border: 1.5px solid #FDE047; background: #FEFCE8; border-radius: 8px; padding: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 13px;">
+                <input type="radio" name="modal-decision" value="🟡 HOMOLOGATION CONDITIONNELLE : Conditions de conformité ciblées">
+                <div>
+                  <strong style="color: #854D0E;">🟡 Homologation conditionnelle (Mitigations requises)</strong><br>
+                  <span style="font-size: 11.5px; color: #854D0E;">Déploiement sous réserve de conformité stricte (ÉFVP Loi 25 et contrôle humain).</span>
+                </div>
+              </label>
+
+              <label style="border: 1.5px solid #93C5FD; background: #EFF6FF; border-radius: 8px; padding: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 13px;">
+                <input type="radio" name="modal-decision" value="🔵 EN PRÉPARATION : Accompagnement renforcé du Bureau de l'IA">
+                <div>
+                  <strong style="color: #1E40AF;">🔵 En préparation & Accompagnement renforcé du Bureau de l'IA</strong><br>
+                  <span style="font-size: 11.5px; color: #1E40AF;">On n'exclut rien : le Bureau de l'IA prend en charge l'équipe pour combler chaque lacune.</span>
+                </div>
+              </label>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+              <label style="display: block; font-size: 12px; font-weight: 700; color: var(--iq-navy); margin-bottom: 6px;">
+                Conditions d'homologation & Notes d'accompagnement de l'Analyste :
+              </label>
+              <textarea id="modal-notes" rows="3" style="width: 100%; border: 1.5px solid var(--iq-border); border-radius: var(--radius-sm); padding: 8px 12px; font-family: inherit; font-size: 12.5px;" placeholder="Ex: Déploiement pilote autorisé pour 3 mois avec échantillonnage hebdomadaire. Signature de l'ÉFVP requise avant toute mise à l'échelle."></textarea>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <label style="display: block; font-size: 12px; font-weight: 700; color: var(--iq-navy); margin-bottom: 6px;">
+                Nom de l'Analyste / Administrateur signataire :
+              </label>
+              <input type="text" id="modal-validator-name" value="Bureau de l'IA & Escouade IA — Investissement Québec" style="width: 100%; border: 1.5px solid var(--iq-border); border-radius: var(--radius-sm); padding: 8px 12px; font-family: inherit; font-size: 12.5px;">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+              <button class="btn-action" onclick="closeValidationModal()">Annuler</button>
+              <button class="btn-action btn-validate-highlight" onclick="confirmValidation()">
+                <span>✍️ Consigner l'Homologation Officielle au Registre</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIGURATION DES 4 AGENTS STORM ET LEURS RÈGLES D'ANALYSE -->
+  <div class="reg-modal-overlay" id="modal-agents-config">
+    <div class="reg-modal-card" style="max-width: 1220px;">
+      <div class="reg-modal-header" style="background: linear-gradient(135deg, #002060 0%, #0284C7 100%);">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 26px;">🤖</span>
+          <div>
+            <h3 style="margin: 0; font-size: 16.5px; color: white;">Console d'Administration — 4 Agents STORM & Règles d'Analyse</h3>
+            <span style="font-size: 11.5px; color: #BAE6FD;">Architecture Multi-Agents • Bureau de l'IA & Escouade IA • Cadre Unifié DGIR 2026</span>
+          </div>
+        </div>
+        <button class="reg-modal-close" onclick="closeAgentsConfigModal()">✕</button>
+      </div>
+
+      <div class="reg-modal-body" style="padding: 22px;">
+        <!-- Bannière explicative institutionnelle -->
+        <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border: 1.5px solid #93C5FD; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span style="font-size: 16px;">🏛️</span>
+            <span style="font-weight: 800; color: #1E40AF; font-size: 13px;">ARCHITECTURE MULTI-AGENTS INSPIRÉE DE STANFORD STORM</span>
+          </div>
+          <p style="margin: 0; font-size: 12px; color: #1E3A8A; line-height: 1.5;">
+            L'évaluation des initiatives d'IA chez Investissement Québec mobilise 4 agents spécialisés. Associez à chaque agent ses règles d'analyse officielles (Appétit DGIR 2026, Grille DD 28 critères, Gabarit Word STORM Blanc sur Bleu, Portes d'Homologation), activez/désactivez des contrôles et ajustez les seuils d'admissibilité.
+          </p>
+        </div>
+
+        <!-- Onglets des 4 Agents STORM -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
+          <button type="button" class="agent-tab-btn active" id="tab-btn-agent_risk" onclick="switchAgentTab('agent_risk')">
+            <span>🛡️</span>
+            <span>Agent de Risque & Conformité</span>
+          </button>
+          <button type="button" class="agent-tab-btn" id="tab-btn-agent_feasibility" onclick="switchAgentTab('agent_feasibility')">
+            <span>🧠</span>
+            <span>Agent de Faisabilité & Archi TI</span>
+          </button>
+          <button type="button" class="agent-tab-btn" id="tab-btn-agent_writer" onclick="switchAgentTab('agent_writer')">
+            <span>✍️</span>
+            <span>Agent Rédacteur & Synthèse</span>
+          </button>
+          <button type="button" class="agent-tab-btn" id="tab-btn-agent_gatekeeper" onclick="switchAgentTab('agent_gatekeeper')">
+            <span>⚖️</span>
+            <span>Agent Valideur / Gardien</span>
+          </button>
+        </div>
+
+        <!-- Conteneur dynamique des 4 agents (rempli par JS) -->
+        <div id="agents-config-container">
+          <div style="text-align: center; padding: 40px; color: var(--iq-text-muted);">
+            Chargement de la configuration des 4 agents depuis l'API...
+          </div>
+        </div>
+
+        <!-- Footer d'actions -->
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1.5px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <button type="button" class="btn-action" onclick="resetAgentsConfig()" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #475569; font-weight: 600;">
+            <span>↺ Rétablir les Paramètres par Défaut</span>
+          </button>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-action" onclick="closeAgentsConfigModal()">Fermer</button>
+            <button type="button" class="btn-action" onclick="saveAgentsConfig()" style="background: linear-gradient(135deg, #002060 0%, #16A34A 100%); color: white; border: none; font-weight: 700; padding: 9px 18px; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);">
+              <span>💾 Enregistrer les Règles des 4 Agents</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Détermination dynamique de l'URL API (100% compatible Render et environnements cloud)
+    const API_BASE = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== "null" && window.location.protocol !== 'file:')
+      ? `${window.location.origin}/api`
+      : "/api";
+    let ALL_INITIATIVES = [];
+    let CURRENT_VALIDATING_ID = null;
+
+    // Métadonnées officielles des 28 critères de faisabilité IQ (Grille DD)
+    const FAISABILITE_AXES_METADATA = [
+      { id: 1, label: "Axe 1 — Valeur Métier", weight: "15%", max: 20 },
+      { id: 2, label: "Axe 2 — Données & Qualité", weight: "15%", max: 20 },
+      { id: 3, label: "Axe 3 — Faisabilité Technique", weight: "10%", max: 20 },
+      { id: 4, label: "Axe 4 — Effort & Ressources (RTO)", weight: "5%", max: 16 },
+      { id: 5, label: "Axe 5 — Risques & Loi 25", weight: "40%", max: 20 },
+      { id: 6, label: "Axe 6 — Adoption & Changement", weight: "15%", max: 16 }
+    ];
+
+    const EVAL_QUESTIONS_MAP = {
+      1: { axe: 1, title: "Le problème à résoudre est-il clairement identifié ?" },
+      2: { axe: 1, title: "Le cas d'usage répond-il à un besoin fréquent ou à fort volume ?" },
+      3: { axe: 1, title: "La valeur attendue est-elle mesurable ?" },
+      4: { axe: 1, title: "Le cas d'usage s'aligne-t-il sur les priorités stratégiques ?" },
+      5: { axe: 1, title: "Existe-t-il un sponsor d'affaires engagé ?" },
+      6: { axe: 2, title: "Les données nécessaires existent-elles déjà chez IQ ?" },
+      7: { axe: 2, title: "La qualité des données est-elle suffisante ?" },
+      8: { axe: 2, title: "Le volume de données est-il adapté au modèle envisagé ?" },
+      9: { axe: 2, title: "Les données sont-elles structurées ou facilement exploitables ?" },
+      10: { axe: 2, title: "Les droits d'utilisation des données sont-ils confirmés ?" },
+      11: { axe: 3, title: "La tâche est-elle adaptée aux capacités actuelles de l'IA ?" },
+      12: { axe: 3, title: "Une solution existe-t-elle déjà sur le marché ou chez IQ ?" },
+      13: { axe: 3, title: "L'intégration aux systèmes existants est-elle réaliste ?" },
+      14: { axe: 3, title: "Le niveau de précision attendu est-il atteignable ?" },
+      15: { axe: 3, title: "Une preuve de concept (POC) est-elle réalisable rapidement ?" },
+      16: { axe: 4, title: "L'effort de mise en œuvre est-il raisonnable ?" },
+      17: { axe: 4, title: "Les compétences requises sont-elles disponibles chez IQ ?" },
+      18: { axe: 4, title: "Les coûts (licences, infra, maintenance) sont-ils maîtrisés ?" },
+      19: { axe: 4, title: "Le cas d'usage est-il reproductible ou extensible ?" },
+      20: { axe: 5, title: "Le traitement respecte-t-il la Loi 25 sur les renseignements personnels ?" },
+      21: { axe: 5, title: "Les risques de biais ou d'erreurs sont-ils identifiés et gérés ?" },
+      22: { axe: 5, title: "Un humain garde-t-il le contrôle sur la décision finale ?" },
+      23: { axe: 5, title: "La traçabilité et l'auditabilité sont-elles assurées ?" },
+      24: { axe: 5, title: "Le cas d'usage respecte-t-il la sécurité de l'information (CSI) ?" },
+      25: { axe: 6, title: "Les utilisateurs finaux sont-ils demandeurs et motivés ?" },
+      26: { axe: 6, title: "L'usage s'intègre-t-il naturellement dans les habitudes de travail ?" },
+      27: { axe: 6, title: "Un plan de formation et d'accompagnement est-il prévu ?" },
+      28: { axe: 6, title: "Des indicateurs de succès (KPI) sont-ils définis ?" }
+    };
+
+    // Définition officielle des 5 Thématiques d'Appétit au Risque DGIR (Grille évaluation cas usage.xlsx)
+    const DGIR_RISK_APPETITE_THEMATIQUES = [
+      {
+        id: "donnees",
+        name: "1. Nature des données",
+        subRisk: "Fuite de données, multiplicité des flux, respect du calendrier de conservation et traitement des consentements",
+        riskIa: "Protection des données et vie privée / Conformité réglementaire",
+        enterpriseRisk: "Fuite de données / Légal",
+        choices: [
+          { level: 1, label: "Données publiques", desc: "Aucun renseignement sensible ou confidentiel" },
+          { level: 2, label: "Données internes non sensibles", desc: "Corpus internes généraux, sans données financières critiques" },
+          { level: 3, label: "Données confidentielles", desc: "Données d'entreprises, analyses financières et secret d'affaires" },
+          { level: 4, label: "Renseignements personnels et/ou hautement confidentiels", desc: "Assujetti à la Loi 25 (ÉFVP requise)" }
+        ]
+      },
+      {
+        id: "outil",
+        name: "2. Type d'outil",
+        subRisk: "Perte de contrôle sur la sécurité, le traitement et l'hébergement; fragmentation applicative",
+        riskIa: "Sécurité et menaces adversariales / Conformité légale",
+        enterpriseRisk: "Fuite de données / Architecture TI",
+        choices: [
+          { level: 1, label: "SIA sur environnement fermé - Développement interne", desc: "Contrôle complet de l'infrastructure et du modèle" },
+          { level: 2, label: "SIA sur environnement fermé - Licences corporatives", desc: "Contrôle partiel (Azure IQ / Copilot M365 sécurisé)" },
+          { level: 3, label: "SIA publics reconnus", desc: "Peu de contrôle (Plateformes SaaS tierces certifiées)" },
+          { level: 4, label: "SIA publics méconnus", desc: "Très peu de contrôle (Outils non audités TI)" }
+        ]
+      },
+      {
+        id: "extrant",
+        name: "3. Type d'extrant",
+        subRisk: "Hallucinations, erreurs factuelles, biais algorithmiques, dérives d'usages et perte d'expertise",
+        riskIa: "Fiabilité et exactitude / Biais algorithmique / Dépendance",
+        enterpriseRisk: "Exécution des processus / Capital humain",
+        choices: [
+          { level: 1, label: "Assistant à la tâche", desc: "Aide ponctuelle à la rédaction ou synthèse avec validation humaine" },
+          { level: 2, label: "Analyse", desc: "Génération de résumés comparatifs et structuration d'information" },
+          { level: 3, label: "Recommandation clientèle ou stratégique", desc: "Orientation décisionnelle pour clients ou comités" },
+          { level: 4, label: "Décision irréversible", desc: "Décision automatisée sans supervision humaine" }
+        ]
+      },
+      {
+        id: "exposition",
+        name: "4. Exposition externe",
+        subRisk: "Conseils non autorisés, engagement de responsabilité, transparence et attaques par injection",
+        riskIa: "Réputation et confiance institutionnelle / Transparence",
+        enterpriseRisk: "Légal / Réputation / Sécurité",
+        choices: [
+          { level: 1, label: "Usage interne n'ayant aucune influence sur les clients", desc: "Outil purement administratif interne" },
+          { level: 2, label: "Usage interne influençant indirectement les clients", desc: "Analyses relues par un conseiller avant transmission" },
+          { level: 3, label: "Usage interne influençant directement les clients", desc: "Conseils ayant un impact direct sur les dossiers" },
+          { level: 4, label: "Exposition externe grand public ou transversal", desc: "Accessible directement par le public ou externe" }
+        ]
+      },
+      {
+        id: "materialite",
+        name: "5. Matérialité (RTO)",
+        subRisk: "Surconfiance à l'IA, résilience opérationnelle, dépendance à la technologie et fournisseurs",
+        riskIa: "Fiabilité / Dépendance technologique / Résilience",
+        enterpriseRisk: "Conception des processus / Fournisseurs",
+        choices: [
+          { level: 1, label: "RTO plus de 72 heures", desc: "Processus non critique, tolérance d'interruption > 3 jours" },
+          { level: 2, label: "RTO 72 heures", desc: "Processus standard (reprise visée à 72h)" },
+          { level: 3, label: "RTO 24 heures", desc: "Processus important exigeant une reprise sous 24h" },
+          { level: 4, label: "RTO 4 heures", desc: "Processus critique ou continu (très haute disponibilité)" }
+        ]
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchInitiatives();
+    });
+
+    async function fetchInitiatives() {
+      const tbody = document.getElementById("initiatives-tbody");
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 36px; color: var(--iq-text-muted);">Actualisation des dossiers en cours...</td></tr>`;
+
+      try {
+        const resp = await fetch(`${API_BASE}/initiatives`);
+        if (!resp.ok) throw new Error("Impossible de joindre l'API PostgreSQL");
+        const rawData = await resp.json();
+        ALL_INITIATIVES = Array.isArray(rawData) ? rawData : (Array.isArray(rawData?.initiatives) ? rawData.initiatives : []);
+        renderInitiatives(ALL_INITIATIVES);
+        updateKPIs(ALL_INITIATIVES);
+
+        // Auto-ouverture du dossier ciblé (aiguillage depuis Phase 5 ou notification externe)
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetId = urlParams.get('id');
+        if (targetId) {
+          const found = ALL_INITIATIVES.find(it => String(it.id) === String(targetId));
+          if (found) {
+            setTimeout(() => {
+              openValidationModal(parseInt(targetId));
+            }, 300);
+          }
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 36px; color: #DC2626;">❌ Erreur : ${err.message}. Vérifiez que le conteneur Docker PostgreSQL et le backend sont actifs.</td></tr>`;
+      }
+    }
+
+    function updateKPIs(list) {
+      document.getElementById("kpi-total-initiatives").innerText = list.length;
+      
+      let pending = 0, accel = 0, cond = 0, prep = 0;
+      list.forEach(item => {
+        const st = (item.status || item.recommendation || "").toLowerCase();
+        if (item.validated_at) {
+          if (st.includes("accélérée") || st.includes("go") || st.includes("haute maturité")) accel++;
+          else if (st.includes("conditionnelle")) cond++;
+          else prep++;
+        } else {
+          pending++;
+        }
+      });
+
+      document.getElementById("kpi-pending-validation").innerText = pending;
+      document.getElementById("kpi-accelerated").innerText = accel;
+      document.getElementById("kpi-conditional").innerText = cond;
+      document.getElementById("kpi-in-preparation").innerText = prep;
+    }
+
+    function renderInitiatives(list) {
+      const tbody = document.getElementById("initiatives-tbody");
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 36px; color: var(--iq-text-muted);">Aucune initiative trouvée dans le Registre officiel.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(item => {
+        const refId = `IQ-${item.id}`;
+        const title = item.title || item.name || "Initiative IA";
+        const sponsor = item.sponsor || item.owner_name || "Non spécifié";
+        const direction = item.direction || "Investissement Québec";
+        const tool = item.tool_type || "RAG / Modèle IA";
+        const score = item.percentage ? `${parseFloat(item.percentage).toFixed(1)}% (${item.total_score || '--'}/112)` : "Calculé";
+        
+        let statusBadge = "";
+        const rawStatus = item.status || item.recommendation || "";
+        if (!item.validated_at && (!rawStatus || rawStatus.toLowerCase().includes("attente") || rawStatus.includes("NO-GO"))) {
+          statusBadge = `<span class="status-badge status-pending">⏳ En attente de validation</span>`;
+        } else if (rawStatus.includes("VOIE ACCÉLÉRÉE") || rawStatus.includes("GO")) {
+          statusBadge = `<span class="status-badge status-accel">🟢 Voie accélérée</span>`;
+        } else if (rawStatus.includes("CONDITIONNELLE")) {
+          statusBadge = `<span class="status-badge status-cond">🟡 Conditionnelle</span>`;
+        } else {
+          statusBadge = `<span class="status-badge status-prep">🔵 En préparation (Bureau IA)</span>`;
+        }
+
+        const excelName = item.excel_path ? item.excel_path.split("/").pop() : "";
+        const wordName = item.docx_memo_path ? item.docx_memo_path.split("/").pop() : "";
+
+        return `
+          <tr>
+            <td style="font-weight: 700; color: #1E40AF;">${refId}</td>
+            <td>
+              <strong style="color: var(--iq-navy);">${title}</strong><br>
+              <span style="font-size: 11.5px; color: #64748B;">Porteur : ${sponsor}</span>
+            </td>
+            <td><span style="font-size: 12px; color: #334155;">${direction}</span></td>
+            <td><span style="font-size: 11.5px; background: #F1F5F9; padding: 3px 8px; border-radius: 6px;">${tool}</span></td>
+            <td style="text-align: center; font-weight: 700; color: var(--iq-navy);">${score}</td>
+            <td>${statusBadge}</td>
+            <td style="text-align: center; white-space: nowrap;">
+              ${wordName ? `<a href="${API_BASE}/download/${wordName}" class="btn-action" title="Télécharger le Mémo Word nettoyé" style="padding: 4px 8px; font-size: 11px;">📝 Word</a>` : `<span style="color:#94A3B8; font-size:11px;">--</span>`}
+              ${excelName ? `<a href="${API_BASE}/download/${excelName}" class="btn-action" title="Télécharger la Grille Excel pré-remplie" style="padding: 4px 8px; font-size: 11px; margin-left: 4px;">📊 Excel</a>` : ``}
+            </td>
+            <td style="text-align: right; white-space: nowrap;">
+              <button class="btn-action btn-validate-highlight" onclick="openValidationModal(${item.id})">
+                <span>⚖️ Examiner & Valider</span>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterInitiatives() {
+      const q = document.getElementById("reg-search-input").value.toLowerCase();
+      const statusFilter = document.getElementById("reg-filter-status").value;
+
+      const filtered = ALL_INITIATIVES.filter(item => {
+        const textMatch = (item.title || "").toLowerCase().includes(q) ||
+                          (item.sponsor || "").toLowerCase().includes(q) ||
+                          (item.direction || "").toLowerCase().includes(q);
+
+        if (!textMatch) return false;
+
+        const st = (item.status || item.recommendation || "").toLowerCase();
+        if (statusFilter === "PENDING") return !item.validated_at;
+        if (statusFilter === "ACCEL") return st.includes("accélérée") || st.includes("go");
+        if (statusFilter === "COND") return st.includes("conditionnelle");
+        if (statusFilter === "PREP") return st.includes("préparation");
+        return true;
+      });
+
+      renderInitiatives(filtered);
+    }
+
+    function switchModalTab(tabNum) {
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`tab-btn-${i}`);
+        const pane = document.getElementById(`modal-pane-${i}`);
+        if (btn) btn.classList.toggle('active', i === tabNum);
+        if (pane) pane.classList.toggle('active', i === tabNum);
+      }
+    }
+
+    async function openValidationModal(id) {
+      CURRENT_VALIDATING_ID = id;
+      const modal = document.getElementById("val-modal");
+      modal.classList.add("active");
+      switchModalTab(2); // Ouvrir par défaut sur le filtre d'appétit au risque DGIR
+
+      document.getElementById("modal-project-title").innerText = `Chargement du dossier IQ-${id}...`;
+
+      try {
+        const resp = await fetch(`${API_BASE}/initiatives/${id}`);
+        if (!resp.ok) throw new Error("Impossible de charger les détails du dossier.");
+        const init = await resp.json();
+
+        // 1. En-tête du modal
+        const title = init.title || init.name || `Initiative IQ-${id}`;
+        document.getElementById("modal-project-title").innerText = `Dossier N° IQ-${id} : « ${title} »`;
+        document.getElementById("modal-project-sub").innerText = `Direction : ${init.direction || "Investissement Québec"} · Porteur : ${init.sponsor || init.owner_name || "Non spécifié"}`;
+        document.getElementById("modal-meta-line").innerText = `Direction : ${init.direction || "--"} · Porteur : ${init.sponsor || "--"} · Solution : ${(init.tool_type || "--").toUpperCase()}`;
+        
+        const pct = init.percentage ? parseFloat(init.percentage).toFixed(1) : (init.total_score ? ((init.total_score/112)*100).toFixed(1) : "75.0");
+        document.getElementById("modal-badge-score").innerText = `${pct} % (${init.total_score || '--'} / 112 pts)`;
+
+        const gateBadge = document.getElementById("modal-badge-gate");
+        const rec = init.status || init.recommendation || "HOMOLOGATION CONDITIONNELLE";
+        gateBadge.innerText = rec;
+        if (rec.includes("ACCÉLÉRÉE") || rec.includes("GO")) {
+          gateBadge.className = "status-badge status-accel";
+        } else if (rec.includes("CONDITIONNELLE")) {
+          gateBadge.className = "status-badge status-cond";
+        } else {
+          gateBadge.className = "status-badge status-prep";
+        }
+
+        // Boutons de téléchargement direct des livrables réservés à l'Analyste
+        const actionsDiv = document.getElementById("modal-download-actions");
+        const excelName = init.excel_path ? init.excel_path.split("/").pop() : "";
+        const wordName = init.docx_memo_path ? init.docx_memo_path.split("/").pop() : "";
+        actionsDiv.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 11px; font-weight: 800; color: #1E3A8A; text-transform: uppercase;">Livrables Analyste :</span>
+            ${wordName ? `<a href="${API_BASE}/download/${wordName}" download class="btn-action" style="font-size: 11.5px; font-weight: 700; padding: 6px 12px; background: #EFF6FF; border: 1.5px solid #3B82F6; color: #1E40AF; border-radius: 6px; box-shadow: 0 1px 4px rgba(37,99,235,0.15); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><span>📝</span> Télécharger Mémo (.docx)</a>` : '<span style="font-size: 11px; color: #94A3B8;">Mémo en attente</span>'}
+            ${excelName ? `<a href="${API_BASE}/download/${excelName}" download class="btn-action" style="font-size: 11.5px; font-weight: 700; padding: 6px 12px; background: #F0FDF4; border: 1.5px solid #22C55E; color: #166534; border-radius: 6px; box-shadow: 0 1px 4px rgba(34,197,94,0.15); text-decoration: none; display: inline-flex; align-items: center; gap: 5px;"><span>📊</span> Télécharger Grille (.xlsx)</a>` : '<span style="font-size: 11px; color: #94A3B8;">Grille en attente</span>'}
+          </div>
+        `;
+
+        // 2. ONGLET 1 : Cadrage Métier & Réponses
+        const raw = init.raw_payload || {};
+        document.getElementById("modal-cadrage-desc").innerText = init.description || raw.description || "Aucune description fournie.";
+        document.getElementById("modal-cadrage-obj").innerText = init.business_objective || raw.business_objective || "Non spécifié.";
+        document.getElementById("modal-cadrage-data").innerText = init.data_sources || raw.data_sources || "Corpus documentaires internes";
+        document.getElementById("modal-cadrage-loi25").innerText = (init.contains_personal_data || raw.contains_personal_data) ? "⚠️ Oui (Renseignements personnels détectés)" : "✅ Non (Données non nominatives)";
+        document.getElementById("modal-cadrage-human").innerText = raw.clarifHumanRole === 'automated_flow' ? "Automatisé avec surveillance" : "Validation humaine obligatoire";
+        document.getElementById("modal-cadrage-rto").innerText = `${init.rto_hours || raw.rto_hours || 72} heures`;
+        document.getElementById("modal-cadrage-users").innerText = init.target_users || raw.target_users || "Équipes internes d'Investissement Québec";
+        document.getElementById("modal-cadrage-sources").innerText = init.data_sources || raw.data_sources || "SharePoint / Répertoires sécurisés IQ";
+
+        // Questions complémentaires d'entrevue si existantes
+        const interviewSec = document.getElementById("modal-interview-section");
+        const qaContainer = document.getElementById("modal-interview-qa-list");
+        if (raw.interview_qa && raw.interview_qa.length > 0) {
+          interviewSec.style.display = 'block';
+          qaContainer.innerHTML = raw.interview_qa.map(qa => `
+            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 10px 12px;">
+              <strong style="font-size: 12px; color: var(--iq-navy);">${qa.question}</strong>
+              <p style="font-size: 12px; color: #334155; margin: 4px 0 0 0;">« ${qa.response || "Non renseigné"} »</p>
+            </div>
+          `).join('');
+        } else {
+          interviewSec.style.display = 'none';
+        }
+
+        // 3. ONGLET 2 : Filtre d'Appétit au Risque DGIR 2026 (Grille évaluation cas usage.xlsx)
+        renderModalDgirFilter(init, raw);
+
+        // 4. ONGLET 3 : Grille de Faisabilité (28 critères & Justifications)
+        renderModalFeasibilityGrid(init, raw);
+
+        // 5. ONGLET 4 : Pré-remplir décision si déjà validée
+        if (init.validated_at) {
+          document.getElementById("modal-notes").value = init.validation_notes || "";
+          document.getElementById("modal-validator-name").value = init.validated_by || "Bureau de l'IA & Escouade IA";
+        }
+
+      } catch (err) {
+        console.error("Erreur ouverture dossier:", err);
+        alert("Erreur de chargement du dossier : " + err.message);
+      }
+    }
+
+    function renderModalDgirFilter(init, raw) {
+      const tbody = document.getElementById("modal-dgir-tbody");
+      const isPII = init.contains_personal_data || raw.contains_personal_data || raw.clarifDataType === 'personal_pii';
+      const toolType = (init.tool_type || raw.tool_type || "").toLowerCase();
+      const rto = parseInt(init.rto_hours || raw.rto_hours || 72, 10);
+
+      // Calcul des 5 cibles actives selon les caractéristiques du projet
+      let targetDonnees = isPII ? 4 : (raw.clarifDataType === 'client_financial' ? 3 : 2);
+      let targetOutil = toolType.includes("custom") ? 1 : (toolType.includes("rag") || toolType.includes("copilot") ? 2 : 3);
+      let targetExtrant = raw.clarifHumanRole === 'automated_flow' ? 3 : (raw.clarifHumanRole === 'decision_support' ? 2 : 1);
+      let targetExposition = (init.target_users || "").toLowerCase().includes("client") ? 3 : 2;
+      let targetMaterialite = rto > 72 ? 1 : (rto === 72 ? 2 : (rto === 24 ? 3 : 4));
+
+      const activeTargets = {
+        donnees: targetDonnees,
+        outil: targetOutil,
+        extrant: targetExtrant,
+        exposition: targetExposition,
+        materialite: targetMaterialite
+      };
+
+      let maxTarget = Math.max(...Object.values(activeTargets));
+      const statusBadge = document.getElementById("modal-dgir-status-badge");
+      if (maxTarget <= 2) {
+        statusBadge.innerHTML = "🟢 Conforme à l'Appétit au Risque DGIR (Zone de Confort)";
+        statusBadge.style.background = "#DCFCE7";
+        statusBadge.style.color = "#166534";
+      } else if (maxTarget === 3) {
+        statusBadge.innerHTML = "🟡 Zone de Vigilance Métier (Mesures d'Atténuation Requises)";
+        statusBadge.style.background = "#FEF9C3";
+        statusBadge.style.color = "#854D0E";
+      } else {
+        statusBadge.innerHTML = "🔵 Encadrement Renforcé du Bureau de l'IA (Loi 25 / ÉFVP Requise)";
+        statusBadge.style.background = "#EFF6FF";
+        statusBadge.style.color = "#1E40AF";
+      }
+
+      tbody.innerHTML = DGIR_RISK_APPETITE_THEMATIQUES.map(them => {
+        const activeLevel = activeTargets[them.id] || 2;
+
+        const choicesHtml = them.choices.map(c => {
+          const isSelected = c.level === activeLevel;
+          let activeClass = isSelected ? "active-choice" : "";
+          if (isSelected && c.level === 3) activeClass += " active-warn";
+          if (isSelected && c.level === 4) activeClass += " active-danger";
+
+          return `
+            <div class="choice-box ${activeClass}">
+              <span style="font-size: 13px;">${isSelected ? "☑" : "☐"}</span>
+              <div>
+                <strong>${c.label}</strong> (Cible ${c.level})<br>
+                <span style="font-size: 10.5px; opacity: 0.85;">${c.desc}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        let badgeClass = "score-2";
+        let targetText = `Cible ${activeLevel} / 4`;
+        if (activeLevel === 1) badgeClass = "score-4";
+        else if (activeLevel === 2) badgeClass = "score-3";
+        else if (activeLevel === 3) badgeClass = "score-2";
+        else badgeClass = "score-1";
+
+        return `
+          <tr>
+            <td>
+              <strong style="color: var(--iq-navy); font-size: 12.5px;">${them.name}</strong>
+            </td>
+            <td>
+              <div style="font-size: 11.5px; color: #1E293B; margin-bottom: 4px;">${them.subRisk}</div>
+              <div style="font-size: 10.5px; color: #64748B;"><strong>Risque IA :</strong> ${them.riskIa}</div>
+              <div style="font-size: 10.5px; color: #64748B;"><strong>Amplification corpo :</strong> ${them.enterpriseRisk}</div>
+            </td>
+            <td>${choicesHtml}</td>
+            <td style="text-align: center;">
+              <span class="score-badge ${badgeClass}" style="font-size: 12px; padding: 4px 10px;">${targetText}</span>
+              <div style="font-size: 10px; margin-top: 4px; font-weight: 600; color: #475569;">
+                ${activeLevel <= 2 ? "Conforme" : (activeLevel === 3 ? "Point d'attention" : "Loi 25 / ÉFVP")}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderModalFeasibilityGrid(init, raw) {
+      const tbody = document.getElementById("modal-feasibility-tbody");
+      const detailedScores = init.detailed_scores || raw.custom_scores || {};
+      const aiJustifs = init.ai_justifications || raw.custom_justifications || {};
+
+      let totalScore = 0;
+      let rowsHtml = "";
+
+      for (let i = 1; i <= 28; i++) {
+        const qMeta = EVAL_QUESTIONS_MAP[i] || { axe: 1, title: `Critère #${i}` };
+        const score = detailedScores[String(i)] !== undefined ? parseFloat(detailedScores[String(i)]) : 3;
+        const justif = aiJustifs[String(i)] || "Critère conforme aux standards de gouvernance et vérifié par l'Analyste du Bureau de l'IA.";
+        totalScore += score;
+
+        let badgeClass = "score-3";
+        if (score === 4) badgeClass = "score-4";
+        else if (score === 3) badgeClass = "score-3";
+        else if (score === 2) badgeClass = "score-2";
+        else badgeClass = "score-1";
+
+        rowsHtml += `
+          <tr>
+            <td style="text-align: center; font-weight: 700; color: #64748B;">#${i}</td>
+            <td>
+              <strong style="color: var(--iq-navy);">${qMeta.title}</strong><br>
+              <span style="font-size: 10.5px; color: #64748B;">Axe ${qMeta.axe} (${FAISABILITE_AXES_METADATA[qMeta.axe-1].label})</span>
+            </td>
+            <td style="text-align: center;">
+              <span class="score-badge ${badgeClass}">${score} / 4</span>
+            </td>
+            <td style="line-height: 1.45; color: #334155;">
+              ${justif}
+            </td>
+          </tr>
+        `;
+      }
+
+      tbody.innerHTML = rowsHtml;
+      document.getElementById("modal-feasibility-summary-score").innerText = `Total : ${totalScore} / 112 pts (${((totalScore/112)*100).toFixed(1)} %)`;
+    }
+
+    function closeValidationModal() {
+      CURRENT_VALIDATING_ID = null;
+      document.getElementById("val-modal").classList.remove("active");
+    }
+
+    async function confirmValidation() {
+      if (!CURRENT_VALIDATING_ID) return;
+
+      const decision = document.querySelector('input[name="modal-decision"]:checked').value;
+      const notes = document.getElementById("modal-notes").value;
+      const validator = document.getElementById("modal-validator-name").value;
+
+      try {
+        const resp = await fetch(`${API_BASE}/validate-initiative/${CURRENT_VALIDATING_ID}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            decision: decision,
+            notes: notes,
+            validator_name: validator
+          })
+        });
+
+        if (!resp.ok) throw new Error("Échec de l'enregistrement de l'homologation.");
+        
+        closeValidationModal();
+        alert("✅ L'homologation officielle a été consignée au Registre avec succès !");
+        await fetchInitiatives();
+      } catch (err) {
+        alert("❌ Erreur : " + err.message);
+      }
+    }
+
+    function escapeQuote(str) {
+      return (str || "").replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    // =========================================================================
+    // GESTION DES 4 AGENTS DE GOUVERNANCE STORM ET RÈGLES D'ANALYSE
+    // =========================================================================
+    let STORM_AGENTS_DATA = null;
+    let ACTIVE_AGENT_TAB = "agent_risk";
+
+    async function openAgentsConfigModal() {
+      document.getElementById("modal-agents-config").classList.add("active");
+      await fetchAgentsConfig();
+    }
+
+    function closeAgentsConfigModal() {
+      document.getElementById("modal-agents-config").classList.remove("active");
+    }
+
+    function switchAgentTab(agentId) {
+      ACTIVE_AGENT_TAB = agentId;
+      document.querySelectorAll(".agent-tab-btn").forEach(btn => {
+        btn.classList.remove("active");
+      });
+      const activeBtn = document.getElementById(`tab-btn-${agentId}`);
+      if (activeBtn) activeBtn.classList.add("active");
+      
+      document.querySelectorAll(".agent-pane").forEach(pane => {
+        pane.classList.remove("active");
+      });
+      const activePane = document.getElementById(`pane-${agentId}`);
+      if (activePane) activePane.classList.add("active");
+    }
+
+    async function fetchAgentsConfig() {
+      const container = document.getElementById("agents-config-container");
+      try {
+        const resp = await fetch(`${API_BASE}/governance-agents/config`);
+        if (!resp.ok) throw new Error("Échec du chargement de la configuration des agents");
+        const data = await resp.json();
+        STORM_AGENTS_DATA = data.agents || {};
+        renderAgentsConfigUI();
+      } catch (err) {
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: #DC2626;">❌ Erreur : ${err.message}</div>`;
+      }
+    }
+
+    function renderAgentsConfigUI() {
+      const container = document.getElementById("agents-config-container");
+      if (!STORM_AGENTS_DATA) return;
+
+      const agentIds = ["agent_risk", "agent_feasibility", "agent_writer", "agent_gatekeeper"];
+      let html = "";
+
+      agentIds.forEach(id => {
+        const ag = STORM_AGENTS_DATA[id];
+        if (!ag) return;
+        const isActivePane = (id === ACTIVE_AGENT_TAB);
+
+        html += `
+          <div class="agent-pane ${isActivePane ? 'active' : ''}" id="pane-${id}">
+            <!-- Bandeau de l'Agent -->
+            <div class="agent-card-banner">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <span style="font-size: 32px;">${ag.icon}</span>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <h4 style="margin: 0; font-size: 16px; color: var(--iq-navy);">${ag.name}</h4>
+                    <span class="agent-badge-tag" style="background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE;">${ag.badge}</span>
+                  </div>
+                  <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--iq-text-muted); max-width: 780px;">
+                    ${ag.description}
+                  </p>
+                  <div style="font-size: 11px; color: #64748B; margin-top: 4px;">
+                    🤖 <strong>Modèle & Fondement :</strong> ${ag.model}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label class="switch-wrap">
+                  <span style="font-size: 12px; font-weight: 700; color: #334155;">Statut de l'Agent :</span>
+                  <input type="checkbox" id="agent-status-${id}" ${ag.status === 'Actif' ? 'checked' : ''} style="display: none;" onchange="toggleAgentStatus('${id}')">
+                  <span class="switch-toggle"></span>
+                  <strong id="agent-status-label-${id}" style="font-size: 12px; color: ${ag.status === 'Actif' ? '#16A34A' : '#64748B'};">${ag.status}</strong>
+                </label>
+              </div>
+            </div>
+
+            <!-- Table des Règles d'Analyse Associées -->
+            <div style="border: 1px solid var(--iq-border); border-radius: 8px; overflow: hidden;">
+              <table class="rule-table">
+                <thead>
+                  <tr>
+                    <th style="width: 28%;">Règle d'Analyse & Grille Associée</th>
+                    <th style="width: 40%;">Description & Rationale de Contrôle</th>
+                    <th style="width: 22%;">Seuil / Critère d'Admissibilité</th>
+                    <th style="width: 10%; text-align: center;">Actif</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${(ag.rules || []).map((r, rIdx) => `
+                    <tr>
+                      <td>
+                        <strong style="color: var(--iq-navy); font-size: 13px;">${r.name}</strong><br>
+                        <span class="rule-source-badge">📄 ${r.source}</span>
+                      </td>
+                      <td style="color: #334155; font-size: 12px; line-height: 1.45;">
+                        ${r.desc}
+                      </td>
+                      <td>
+                        <input type="text" id="rule-threshold-${id}-${r.id}" value="${r.threshold || ''}" style="width: 100%; padding: 6px 10px; font-size: 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; font-family: inherit;">
+                      </td>
+                      <td style="text-align: center;">
+                        <label class="switch-wrap" style="justify-content: center;">
+                          <input type="checkbox" id="rule-enabled-${id}-${r.id}" ${r.enabled ? 'checked' : ''} style="display: none;">
+                          <span class="switch-toggle"></span>
+                        </label>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function toggleAgentStatus(agentId) {
+      const chk = document.getElementById(`agent-status-${agentId}`);
+      const lbl = document.getElementById(`agent-status-label-${agentId}`);
+      if (chk && lbl && STORM_AGENTS_DATA && STORM_AGENTS_DATA[agentId]) {
+        const isAct = chk.checked;
+        STORM_AGENTS_DATA[agentId].status = isAct ? "Actif" : "En pause";
+        lbl.innerText = isAct ? "Actif" : "En pause";
+        lbl.style.color = isAct ? "#16A34A" : "#64748B";
+      }
+    }
+
+    async function saveAgentsConfig() {
+      if (!STORM_AGENTS_DATA) return;
+
+      // Récupérer les modifications depuis le DOM
+      Object.keys(STORM_AGENTS_DATA).forEach(agentId => {
+        const ag = STORM_AGENTS_DATA[agentId];
+        const statusChk = document.getElementById(`agent-status-${agentId}`);
+        if (statusChk) {
+          ag.status = statusChk.checked ? "Actif" : "En pause";
+        }
+
+        (ag.rules || []).forEach(r => {
+          const thInp = document.getElementById(`rule-threshold-${agentId}-${r.id}`);
+          const enChk = document.getElementById(`rule-enabled-${agentId}-${r.id}`);
+          if (thInp) r.threshold = thInp.value.trim();
+          if (enChk) r.enabled = enChk.checked;
+        });
+      });
+
+      try {
+        const resp = await fetch(`${API_BASE}/governance-agents/config`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ agents: STORM_AGENTS_DATA })
+        });
+        if (!resp.ok) throw new Error("Échec de la sauvegarde sur l'API");
+        const res = await resp.json();
+        alert("✅ Les règles d'analyse des 4 agents STORM ont été enregistrées avec succès !");
+        closeAgentsConfigModal();
+      } catch (err) {
+        alert("❌ Erreur de sauvegarde : " + err.message);
+      }
+    }
+
+    async function resetAgentsConfig() {
+      if (!confirm("Voulez-vous rétablir les règles et seuils par défaut des 4 agents de gouvernance ?")) return;
+
+      try {
+        const resp = await fetch(`${API_BASE}/governance-agents/reset`, { method: "POST" });
+        if (!resp.ok) throw new Error("Échec du rétablissement des paramètres par défaut");
+        const data = await resp.json();
+        STORM_AGENTS_DATA = data.agents || {};
+        renderAgentsConfigUI();
+        alert("↺ Les paramètres d'origine des 4 agents STORM ont été rétablis.");
+      } catch (err) {
+        alert("❌ Erreur : " + err.message);
+      }
+    }
+  </script>
+
+
+</body>
+</html>

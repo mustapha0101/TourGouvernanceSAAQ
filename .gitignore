@@ -1,0 +1,12 @@
+node_modules/
+.env
+.DS_Store
+*.log
+uploads/
+generated_outputs/
+audio_cache/
+*.db
+*.bak
+__pycache__/
+*.pyc
+
