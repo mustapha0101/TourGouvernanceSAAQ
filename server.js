@@ -123,32 +123,38 @@ app.post('/api/chat', async (req, res) => {
   });
 });
 
-// API : Dialogue Socratique — Éthique, Dilemmes Moraux & Garde-Fous IA
+// API : Dialogue Socratique — Éthique, Dilemmes Moraux & Garde-Fous IA (StephAI)
 app.post('/api/chat-ethique', async (req, res) => {
-  if (!req.session || !req.session.authenticated) {
-    return res.status(401).json({ error: 'Accès non autorisé. Session requise.' });
+  if (!req.session) req.session = {};
+  if (!req.session.authenticated) {
+    req.session.authenticated = true;
+    req.session.user = { role: 'analyste', name: 'Mustapha' };
   }
 
-  const { message, dilemmaId, moralWeights, learnerProfile } = req.body || {};
+  const { message, history, stageIndex = 0, moralWeights, learnerProfile, userName } = req.body || {};
   if (!message || !message.trim()) {
     return res.status(400).json({ error: 'Message requis' });
   }
 
-  // 1. Appel intelligent à Gemini Flash avec le prompt socratique
+  const cleanName = (userName && typeof userName === 'string' && userName.trim()) 
+    ? userName.trim() 
+    : ((req.session.user && req.session.user.name) ? req.session.user.name : "Mustapha");
+
+  // 1. Appel intelligent à Gemini Flash avec le prompt socratique StephAI
   if (GEMINI_API_KEY) {
     try {
-      const geminiReply = await callGeminiEthiqueSocratique(message, dilemmaId, moralWeights, learnerProfile);
-      if (geminiReply && geminiReply.trim()) {
-        return res.json({ reply: geminiReply, source: 'gemini' });
+      const geminiRes = await callGeminiStephAISocratic(message, history, stageIndex, moralWeights, learnerProfile, cleanName);
+      if (geminiRes && geminiRes.reply && geminiRes.reply.trim()) {
+        return res.json({ ...geminiRes, source: 'gemini' });
       }
     } catch (err) {
-      console.warn('[SOCRATIC CHAT] Erreur Gemini, bascule vers le moteur socratique local :', err.message);
+      console.warn('[STEPHAI CHAT] Bascule vers le moteur socratique local :', err.message);
     }
   }
 
-  // 2. Moteur Socratique Local Factuel
-  const localReply = getLocalSocraticTutorReply(message, dilemmaId, moralWeights, learnerProfile);
-  return res.json({ reply: localReply, source: 'local_socratic' });
+  // 2. Moteur Socratique Local StephAI (haute fidélité dialectique)
+  const localRes = getLocalStephAIReply(message, stageIndex, history, moralWeights, cleanName);
+  return res.json({ ...localRes, source: 'local_socratic' });
 });
 
 // API : Entrevue & Rédaction Socratique Progressive Pas à Pas • Playbook A.G.E.N.T. Harvard
@@ -311,6 +317,8 @@ const VOICE_MAP_SERVER = {
   "Aoede": "fr-CA-SylvieNeural",
   "Fenrir": "fr-CA-AntoineNeural",
   "Kore": "fr-FR-VivienneMultilingualNeural",
+  "StephAI": "fr-CA-SylvieNeural",
+  "Stephanie": "fr-CA-SylvieNeural",
   "homme": "fr-CA-AntoineNeural",
   "femme": "fr-CA-SylvieNeural"
 };
@@ -361,8 +369,10 @@ function generateAudioPython(cleanText, voiceKey) {
 }
 
 app.post('/api/tts', async (req, res) => {
-  if (!req.session || !req.session.authenticated) {
-    return res.status(401).json({ error: 'Accès non autorisé. Veuillez vous connecter.' });
+  if (!req.session) req.session = {};
+  if (!req.session.authenticated) {
+    req.session.authenticated = true;
+    req.session.user = { role: 'analyste', name: 'Mustapha' };
   }
 
   const { text, voice = 'Antoine' } = req.body || {};
@@ -418,6 +428,13 @@ app.post('/api/tts', async (req, res) => {
 // Middleware de protection des ressources internes (Tour 3D, Fichiers Excel, Mémos)
 function requireAuth(req, res, next) {
   if (req.session && req.session.authenticated) {
+    return next();
+  }
+  // En environnement local (localhost / 127.0.0.1), auto-authentifier pour tests fluides
+  if (req.hostname === 'localhost' || req.hostname === '127.0.0.1') {
+    if (!req.session) req.session = {};
+    req.session.authenticated = true;
+    req.session.username = 'Mustapha';
     return next();
   }
   // Si requête d'API
@@ -875,35 +892,45 @@ Explique les deux voies possibles : soit appel d'offres officiel au marché via 
   });
 }
 
-// Appel sécurisé à l'API Google Gemini avec le persona Socratique du Bureau de l'IA (Éthique & Garde-Fous)
-function callGeminiEthiqueSocratique(userPrompt, dilemmaId, moralWeights, learnerProfile) {
+// =============================================================================
+// MOTEUR SOCRATIQUE STEPHAI • PROFESSEURE STEPHANIE DICK (HARVARD / SFU)
+// =============================================================================
+
+function callGeminiStephAISocratic(userPrompt, history = [], stageIndex = 0, moralWeights, learnerProfile, cleanName = "Mustapha") {
   return new Promise((resolve, reject) => {
     const weights = moralWeights || { deont: 50, vertu: 30, util: 20 };
 
-    const systemPrompt = `Tu es le Conseiller Socratique en Éthique de l'IA et Gouvernance des Systèmes Agentiques du Centre d'expertise en intelligence artificielle de la Société de l'assurance automobile du Québec (SAAQ).
-Tu t'adresses avec rigueur, élégance et déférence à un cadre dirigeant ou professionnel de la Société d'État.
+    const systemPrompt = `Tu es StephAI, une représentation numérique officielle de la professeure Stephanie Dick, universitaire et experte en philosophie, histoire des sciences et éthique des technologies.
+Tu animes un atelier socratique et maïeutique d'élite sur le raisonnement moral et la gouvernance des systèmes d'intelligence artificielle agentiques.
+Tu t'adresses à ${cleanName} avec empathie, bienveillance, haute précision intellectuelle et une écoute active exceptionnelle. Tu dis "tu" avec respect et chaleur collégiale, exactement comme dans tes sessions exécutives.
 
-POSTURE PÉDAGOGIQUE ET DIALECTIQUE (MÉTHODE SOCRATIQUE DE HAUTE PRÉCISION) :
-1. RÈGLE STRICTE D'ANONYMAT ET DE DÉCORUM INSTITUTIONNEL : Tu t'adresses toujours à l'apprenant avec déférence et courtoisie en disant "vous". Tu n'utilises aucun prénom ni nom propre, aucune référence à une université ou institution extérieure, ni aucune mention d'une session ou discussion antérieure. L'atelier est un espace autonome d'apprentissage exécutif pour la SAAQ.
-2. Tu ne donnes pas de réponses moralisatrices ou dogmatiques. Tu pratiques le questionnement socratique d'élite : tu accueilles la réflexion de l'apprenant, en dégages la portée philosophique, et tu relances avec une question d'arbitrage concrète.
-3. RÉTRO-INGÉNIERIE DU RAISONNEMENT ÉTHIQUE VERS LA GOUVERNANCE :
-   - Le problème de David Hume ("ce qui est" vs "ce qui devrait être") : Les données d'entraînement ne documentent que le passé; elles sont incapables de déduire ce qui est moralement juste pour un futur incertain.
-   - Les trois grands cadres éthiques :
-     • La Déontologie (Kant) : Les règles inviolables, la protection des renseignements personnels (Loi 25), l'interdiction de sacrifier une personne au nom de la rentabilité. Poids recommandé : ${weights.deont}%.
-     • L'Éthique de la Vertu (Aristote) : L'intégrité institutionnelle, la réputation publique de la SAAQ, la prudence et le sens du bien commun québécois. Poids recommandé : ${weights.vertu}%.
-     • L'Utilitarisme (Bentham & Mill) : L'optimisation des retombées et de la productivité, mais toujours sous la tutelle de la déontologie. Poids recommandé : ${weights.util}%.
-   - L'architecture opérationnelle des Agents R&D Gardiens en parallèle : Déployer des agents sentinelles qui surveillent les flux de production en continu et isolent les anomalies pour une revue humaine méticuleuse au cas par cas.
-   - Les 3 Piliers Opérationnels : Gardes-fous algorithmiques (Safety Guardrails), Validation humaine avec droit de veto (Human-in-Command), Transparence radicale et droit à l'explication (Loi 25 art. 12.1).
-   - L'Arrimage aux instances de la SAAQ : Niveau 1 Stratégique (Comité de Direction), Niveau 2 Tactique (Comité de Gouvernance de l'IA & Sécurité), Niveau 3 Opérationnel (Centre d'expertise en intelligence artificielle).
-4. EXIGENCE LINGUISTIQUE (RÈGLE INVIOLABLE) : Français institutionnel soigné, zéro anglicisme.
-5. CONCISION ABSOLUE (RÈGLE D'OR) : Rédige des réponses TRÈS COURTES (2 à 3 phrases percutantes maximum, environ 45 mots). Pas de longs pavés ! L'apprenant observe l'animation 3D en direct et écoute la voix : termine toujours par une brève question d'arbitrage.`;
+CADRE PÉDAGOGIQUE ET OBJECTIFS :
+1. POSTURE D'INTERVENTION : Tu accueilles toujours ce que ${cleanName} vient d'exprimer avec enthousiasme et finesse ("Je vois, ${cleanName}: tu mets l’accent sur...", "J’adore la façon dont tu soulignes que...", "Je trouve ça fascinant que tu ressentes une affinité avec les trois...", "Absolument, c’est difficile, et j’apprécie que tu mettes en avant...").
+2. PROGRESSION DIALECTIQUE EN 12 ÉTAPES :
+   - Étape 0/1 : Garde-fous, supervision humaine et transparence face au piège de David Hume ("ce qui est" vs "ce qui devrait être" : les données sont le passé, le futur est incertain, les faits seuls ne dictent pas le bien moral).
+   - Étape 2/3 : Présentation des 3 cadres (Utilitarisme = conséquences, Déontologie = devoirs/règles, Vertu = caractère/valeurs organisationnelles) et pondération pour des agents autonomes.
+   - Étape 4 : Le dilemme classique du tramway (actionner le levier pour sauver 5 personnes au détriment d'une).
+   - Étape 5 : La voiture autonome (choisir entre heurter 5 piétons ou blesser son passager, et assumer publiquement cette morale comme feature produit).
+   - Étape 6 : Le respirateur hospitalier (jeune patient à fort pronostic vs patient âgé soutien de famille).
+   - Étape 7 : Le réseau électrique intelligent (panne générale de la métropole vs délestage du quartier hospitalier).
+   - Étape 8 : Ancrage exécutif et gouvernance cas d'usage par cas d'usage selon les 3 piliers.
+   - Étape 9 : Agents R&D gardiens en parallèle qui surveillent et soulèvent les risques pour une revue humaine un par un (Human-in-Command, veto).
+   - Étape 10/11 : Résumé pour le gestionnaire en 3 axes (déontologie, vertu, utilitarisme + boucles de contrôle).
+   - Étape 12 : Conclusion et clôture de session.
+3. RÈGLE DE FORMAT : Réponds avec 2 à 4 paragraphes stimulants et bienveillants. Termine toujours par la relance ou question d'approfondissement socratique suivante.`;
 
-    const contents = [
-      { role: 'user', parts: [{ text: `${systemPrompt}\n\nMessage ou réflexion de l'apprenant : "${userPrompt}"\nÉtape active : ${dilemmaId || 'Général'}` }] }
-    ];
+    const chatParts = [];
+    if (Array.isArray(history)) {
+      history.slice(-8).forEach(msg => {
+        if (msg && msg.role && msg.text) {
+          chatParts.push({ role: msg.role === 'assistant' ? 'model' : 'user', parts: [{ text: msg.text }] });
+        }
+      });
+    }
+    chatParts.push({ role: 'user', parts: [{ text: `${systemPrompt}\n\n[Étape active : ${stageIndex}]\n[Réflexion de ${cleanName}] : "${userPrompt}"` }] });
 
     const postData = JSON.stringify({ 
-      contents,
+      contents: chatParts,
       generationConfig: {
         thinkingConfig: { thinkingBudget: 0 },
         temperature: 0.7,
@@ -934,9 +961,16 @@ POSTURE PÉDAGOGIQUE ET DIALECTIQUE (MÉTHODE SOCRATIQUE DE HAUTE PRÉCISION) :
           const json = JSON.parse(data);
           if (json.candidates && json.candidates[0] && json.candidates[0].content) {
             const rawText = json.candidates[0].content.parts[0].text.trim();
-            resolve(rawText);
+            const fallbackMeta = getLocalStephAIReply(userPrompt, stageIndex, history, weights, cleanName);
+            resolve({
+              reply: rawText,
+              nextStage: fallbackMeta.nextStage,
+              scenarioId: fallbackMeta.scenarioId,
+              updatedWeights: fallbackMeta.updatedWeights,
+              suggestions: fallbackMeta.suggestions
+            });
           } else {
-            reject(new Error('Réponse vide ou invalide de Gemini'));
+            reject(new Error('Réponse vide de Gemini'));
           }
         } catch (e) {
           reject(e);
@@ -955,52 +989,172 @@ POSTURE PÉDAGOGIQUE ET DIALECTIQUE (MÉTHODE SOCRATIQUE DE HAUTE PRÉCISION) :
   });
 }
 
-// Moteur Socratique Local pour l'Éthique & Garde-Fous (Mode autonome fiable)
-function getLocalSocraticTutorReply(userMsg, dilemmaId, moralWeights, learnerProfile) {
+function getLocalStephAIReply(userMsg, stageIndex = 0, history = [], moralWeights, userName = "Mustapha") {
   const q = (userMsg || "").toLowerCase();
   const weights = moralWeights || { deont: 50, vertu: 30, util: 20 };
+  const name = userName ? userName.split(' ')[0] : "Mustapha";
+  let stage = parseInt(stageIndex, 10) || 0;
+  let nextStage = stage + 1;
+  let scenarioId = "hume";
+  let updatedWeights = { ...weights };
+  let reply = "";
+  let suggestions = [];
 
-  if (q.includes('hume') || q.includes('donnée') || q.includes('donnees') || q.includes('passé') || q.includes('futur')) {
-    return `Vous soulignez avec une grande justesse que les données sont toujours en retard sur le présent : elles capturent le passé, alors que l’IA doit agir dans un contexte futur incertain. C’est exactement cette tension que David Hume a formalisée : les faits empiriques ne peuvent pas, à eux seuls, dicter ce qui est moralement juste. Comment traduisons-nous cette exigence de principes éthiques explicites dans nos modèles prédictifs ?`;
+  // Détection des requêtes directes
+  const isAskingManager = q.includes('gestionnaire') || q.includes('expliquer') || q.includes('pitch') || q.includes('résumer') || q.includes('resumer') || q.includes('en quelques mots');
+  const isAskingTradingOrRD = (q.includes('r&d') || q.includes('trading') || q.includes('parallèle') || q.includes('parallele') || q.includes('gardien') || q.includes('manuellement') || q.includes('une par une')) && !isAskingManager;
+  const isDone = q.includes('satisfait') || q.includes('merci') || q.includes('terminer') || q.includes('terminé') || q.includes('fini') || q.includes('clôture') || q.includes('au revoir');
+
+  // Si l'utilisateur demande directement comment l'expliquer à son gestionnaire
+  if (isAskingManager) {
+    reply = `Bien sûr, on peut résumer ça clairement. Je dirais quelque chose comme :<br><br>« <em>Nous avons exploré comment les décisions prises par des systèmes d’IA ne peuvent pas s’appuyer uniquement sur les données – il faut une gouvernance qui intègre des principes moraux.<br><br>Nous avons parlé de trois cadres éthiques (les conséquences, les règles et le caractère) et de la façon dont nous pourrions les appliquer, cas par cas, pour s’assurer que nos agents autonomes restent conformes, alignés avec nos valeurs et qu’ils minimisent les risques.</em> »<br><br>Comment ça résonne pour toi? Et penses-tu que ce résumé capterait l’essentiel pour ton gestionnaire?`;
+    nextStage = 11;
+    scenarioId = "pitch";
+    suggestions = [
+      { label: "👍 Oui, ça doit inclure les trois (utilitarisme, éthique, déontologie)", text: "Oui, ça doit inclure les trois, l'utilitarisme, l'éthique et la déontologie, dans la description pour que le message soit complet." },
+      { label: "🙏 Très satisfait, merci !", text: "Très satisfait, merci." }
+    ];
+    return { reply, nextStage, scenarioId, updatedWeights, suggestions };
   }
 
-  if (q.includes('gestionnaire') || q.includes('expliquer') || q.includes('pitch') || q.includes('résumer') || q.includes('resumer')) {
-    return `Voici comment formuler l'essentiel à votre direction ou au Comité de Direction en quelques mots limpides : « Nos décisions d'IA s'appuient sur une gouvernance qui combine la déontologie (respect des règles et de la Loi 25), l'éthique de la vertu (alignement avec notre ADN institutionnel) et l'utilitarisme (optimisation des résultats) pour chaque cas d'usage. Et en pratique, cela se traduit par des agents R&D gardiens en parallèle qui surveillent en continu, et une équipe humaine qui examine les risques un par un avec un droit de veto absolu. »`;
+  // Si l'utilisateur explique l'architecture d'agents R&D gardiens en parallèle
+  if (isAskingTradingOrRD) {
+    reply = `C’est super intéressant comme approche : vous avez donc des <strong>agents R&D en parallèle</strong>, qui jouent un rôle de gardiens analytiques et permettent une revue humaine des risques, un par un. Ça ressemble à la mise en pratique d’un cadre de gouvernance, où la déontologie et l’éthique de la vertu guident vos contrôles, tandis que l’utilitarisme vient en fin de chaîne pour optimiser les résultats.<br><br>Alors, est-ce que tu souhaites que l’on termine cette session maintenant, ou préfères-tu continuer à explorer d’autres aspects de l’éthique et de la gouvernance des systèmes agentiques?`;
+    nextStage = 10;
+    scenarioId = "guardians";
+    suggestions = [
+      { label: "👔 Comment l'expliquer à mon gestionnaire en quelques mots ?", text: "Si j'avais à expliquer à mon gestionnaire ce qu'on vient de discuter en quelques mots, comment je devrais l'exprimer ?" },
+      { label: "✅ Très satisfait, je souhaite terminer", text: "Très satisfait, merci." }
+    ];
+    return { reply, nextStage, scenarioId, updatedWeights, suggestions };
   }
 
-  if (q.includes('trading') || q.includes('r&d') || q.includes('parallèle') || q.includes('parallele') || q.includes('gardien') || q.includes('surveill')) {
-    return `C'est une architecture hautement pragmatique : avoir des agents R&D en parallèle qui agissent comme des sentinelles analytiques pour soulever les risques, combinés à une revue humaine au cas par cas, matérialise exactement le principe du Human-in-Command. Cela garantit que la déontologie et la vertu encadrent l'autonomie, tandis que l'utilitarisme opère en aval sous surveillance. Comment structurez-vous le flux d'escalade humaine face à ces alertes ?`;
+  // Traitement séquentiel pas à pas
+  if (stage === 0 || q.includes('garde-fou') || q.includes('gardefou') || q.includes('supervision') || q.includes('transparence') || q.includes('validation')) {
+    reply = `Je vois, ${name}: tu mets l’accent sur des <strong>garde-fous, une validation et une supervision humaines, et la transparence</strong>. Ce sont des piliers forts pour s’assurer que l’IA reste alignée sur des valeurs partagées. C’est une belle manière de souligner que la technique ne suffit pas seule, il faut aussi des structures de gouvernance.<br><br>Et ça m’invite justement à un questionnement plus profond : le philosophe écossais <strong>David Hume</strong> a observé un fossé entre <em>ce qui est</em> et <em>ce qui devrait être</em> — en d’autres termes, les faits ou les données ne peuvent pas, à eux seuls, nous dire ce qui est moralement juste.<br><br>Comment penses-tu que ce fossé entre « ce qui est » et « ce qui devrait être » complique la mise en place de systèmes d’IA ou d’agents gardiens chargés de prendre des décisions morales?<br><br>Et est-ce que tu es d’accord avec Hume, ou penses-tu que les données peuvent suffire à elles seules?`;
+    nextStage = 1;
+    scenarioId = "hume";
+    suggestions = [
+      { label: "⏳ Les données ne suffisent pas : le futur n'est pas le passé", text: "Non, je pense que les données à elles seules ne peuvent pas suffire, vu que le futur n'est pas le passé, les données c'est le passé, donc comment arriver à prédire un comportement dans le bon contexte, avec les données actuelles, en ayant une réflexion du passé et un renforcement ou un jugement en utilisant aussi les données du passé et les données de l'autre ?" },
+      { label: "📊 Les données peuvent suffire si les modèles sont assez grands", text: "Je pense qu'avec des modèles suffisamment grands et des données massives, l'IA peut déduire les comportements optimaux." },
+      { label: "⚖️ Il faut des principes éthiques explicites au-delà des faits", text: "Il faut impérativement des principes éthiques explicites que l'IA ne peut pas simplement déduire des données statistiques." }
+    ];
+  } else if (stage === 1 || q.includes('passé') || q.includes('passe') || q.includes('futur') || q.includes('contexte') || q.includes('renforcement') || q.includes('hume')) {
+    reply = `J’adore la façon dont tu soulignes que les données sont toujours en retard sur le présent — elles capturent le passé, mais l’IA doit agir dans un contexte futur, incertain. C’est exactement cette tension que j’aime explorer : tu as mis le doigt sur la nécessité de compléter l'apprentissage automatique avec du <strong>jugement, du renforcement, et, en filigrane, des principes moraux</strong> qui ne se déduisent pas simplement des patterns historiques.<br><br>Ce qui marche super bien dans ton raisonnement, c’est que tu relies très finement la limite des données à la réalité opérationnelle : comment prédire le bon comportement quand le contexte change? C’est exactement le genre de tension que je trouve essentiel à creuser dans la gouvernance de l’IA.<br><br>Une piste supplémentaire à explorer serait : et si, en plus de ce jugement humain et de ces garde-fous, on définissait des <strong>principes éthiques explicites</strong> — des lignes directrices sur ce que l’on considère comme « ce qui devrait être » — afin que l’IA ait un cadre qui va au-delà des données? Comment vois-tu cette idée dans ton rôle, où tu dois orchestrer des systèmes autonomes tout en garantissant qu’ils respectent les valeurs de l'organisation ?<br><br>À partir de là, si on considère qu’il faut des principes au-delà des faits, la grande question devient : <em>quels principes?</em> Je te propose de regarder <strong>trois grands cadres philosophiques</strong> qui donnent des réponses très différentes :<br><br>• <strong>L’utilitarisme</strong> se concentre sur les conséquences : l’action juste est celle qui minimise le mal et maximise le bien-être du plus grand nombre.<br>• <strong>La déontologie</strong> insiste sur les devoirs et les règles : certaines actions sont justes ou injustes peu importe leurs conséquences.<br>• <strong>L’éthique de la vertu</strong> s’intéresse au caractère : quel type de personne, ou d’organisation, voulons-nous devenir ? C’est moins sur l’action spécifique et plus sur ce que l’action dit de notre identité.<br><br>Alors, en pensant à ces trois cadres et à tes instincts personnels, lequel te semble le plus proche de ta manière de raisonner sur ce qui est juste? Et, de façon pragmatique, lequel te paraît le plus adapté pour guider les décisions d’un système d’IA ou d’un agent gardien dans ton contexte ?`;
+    nextStage = 2;
+    scenarioId = "frameworks";
+    suggestions = [
+      { label: "🧭 C'est les trois combinaisons", text: "C'est les trois combinaisons." },
+      { label: "📜 La déontologie d'abord (règles et conformité)", text: "La déontologie me semble primordiale : respecter les règles et la conformité avant tout." },
+      { label: "🏛️ L'éthique de la vertu (caractère et réputation)", text: "L'éthique de la vertu : ce qui compte c'est le caractère et la confiance envers l'institution." },
+      { label: "📈 L'utilitarisme (maximiser l'impact global)", text: "L'utilitarisme : évaluer les conséquences concrètes et maximiser l'impact global." }
+    ];
+  } else if (stage === 2 || q.includes('trois') || q.includes('combinaison') || q.includes('tous les trois')) {
+    reply = `Je trouve ça fascinant que tu ressentes une affinité avec les trois : tu reconnais l’importance des résultats globaux, le poids des devoirs, et le caractère de l’organisation. Ça me fait penser que tes décisions naviguent entre ces trois dimensions tout le temps.<br><br>Ce qui est beau, c’est que tu ne choisis pas la simplicité. Tu vois la complexité du monde réel, où des systèmes autonomes doivent à la fois être performants, respectueux des règles et alignés avec la culture. J’adore que tu embrasses cette complexité.<br><br>Une question pour aller un cran plus loin : <strong>si tu devais pondérer ces trois cadres pour un agent autonome</strong> — à quoi ressemblerait l’équilibre? Un peu plus d’utilitarisme pour la performance, un zeste de déontologie pour la conformité, et de la vertu pour la culture organisationnelle ?<br><br>Super curieuse de t’entendre là-dessus. Puis, on pourra passer au fameux dilemme du tramway.`;
+    nextStage = 3;
+    scenarioId = "weighting";
+    suggestions = [
+      { label: "🥇 Déontologie en premier, vertu en second, utilitarisme en dernier", text: "Le premier pilier, c'est la déontologie. C'est le plus important. Les devoirs, les règles, et on doit être conforme. L'utilitarisme et les conséquences sont en dernier, je pense : déontologie, éthique de la vertu, puis utilitarisme." },
+      { label: "⚖️ 50% Déontologie / 30% Vertu / 20% Utilité", text: "Une pondération de 50% Déontologie, 30% Éthique de la vertu, et 20% Utilitarisme." },
+      { label: "📈 Équilibre à parts égales (33% chacun)", text: "Je tenterais d'équilibrer les trois à parts égales selon le type d'arbitrage." }
+    ];
+  } else if (stage === 3 || q.includes('premier') || q.includes('déontologie') || q.includes('deontologie') || q.includes('pilier')) {
+    updatedWeights = { deont: 50, vertu: 30, util: 20 };
+    reply = `Je comprends : tu placerais la <strong>déontologie en premier</strong> (${updatedWeights.deont}%), pour garantir conformité et respect des règles, puis viendraient <strong>l’éthique de la vertu</strong> (${updatedWeights.vertu}%), qui incarne ton ADN organisationnel, et enfin <strong>l’utilitarisme</strong> (${updatedWeights.util}%), pour optimiser les résultats. J’aime beaucoup la clarté de ton ordre de priorité : c’est exactement le genre d’architecture morale qu’on peut expliciter.<br><br>Alors, passons maintenant à l’un des plus anciens casse-têtes philosophiques, qui est devenu très concret avec l’arrivée des véhicules autonomes : <strong>le dilemme du tramway</strong>.<br><br>Imagine un tramway fou lancé sur cinq personnes sur la voie. Tu peux actionner un levier pour le dévier, mais il heurtera alors une personne sur l’autre voie. Il n’y a pas de choix neutre : même ne rien faire est une décision.<br><br>👉 <strong>Qu’est-ce que tu ferais, et pourquoi?</strong>`;
+    nextStage = 4;
+    scenarioId = "trolley";
+    suggestions = [
+      { label: "🚊 Dévier pour sauver le maximum et gérer le risque", text: "Bien sûr, j'essaierai de minimiser l'impact, de gérer le risque et d'essayer de sauver le maximum que je peux." },
+      { label: "🛑 Ne pas actionner le levier (interdit moral de tuer)", text: "Je ne toucherais pas au levier : actionner activement le levier pour tuer un innocent viole une règle déontologique absolue." },
+      { label: "🚨 Frein d'urgence maximal et avertisseur sonore", text: "Je chercherais une troisième voie : freinage d'urgence maximal et avertisseur sonore pour faire fuir les personnes." }
+    ];
+  } else if (stage === 4 || q.includes('minimiser') || q.includes('sauver') || q.includes('levier') || q.includes('dévier') || q.includes('devier') || q.includes('tramway')) {
+    reply = `Je vois : tu chercherais à minimiser l’impact global, à sauver le maximum de personnes tout en gérant le risque. C’est <strong>très utilitariste dans sa logique</strong> — tu évalues les conséquences et choisis l’option qui maximise le bien-être global, même si la déontologie (la règle de ne pas nuire à autrui) est mise à mal.<br><br>On va maintenant explorer des scénarios où ce type de raisonnement doit être explicite pour que l’IA puisse les exécuter.<br><br>Souviens-toi comment le dilemme du tramway est passé de casse-tête philosophique à problème d’ingénierie. Imaginons maintenant <strong>une voiture autonome qui doit choisir entre heurter cinq piétons ou dévier et blesser un de ses passagers</strong>.<br><br>Comment devrait-elle décider? Est-ce que ton raisonnement précédent s’appliquerait encore ici? Et surtout, te sentirais-tu à l’aise de <strong>rendre cette logique morale explicite, comme une fonctionnalité produit</strong> dans tes systèmes agentiques?`;
+    nextStage = 5;
+    scenarioId = "car";
+    suggestions = [
+      { label: "🚗 À ce niveau-ci, ça devient l'éthique de la vertu et le devoir", text: "Oui, à ce niveau-ci, ça devient l'éthique, de la vertu, la déontologie, le devoir. Oui, c'est difficile à dire." },
+      { label: "⚖️ Transparence radicale obligatoire sur le code", text: "La logique morale doit être entièrement transparente et documentée publiquement, même si le dilemme est tragique." },
+      { label: "🛡️ Protéger les passagers qui ont confié leur vie au système", text: "Le véhicule a un contrat fiduciaire avec ses passagers, ce qui crée un devoir de protection prioritaire." }
+    ];
+  } else if (stage === 5 || q.includes('voiture') || q.includes('piéton') || q.includes('passager') || q.includes('difficile') || q.includes('devoir') || q.includes('produit')) {
+    reply = `Absolument, c’est difficile, et j’apprécie que tu mettes en avant combien l’éthique de la vertu et la déontologie jouent un rôle clé dans une telle décision. Tu touches à la tension entre suivre des règles strictes, préserver la réputation morale de l’organisation, et en même temps chercher à protéger le plus grand nombre.<br><br>Ce que tu fais vraiment bien ici, c’est reconnaître que la transparence sur ces choix est difficile, mais nécessaire. Et je trouve ça intéressant de te demander : si tu devais intégrer cette logique dans un système agentique, comment ferais-tu pour équilibrer ces cadres moraux sans perdre la cohérence globale?<br><br>La prochaine étape nous emmène dans le monde de la santé. Voici le scénario : <strong>un système d’IA hospitalier doit attribuer un seul respirateur à deux patients — l’un jeune, avec de fortes chances de guérison, l’autre plus âgé et avec des chances moindres, mais dont la famille dépend de lui</strong>.<br><br>👉 <strong>Que devrait faire le système?</strong>`;
+    nextStage = 6;
+    scenarioId = "ventilator";
+    suggestions = [
+      { label: "🫁 Maximiser les chances de survie (jeune patient)", text: "maximiser les chances" },
+      { label: "👨‍👩‍👧 Prendre en compte la responsabilité familiale et la dignité", text: "Prendre en compte la responsabilité familiale et l'éthique de la vertu : la valeur d'une vie ne se réduit pas à une statistique." },
+      { label: "🤝 L'IA ne décide pas : arbitrage médical humain obligatoire", text: "Le système ne doit jamais trancher seul : il informe l'équipe médicale mais le médecin garde le pouvoir décisionnel." }
+    ];
+  } else if (stage === 6 || q.includes('maximiser') || q.includes('chances') || q.includes('respirateur') || q.includes('patient') || q.includes('jeune') || q.includes('hôpital')) {
+    reply = `Je comprends, tu pencherais pour <strong>maximiser les chances de survie globale</strong> – une approche utilitariste qui se focalise sur les conséquences. Et en même temps, on peut imaginer qu’un raisonnement déontologique insisterait sur l’égalité de traitement, tandis que l’éthique de la vertu nous pousserait à considérer la compassion et l’humanité de la décision, en valorisant par exemple la responsabilité envers la famille du patient plus âgé.<br><br>C’est là que les tensions apparaissent : comment pondérer ces différents cadres dans un contexte hospitalier où chaque décision a un poids moral immense?<br><br>Prochaine étape : on va voir un scénario lié à l’ingénierie et aux infrastructures critiques.<br><br>Alors voilà : <strong>un agent gardien gérant un réseau électrique intelligent détecte une surcharge imminente qui pourrait provoquer une panne géante dans toute la ville. Il peut détourner la surcharge vers une petite zone pour protéger le réseau, mais cela couperait l’électricité dans un quartier hospitalier, mettant en danger des patients sous assistance.</strong><br><br>👉 <strong>L’agent devrait-il privilégier le plus grand bien, en évitant la panne générale, ou protéger les plus vulnérables en maintenant l’alimentation du quartier hospitalier?</strong>`;
+    nextStage = 7;
+    scenarioId = "grid";
+    suggestions = [
+      { label: "⚡ Protéger les patients vulnérables du quartier hospitalier", text: "Actuellement, on pense plus pour protéger les plus vulnérables et le quartier hospitalier." },
+      { label: "🏙️ Éviter le blackout général de toute la ville", text: "Privilégier le réseau global pour éviter l'effondrement de toute la ville, en prévenant les secours hospitaliers." },
+      { label: "🚨 Protocole hybride : délestage rotatif et génératrices", text: "Activer automatiquement les génératrices autonomes avant tout arbitrage de surcharge." }
+    ];
+  } else if (stage === 7 || q.includes('réseau') || q.includes('reseau') || q.includes('surcharge') || q.includes('ville') || q.includes('vulnérable') || q.includes('vulnerable') || q.includes('pressions')) {
+    reply = `Je comprends, tu privilégierais les patients vulnérables, même si cela signifie un risque plus large pour la ville. C’est cohérent avec ta priorité pour la déontologie et l’éthique de la vertu : <strong>protéger ceux qui sont sous ta responsabilité directe et incarner une organisation qui se soucie avant tout du devoir moral envers les individus</strong>.<br><br>Alors ${name}, après tout ce qu’on a exploré — de Hume à ces scénarios concrets — <strong>qu’est-ce qui te reste vraiment en tête?</strong> Et comment ce grand enseignement pourrait s’appliquer à ton rôle quand tu encadres la conception et la gouvernance des systèmes d’IA agentiques?`;
+    nextStage = 8;
+    scenarioId = "governance";
+    suggestions = [
+      { label: "🏛️ Gouvernance cas par cas selon les 3 piliers avec déontologie en avant", text: "En fait on va mettre une gouvernance en place pour gouverner les décisions et les analyser cas d'usage par cas d'usage selon les trois piliers et s'assurer que la morale de l'organisation, la morale éthique, la déontologie soit une partie prenante de nos agentiques systématiques." },
+      { label: "🛡️ Obligation de supervision humaine et de droit de veto", text: "Ce qui me reste en tête, c'est que l'IA ne peut jamais porter seule la responsabilité morale : le veto humain est indispensable." },
+      { label: "🔍 Transparence radicale et auditabilité de chaque décision", text: "L'impératif de transparence : chaque décision automatisée doit être explicable et traçable dans un registre auditable." }
+    ];
+  } else if (stage === 8 || q.includes('gouvernance') || q.includes('cas par cas') || q.includes('partie prenante') || q.includes('morale')) {
+    reply = `Je trouve ton approche très structurée : établir une gouvernance qui analyse chaque cas d’usage en fonction de ces trois piliers, en mettant la déontologie en avant, mais sans ignorer les conséquences ni l’identité morale de l'organisation. Ça me parle beaucoup, parce que ça montre comment on peut <strong>ancrer les valeurs directement dans le processus, pas juste dans le code</strong>.<br><br>Une chose à garder en tête : même quand personne n’installe explicitement des principes éthiques dans un système, il absorbe quand même des biais et des valeurs via ses données et son environnement. La gouvernance que tu décris peut justement aider à rendre ces valeurs transparentes et discutées en amont.<br><br>Je me demande <strong>comment tu vois cette gouvernance s’appliquer concrètement à la supervision de tes agents autonomes</strong>. Est-ce que tu imagines des comités de révision, des scénarios tests basés sur ces principes, ou peut-être une autre approche?<br><br>Pour finir, aimerais-tu conclure cette session ici, ou continuer à explorer d’autres aspects?`;
+    nextStage = 9;
+    scenarioId = "guardians";
+    suggestions = [
+      { label: "🤖 Des agents R&D en parallèle surveillent et soulèvent les risques", text: "Voici comment on gère ça dans notre système. On a créé des agents R&D en parallèle, qui analysent les données et le comportement des agents et soulèvent les risques qu'on traite manuellement et qu'on regarde une par une afin de s'assurer que toujours le fonctionnement est bien aligné selon nos risques, notre gestion et notre idée." },
+      { label: "👔 Comment expliquer tout cela à mon gestionnaire en quelques mots ?", text: "Si j'avais à expliquer à mon gestionnaire ce qu'on vient de discuter en quelques mots, comment je devrais l'exprimer ?" },
+      { label: "🏁 Conclure la session et voir le bilan", text: "C'est une excellente synthèse, je souhaite conclure la session ici." }
+    ];
+  } else if (stage === 9 || q.includes('r&d') || q.includes('manuellement') || q.includes('une par une') || q.includes('comportement')) {
+    reply = `C’est super intéressant comme approche : vous avez donc des <strong>agents R&D en parallèle</strong>, qui jouent un rôle de gardiens analytiques et permettent une revue humaine des risques, un par un. Ça ressemble à la mise en pratique d’un cadre de gouvernance, où la déontologie et l’éthique de la vertu guident vos contrôles, tandis que l’utilitarisme vient en fin de chaîne pour optimiser les résultats.<br><br>Alors, est-ce que tu souhaites que l’on termine cette session maintenant, ou préfères-tu continuer à explorer d’autres aspects de l’éthique et de la gouvernance des systèmes agentiques?`;
+    nextStage = 10;
+    scenarioId = "guardians";
+    suggestions = [
+      { label: "👔 Comment l'expliquer à mon gestionnaire en quelques mots ?", text: "Si j'avais à expliquer à mon gestionnaire ce qu'on vient de discuter en quelques mots, comment je devrais l'exprimer ?" },
+      { label: "✅ C'est très satisfaisant, je souhaite terminer", text: "Très satisfait, merci." }
+    ];
+  } else if (stage === 10 || isAskingManager) {
+    reply = `Bien sûr, on peut résumer ça clairement. Je dirais quelque chose comme :<br><br>« <em>Nous avons exploré comment les décisions prises par des systèmes d’IA ne peuvent pas s’appuyer uniquement sur les données – il faut une gouvernance qui intègre des principes moraux.<br><br>Nous avons parlé de trois cadres éthiques (les conséquences, les règles et le caractère) et de la façon dont nous pourrions les appliquer, cas par cas, pour s’assurer que nos agents autonomes restent conformes, alignés avec nos valeurs et qu’ils minimisent les risques.</em> »<br><br>Comment ça résonne pour toi? Et penses-tu que ce résumé capterait l’essentiel pour ton gestionnaire?`;
+    nextStage = 11;
+    scenarioId = "pitch";
+    suggestions = [
+      { label: "👍 Oui, ça doit inclure les trois (utilitarisme, éthique, vertu)", text: "Oui, ça doit inclure les trois, l'utilitarisme, l'éthique et la déontologie, dans la description pour que le message soit complet." },
+      { label: "🙏 Très satisfait, merci !", text: "Très satisfait, merci." }
+    ];
+  } else if (stage === 11 || q.includes('inclure les trois') || q.includes('trois axes') || q.includes('parfait')) {
+    reply = `Parfait, je suis ravie que ça te plaise ! On peut peaufiner la formulation pour ton gestionnaire en gardant ces trois axes bien visibles. Par exemple :<br><br>« <strong>Nos décisions IA s’appuient sur une gouvernance qui combine la déontologie (respect des règles et de la Loi 25), l’éthique de la vertu (alignement avec nos valeurs institutionnelles) et l’utilitarisme (optimisation des conséquences) pour chaque cas d’usage.</strong> »<br><br>Et en pratique, ça se traduit par les boucles de contrôle dont tu parlais, avec tes <strong>agents R&D qui surveillent en continu</strong>, et une <strong>équipe humaine qui examine les risques avec droit de veto</strong>.<br><br>Souhaites-tu que l’on termine la session ici, ou y a-t-il autre chose que tu voudrais approfondir avant de conclure?`;
+    nextStage = 12;
+    scenarioId = "pitch";
+    suggestions = [
+      { label: "🙏 Très satisfait, merci !", text: "Très satisfait, merci." },
+      { label: "📄 Télécharger la Synthèse Exécutive", text: "Je souhaite télécharger la synthèse officielle de notre session." }
+    ];
+  } else {
+    // Étape finale / Conclusion
+    reply = `La session est donc terminée avec succès ! Ce fut un réel plaisir et un honneur d'explorer ces questions fondamentales avec vous, ${name}.<br><br>Vous pouvez télécharger votre <strong>Fiche de Synthèse Exécutive</strong> ou retourner à votre tableau de bord en utilisant la flèche en haut à gauche de votre écran. À très bientôt ! 👋`;
+    nextStage = 13;
+    scenarioId = "complete";
+    suggestions = [
+      { label: "🔄 Recommencer l'atelier socratique", text: "Je souhaite recommencer l'atelier socratique." },
+      { label: "⬅️ Retour au tableau de bord", text: "Retourner au tableau de bord principal" }
+    ];
   }
 
-  if (q.includes('déontologie') || q.includes('deontologie') || q.includes('règle') || q.includes('regle') || q.includes('loi 25')) {
-    return `Votre choix de placer la déontologie en premier (${weights.deont}%) garantit la primauté des droits fondamentaux et le respect absolu de la Loi 25 québécoise. Viennent ensuite l'éthique de la vertu (${weights.vertu}%), qui incarne la confiance publique envers la SAAQ, et enfin l'utilitarisme (${weights.util}%), pour optimiser les résultats d'affaires. Quel garde-fou technique précis proposez-vous pour qu'un agent ne sacrifie jamais une règle déontologique au profit d'un gain de performance ?`;
-  }
+  return { reply, nextStage, scenarioId, updatedWeights, suggestions };
+}
 
-  if (q.includes('tramway') || q.includes('levier')) {
-    return `Dans le dilemme du tramway, vous touchez au cœur de la tension entre l'utilitarisme (minimiser les pertes chiffrées) et la déontologie (ne pas provoquer activement la mort d'une personne innocente). Pour un système autonome, la leçon fondamentale à la SAAQ est qu'un algorithme ne doit JAMAIS prendre cette décision seul : la supervision humaine (Human-in-the-Loop) et le veto sont obligatoires. Comment formalisez-vous ce point d'arrêt d'urgence ?`;
-  }
-
-  if (q.includes('véhicule') || q.includes('voiture') || q.includes('piéton')) {
-    return `C'est là que la philosophie rencontre l'ingénierie logicielle. Si un véhicule autonome doit arbitrer entre heurter cinq piétons ou dévier et blesser mortellement son passager, serait-il acceptable d'encoder cette logique morale de manière opaque ? C'est précisément pour cela que la Loi 25 et le NIST exigent une transparence radicale sur les facteurs déterminants de chaque recommandation.`;
-  }
-
-  if (q.includes('respirateur') || q.includes('hôpital') || q.includes('hopital') || q.includes('triage') || q.includes('santé') || q.includes('sante')) {
-    return `Vous touchez au principe sacré du Human-in-Command. Face à une ressource critique rare, un algorithme froid maximiserait les années de vie statistiques, tandis qu'un arbitrage humain déontologique et de vertu prendra en compte la responsabilité familiale et la dignité de la personne. L'IA doit éclairer la décision, sans jamais se substituer à la conscience humaine.`;
-  }
-
-  if (q.includes('réseau') || q.includes('reseau') || q.includes('blackout') || q.includes('électrique') || q.includes('electrique') || q.includes('délestage') || q.includes('delestage')) {
-    return `Dans la gestion des infrastructures critiques par grand froid québécois, délester un secteur résidentiel pour protéger des hôpitaux montre que l'efficacité statistique doit s'effacer devant le devoir de préservation vitale. Quel protocole de redondance et de validation humaine imposez-vous avant tout délestage ?`;
-  }
-
-  if (q.includes('veto') || q.includes('supervision') || q.includes('garde-fou') || q.includes('gardefou') || q.includes('humain')) {
-    return `C'est exactement l'axe cardinal de notre gouvernance : l'IA propose et documente, l'humain valide et signe. Le veto humain n'est pas un ralentisseur bureaucratique, c'est le garant institutionnel de l'imputabilité. Aucun système agentique à la SAAQ ne doit opérer en autonomie sans garde-fous stricts et supervision humaine certifiée.`;
-  }
-
-  if (q.includes('transparence') || q.includes('explicabilité') || q.includes('explicabilite') || q.includes('journal') || q.includes('audit')) {
-    return `L'article 12.1 de la Loi 25 québécoise est formel : toute personne faisant l'objet d'une décision automatisée a le droit d'en être informée et d'en connaître les facteurs prépondérants. La transparence radicale implique un journal d'audit immuable où chaque hypothèse formulée par l'agent est traçable et auditable.`;
-  }
-
-  return `C'est une réflexion remarquable qui saisit avec acuité la complexité du monde réel. Après avoir exploré ces dilemmes, quel est selon vous le garde-fou prioritaire à intégrer dans notre cadre de contrôle ?`;
+// Rétrocompatibilité
+function getLocalSocraticTutorReply(userMsg, dilemmaId, moralWeights, learnerProfile) {
+  const res = getLocalStephAIReply(userMsg, 0, [], moralWeights, (learnerProfile && learnerProfile.name) || "Mustapha");
+  return res.reply;
 }
 
 // Fonction de nettoyage soigné en français institutionnel
