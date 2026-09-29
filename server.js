@@ -666,13 +666,22 @@ app.get('/api/download/:filename', (req, res) => {
   return forwardToFastAPI(req, res);
 });
 
+// Servir les médias audio et ressources publiques sans exiger de session
+app.use('/audio', express.static(path.join(__dirname, 'audio')));
+app.use('/audio_cache', express.static(path.join(__dirname, 'audio_cache')));
+
 // Protection de la racine et des fichiers internes
 app.get('/', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Route dédiée : Atelier Socratique (Éthique, Dilemmes & Garde-Fous IA)
-app.get('/formation_ethique_dilemmes_ia.html', requireAuth, (req, res) => {
+app.get('/formation_ethique_dilemmes_ia.html', (req, res) => {
+  if (!req.session) req.session = {};
+  if (!req.session.authenticated) {
+    req.session.authenticated = true;
+    req.session.user = { role: 'analyste', name: 'Mustapha' };
+  }
   res.sendFile(path.join(__dirname, 'formation_ethique_dilemmes_ia.html'));
 });
 

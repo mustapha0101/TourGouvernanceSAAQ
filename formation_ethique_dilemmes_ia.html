@@ -302,6 +302,7 @@
       overflow: hidden;
       margin-bottom: 10px;
       transition: all 0.3s ease;
+      position: relative;
     }
 
     .studio-header-strip {
@@ -352,11 +353,12 @@
       position: relative;
       box-shadow: 0 4px 16px rgba(0, 113, 227, 0.15);
       transition: all 0.3s ease;
+      cursor: pointer;
     }
     .mentor-pane.speaking .mentor-avatar-box {
       border-color: var(--accent-blue);
-      box-shadow: 0 0 20px rgba(0, 113, 227, 0.35);
-      transform: scale(1.02);
+      box-shadow: 0 0 22px rgba(0, 113, 227, 0.45);
+      transform: scale(1.03);
     }
 
     .mentor-avatar-img {
@@ -477,6 +479,75 @@
       border-radius: 8px;
       padding: 3px 8px;
       text-align: center;
+    }
+
+    /* BANNIÈRE DE DÉMARRAGE AUDIO (AUTOPLAY UNLOCK) */
+    .audio-activation-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-xl);
+      animation: fadeInOverlay 0.3s ease-out;
+    }
+    [data-theme="dark"] .audio-activation-overlay {
+      background: rgba(15, 23, 42, 0.95);
+    }
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .audio-activation-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+      padding: 18px 24px;
+    }
+    .audio-activation-icon {
+      font-size: 32px;
+      animation: pulseIcon 1.5s infinite ease-in-out;
+    }
+    @keyframes pulseIcon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    .audio-activation-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .audio-activation-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 320px;
+    }
+    .btn-activate-audio {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 9px 22px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(0, 113, 227, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-activate-audio:hover {
+      background: var(--accent-blue-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 113, 227, 0.45);
     }
 
     /* ========================================================================== */
@@ -1049,16 +1120,29 @@
 
     <!-- STUDIO DU MENTOR (AVATAR HUD + VISUEL ÉPURÉ) -->
     <div class="studio-container">
+      
+      <!-- BANNIÈRE DE DÉVERROUILLAGE AUDIO (AUTOPLAY INITIAL) -->
+      <div class="audio-activation-overlay" id="audio-activation-overlay">
+        <div class="audio-activation-card">
+          <div class="audio-activation-icon">🎧</div>
+          <div class="audio-activation-title">Atelier Interactif avec StephAI</div>
+          <div class="audio-activation-sub">Activez l'audio haute-fidélité pour débuter la narration de la capsule 1</div>
+          <button class="btn-activate-audio" onclick="unlockAndStartExperience()">
+            <span>▶ Démarrer avec le son</span>
+          </button>
+        </div>
+      </div>
+
       <div class="studio-header-strip">
         <span id="studio-stage-title">Capsule Vidéo 1/7 • Les Fondations Morales de l'IA</span>
-        <span id="studio-status-tag">🔊 Narration en cours...</span>
+        <span id="studio-status-tag">🔊 Prêt à écouter</span>
       </div>
 
       <div class="studio-stage" id="studio-stage">
         
         <!-- Pôle Gauche : Mentor StephAI -->
         <div class="mentor-pane" id="mentor-pane">
-          <div class="mentor-avatar-box">
+          <div class="mentor-avatar-box" onclick="toggleAudioPlayback()" title="Cliquer pour écouter ou mettre en pause">
             <!-- Avatar épuré SVG de StephAI -->
             <svg class="mentor-avatar-img" viewBox="0 0 100 100" fill="none">
               <rect width="100" height="100" fill="#0f172a"/>
@@ -1072,7 +1156,7 @@
           </div>
           <div class="mentor-name">StephAI</div>
           <div class="mentor-role">Conseillère & Mentor Éthique</div>
-          <div class="mentor-pulse-tag" id="mentor-pulse-tag">🎧 En écoute</div>
+          <div class="mentor-pulse-tag" id="mentor-pulse-tag">🎧 En attente</div>
 
           <div class="mentor-wave-bars">
             <div class="wave-bar"></div>
@@ -1082,6 +1166,7 @@
           </div>
 
           <div class="mentor-controls-row">
+            <button class="btn-ctl-clean" id="btn-audio-play" onclick="toggleAudioPlayback()">▶ Écouter</button>
             <button class="btn-ctl-clean" onclick="replayActiveAudio()">🔄 Rejouer</button>
             <button class="btn-ctl-clean" onclick="toggleAudioMute()" id="btn-audio-mute">🔊 Son</button>
           </div>
@@ -1094,7 +1179,7 @@
           </div>
 
           <div class="slide-content-stage" id="slide-content-stage">
-            <!-- Injecté dynamiquement par renderSlideContent() -->
+            <!-- Injecté dynamiquement par renderSlideVisual() -->
           </div>
 
           <div class="slide-footer-legend" id="slide-footer-legend">
@@ -1113,7 +1198,7 @@
     <!-- BARRE D'INTERACTION BASSE (GRAND MICROPHONE 44px + SAISIE) -->
     <div class="bottom-bar">
       <div class="status-hint-row">
-        <span id="interaction-status-badge">🎧 Capsule vidéo en cours d'écoute...</span>
+        <span id="interaction-status-badge">🎧 Cliquez sur "Démarrer avec le son" pour lancer l'atelier...</span>
         <span id="mic-status-hint">Microphone prêt</span>
       </div>
 
@@ -1160,6 +1245,9 @@
     </div>
   </div>
 
+  <!-- ÉLÉMENT AUDIO PRINCIPAL HAUTE FIDÉLITÉ (NATIVE .WAV AMÉLIE / TTS) -->
+  <audio id="stephai-audio-player" preload="auto"></audio>
+
   <!-- ======================================================================== -->
   <!-- 4. LOGIQUE SOCRATIQUE, WIZARD & GESTION INTELLIGENTE DU MENTOR              -->
   <!-- ======================================================================== -->
@@ -1169,13 +1257,15 @@
       currentStepId: 'VID-01',
       isSpeaking: false,
       isAudioMuted: false,
-      speechSynthesisUtterance: null,
+      audioUnlocked: false,
       theme: 'light',
       tramLeverState: 'straight',
       selectedSchool: null,
       humeBridgeDeployed: false,
       speedF1: 180
     };
+
+    const audioPlayer = document.getElementById('stephai-audio-player');
 
     // DÉFINITION DES 7 CAPSULES DE FORMATION (WIZARD)
     const WIZARD_STEPS = {
@@ -1184,6 +1274,7 @@
         title: "Les 3 Écoles Morales Fondamentales de la Gouvernance IA",
         shortTitle: "3 Écoles",
         slideType: "schools",
+        audioSrc: "audio/capsule_01.wav",
         script: `Bonjour ! Je suis StephAI, votre conseillère numérique en éthique et gouvernance des technologies.
 
 Pourquoi la gouvernance de l'IA est-elle indispensable ? Parce que le code n'est jamais neutre : chaque modèle incorpore des choix moraux qui engagent des vies humaines. Pour guider ces décisions, nous devons nous appuyer sur les trois grandes écoles de philosophie morale :
@@ -1226,6 +1317,7 @@ Gouverner l'IA, c'est savoir arbitrer avec sagesse entre ces trois boussoles.`,
         title: "Pourquoi les Données ne Suffisent Pas ? (Le Piège de David Hume)",
         shortTitle: "Pont de Hume",
         slideType: "hume",
+        audioSrc: "audio/capsule_02.wav",
         script: `Au dix-huitième siècle, le philosophe David Hume a démontré un fossé logique infranchissable entre « ce qui est » et « ce qui devrait être ».
 
 Ce principe est fondamental en IA : les données ne sont qu'un miroir descriptif du passé. Elles enregistrent nos biais historiques, nos inégalités et nos erreurs passées.
@@ -1254,6 +1346,7 @@ Confier une décision à un modèle sans gouvernance, c'est tomber dans le pièg
         title: "Le Dilemme du Tramway Appliqué à l'IA Autonome",
         shortTitle: "Tramway",
         slideType: "tramway",
+        audioSrc: "audio/capsule_03.wav",
         script: `Le célèbre dilemme du tramway n'est plus une simple expérience de pensée philosophique : c'est aujourd'hui le quotidien des architectes de systèmes autonomes.
 
 Un tramway file à vive allure : sur la voie principale se trouvent 5 personnes. Vous pouvez actionner un levier pour dévier le tramway sur une voie secondaire où se trouve 1 seule personne.
@@ -1282,6 +1375,7 @@ Dans un système d'IA autonome, ce choix doit être programmé avant même que l
         title: "Le Dilemme du Véhicule Autonome & la Mobilité",
         shortTitle: "Véhicule",
         slideType: "car",
+        audioSrc: "audio/capsule_04.wav",
         script: `Considérons maintenant le cas direct du véhicule autonome ou connecté :
 
 Un obstacle imprévu surgit. Le véhicule n'a que deux options en 20 millisecondes : soit heurter un groupe de piétons traversant la chaussée, soit dévier violemment contre un mur de béton, ce qui blessera grièvement son propre passager.
@@ -1310,6 +1404,7 @@ La gouvernance de l'IA n'est pas un luxe théorique : c'est le cadre de politiqu
         title: "La Gouvernance comme Accélérateur : L'Analogie de la F1",
         shortTitle: "Freins F1",
         slideType: "f1",
+        audioSrc: "audio/capsule_05.wav",
         script: `Beaucoup perçoivent encore la gouvernance comme un fardeau bureaucratique ou un frein à l'innovation.
 
 Posez-vous cette question : « Pourquoi installe-t-on des freins ultra-performants en carbone-céramique sur une Formule 1 ? »
@@ -1338,6 +1433,7 @@ La gouvernance de l'IA, c'est exactement cela : ce n'est pas un frein, c'est not
         title: "L'Architecture des Agents Gardiens R&D en Temps Réel",
         shortTitle: "Gardiens",
         slideType: "agent",
+        audioSrc: "audio/capsule_06.wav",
         script: `Comment concrétiser cette gouvernance au quotidien sans surcharger les comités d'approbation ?
 
 La réponse réside dans l'architecture des Agents Gardiens : en parallèle de chaque agent d'IA qui produit du travail, un agent gardien spécialisé analyse les entrées et sorties en temps réel.
@@ -1366,6 +1462,7 @@ C'est l'alliance parfaite : la rapidité de la machine alliée à la souverainet
         title: "Le Pitch Exécutif de 30 Secondes : L'Art de Convaincre la Direction",
         shortTitle: "Pitch 30s",
         slideType: "pitch",
+        audioSrc: "audio/capsule_07.wav",
         script: `Nous voici à l'aboutissement de notre parcours. Comment résumer tout cela en 30 secondes chrono à un dirigeant ou au Conseil d'administration ?
 
 Voici la formule officielle de notre doctrine :
@@ -1433,11 +1530,118 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
     ];
 
     // ========================================================================
-    // 5. INITIALISATION DU STUDIO ET NAVIGATION DANS LE WIZARD
+    // 5. GESTION AUDIO HAUTE-FIDÉLITÉ (AUTOPLAY UNLOCK & AUDIO PLAYER)
+    // ========================================================================
+    function unlockAndStartExperience() {
+      const overlay = document.getElementById('audio-activation-overlay');
+      if (overlay) overlay.style.display = 'none';
+      APP.audioUnlocked = true;
+
+      // Déverrouiller le contexte audio navigateur immédiatement
+      playCapsuleAudio('VID-01');
+    }
+
+    function playCapsuleAudio(stepId) {
+      const step = WIZARD_STEPS[stepId];
+      if (!step) return;
+
+      setMentorSpeakingState(true);
+      document.getElementById('studio-status-tag').innerText = "🔊 Narration en direct...";
+      const playBtn = document.getElementById('btn-audio-play');
+      if (playBtn) playBtn.innerText = "⏸️ Pause";
+
+      if (APP.isAudioMuted) {
+        setTimeout(() => onVideoFinished(stepId), 1500);
+        return;
+      }
+
+      // 1. Essai prioritaire : Fichier WAV pré-généré natif (Amélie, voix HD)
+      audioPlayer.src = step.audioSrc;
+      audioPlayer.play().then(() => {
+        console.log("Lecture audio HD démarrée :", step.audioSrc);
+      }).catch(err => {
+        console.warn("Échec audio HTML5, bascule vers SpeechSynthesis :", err);
+        fallbackSpeechSynthesis(step.script, () => onVideoFinished(stepId));
+      });
+
+      audioPlayer.onended = () => {
+        setMentorSpeakingState(false);
+        document.getElementById('studio-status-tag').innerText = "✅ Capsule terminée";
+        if (playBtn) playBtn.innerText = "▶ Écouter";
+        onVideoFinished(stepId);
+      };
+      audioPlayer.onerror = (e) => {
+        console.warn("Erreur lecture fichier audio :", e);
+        fallbackSpeechSynthesis(step.script, () => onVideoFinished(stepId));
+      };
+    }
+
+    function toggleAudioPlayback() {
+      const playBtn = document.getElementById('btn-audio-play');
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        setMentorSpeakingState(true);
+        if (playBtn) playBtn.innerText = "⏸️ Pause";
+      } else {
+        audioPlayer.pause();
+        setMentorSpeakingState(false);
+        if (playBtn) playBtn.innerText = "▶ Écouter";
+      }
+    }
+
+    function replayActiveAudio() {
+      if (audioPlayer.src) {
+        audioPlayer.currentTime = 0;
+        audioPlayer.play();
+        setMentorSpeakingState(true);
+        const playBtn = document.getElementById('btn-audio-play');
+        if (playBtn) playBtn.innerText = "⏸️ Pause";
+      } else {
+        playCapsuleAudio(APP.currentStepId);
+      }
+    }
+
+    function toggleAudioMute() {
+      APP.isAudioMuted = !APP.isAudioMuted;
+      audioPlayer.muted = APP.isAudioMuted;
+      const btn = document.getElementById('btn-audio-mute');
+      if (APP.isAudioMuted) {
+        if (btn) btn.innerText = "🔇 Muet";
+      } else {
+        if (btn) btn.innerText = "🔊 Son";
+      }
+    }
+
+    function fallbackSpeechSynthesis(text, onComplete) {
+      if (!('speechSynthesis' in window)) {
+        if (onComplete) onComplete();
+        return;
+      }
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.resume();
+      const clean = text.replace(/<[^>]*>/g, '').trim();
+      const utter = new SpeechSynthesisUtterance(clean);
+      utter.lang = 'fr-CA';
+      utter.rate = 1.05;
+
+      utter.onend = () => {
+        setMentorSpeakingState(false);
+        if (onComplete) onComplete();
+      };
+      utter.onerror = () => {
+        setMentorSpeakingState(false);
+        if (onComplete) onComplete();
+      };
+      setMentorSpeakingState(true);
+      window.speechSynthesis.speak(utter);
+    }
+
+    // ========================================================================
+    // 6. INITIALISATION DU STUDIO ET NAVIGATION DANS LE WIZARD
     // ========================================================================
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
-      loadStep('VID-01', true);
+      loadStep('VID-01', false);
     });
 
     function initTheme() {
@@ -1467,8 +1671,8 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
 
     function jumpToStep(stepId) {
       if (WIZARD_STEPS[stepId]) {
-        stopAudioSpeaking();
-        loadStep(stepId, true);
+        audioPlayer.pause();
+        loadStep(stepId, APP.audioUnlocked);
       }
     }
 
@@ -1521,18 +1725,12 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
       subBanner.innerText = `« ${step.script.substring(0, 180)}... »`;
       stream.appendChild(subBanner);
 
-      setMentorSpeakingState(true);
       document.getElementById('interaction-status-badge').innerHTML = `🎧 Capsule en cours d'écoute...`;
 
-      if (autoSpeak && !APP.isAudioMuted) {
-        speakAudioText(step.script, () => {
-          onVideoFinished(stepId);
-        });
+      if (autoSpeak) {
+        playCapsuleAudio(stepId);
       } else {
-        // Si muet, transition douce après 1.5s
-        setTimeout(() => {
-          onVideoFinished(stepId);
-        }, 1600);
+        setMentorSpeakingState(false);
       }
     }
 
@@ -1616,7 +1814,7 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
     }
 
     // ========================================================================
-    // 6. GESTION INTELLIGENTE DU MENTOR : HORS-SCRIPT & RETOUR AU FIL CONDUCTEUR
+    // 7. GESTION INTELLIGENTE DU MENTOR : HORS-SCRIPT & RETOUR AU FIL CONDUCTEUR
     // ========================================================================
     async function submitUserMessage() {
       const inputEl = document.getElementById('chat-input');
@@ -1642,9 +1840,8 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
 
     function checkIfOffscript(text, step) {
       const t = text.toLowerCase();
-      // Mots interrogatifs ou curiosité
-      if (t.includes('?') || t.includes('pourquoi') || t.includes('comment') || t.includes('qu'est-ce') || 
-          t.includes('c'est quoi') || t.includes('explique') || t.includes('différence') || t.includes('hume') ||
+      if (t.includes('?') || t.includes('pourquoi') || t.includes('comment') || t.includes("qu'est-ce") || 
+          t.includes("c'est quoi") || t.includes('explique') || t.includes('différence') || t.includes('hume') ||
           t.includes('aristote') || t.includes('kant') || t.includes('bentham') || t.includes('loi 25') ||
           t.includes('f1') || t.includes('frein') || t.includes('gardien') || t.includes('pas compris') ||
           t.includes('doute') || t.includes('exemple') || t.includes('définition')) {
@@ -1657,7 +1854,6 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
       const q = userText.toLowerCase();
       let mentorAnswer = "";
 
-      // Recherche dans la base de connaissances socratique
       for (const item of MENTOR_KNOWLEDGE) {
         if (item.patterns.some(p => q.includes(p))) {
           mentorAnswer = item.answer;
@@ -1722,7 +1918,7 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
     }
 
     // ========================================================================
-    // 7. COMPOSANTS D'AFFICHAGE SOCRATIQUE (BULLES DE MESSAGE)
+    // 8. COMPOSANTS D'AFFICHAGE SOCRATIQUE (BULLES DE MESSAGE)
     // ========================================================================
     function appendMentorMessage(htmlContent) {
       const stream = document.getElementById('dialogue-stream');
@@ -1755,7 +1951,7 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
     }
 
     // ========================================================================
-    // 8. VISUALISATIONS GRAPHIQUES ÉPURÉES (APPLE-STYLE)
+    // 9. VISUALISATIONS GRAPHIQUES ÉPURÉES (APPLE-STYLE)
     // ========================================================================
     function renderSlideVisual(type) {
       const stage = document.getElementById('slide-content-stage');
@@ -1827,12 +2023,9 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
         stage.innerHTML = `
           <div class="tram-canvas-wrap">
             <svg class="tram-svg" viewBox="0 0 460 85" fill="none">
-              <!-- Voie principale -->
               <path d="M 20 42 L 180 42 L 300 20 L 440 20" stroke="var(--card-border-subtle)" stroke-width="4" stroke-dasharray="6 3"/>
-              <!-- Voie secondaire déviée -->
               <path d="M 180 42 L 300 66 L 440 66" stroke="var(--card-border-subtle)" stroke-width="4" stroke-dasharray="6 3"/>
 
-              <!-- Tramway épuré -->
               <g id="tram-cart" transform="translate(40, 31)">
                 <rect x="0" y="0" width="56" height="22" rx="6" fill="var(--accent-blue)" stroke="#ffffff" stroke-width="1.5"/>
                 <circle cx="12" cy="22" r="3" fill="#334155"/>
@@ -1842,7 +2035,6 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
                 <rect x="38" y="4" width="10" height="9" rx="2" fill="#ffffff" opacity="0.8"/>
               </g>
 
-              <!-- Aiguillage cliquable -->
               <g onclick="toggleTramwaySwitch()" style="cursor:pointer;" title="Actionner le levier">
                 <circle cx="180" cy="42" r="6" fill="var(--accent-blue)"/>
                 <line id="lever-line" x1="180" y1="42" x2="180" y2="20" stroke="var(--accent-amber)" stroke-width="3" stroke-linecap="round"/>
@@ -1850,7 +2042,6 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
                 <text x="160" y="12" fill="var(--accent-amber)" font-size="7.5" font-weight="bold">🕹️ LEVIER</text>
               </g>
 
-              <!-- 5 personnes sur voie 1 -->
               <g transform="translate(370, 12)">
                 <circle cx="0" cy="0" r="3.5" fill="var(--accent-crimson)"/>
                 <circle cx="10" cy="0" r="3.5" fill="var(--accent-crimson)"/>
@@ -1860,7 +2051,6 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
                 <text x="-6" y="-6" fill="var(--accent-crimson)" font-size="7.5" font-weight="bold">⚠️ 5 PERSONNES</text>
               </g>
 
-              <!-- 1 personne sur voie 2 -->
               <g transform="translate(400, 66)">
                 <circle cx="0" cy="0" r="3.5" fill="var(--accent-amber)"/>
                 <text x="-32" y="16" fill="var(--accent-amber)" font-size="7.5" font-weight="bold">👤 1 PERSONNE</text>
@@ -1886,7 +2076,6 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
               <rect x="10" y="12" width="420" height="52" rx="8" fill="var(--bg-app)" stroke="var(--card-border-subtle)"/>
               <line x1="10" y1="38" x2="430" y2="38" stroke="var(--card-border-subtle)" stroke-width="2" stroke-dasharray="6 4"/>
               
-              <!-- Véhicule SAAQ -->
               <g transform="translate(30, 26)">
                 <rect x="0" y="0" width="50" height="24" rx="5" fill="var(--accent-blue)"/>
                 <circle cx="12" cy="24" r="3.5" fill="#334155"/>
@@ -1894,10 +2083,8 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
                 <text x="6" y="-4" fill="var(--accent-blue)" font-size="7.5" font-weight="bold">📡 LiDAR</text>
               </g>
 
-              <!-- Faisceau LiDAR doux -->
               <path d="M 80 38 L 220 18 L 220 58 Z" fill="var(--accent-blue)" opacity="0.12"/>
 
-              <!-- Piétons -->
               <g transform="translate(240, 32)">
                 <circle cx="0" cy="0" r="3.5" fill="var(--accent-crimson)"/>
                 <circle cx="10" cy="0" r="3.5" fill="var(--accent-crimson)"/>
@@ -1905,16 +2092,15 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
                 <text x="-6" y="-6" fill="var(--accent-crimson)" font-size="7.5" font-weight="bold">⚠️ Piétons</text>
               </g>
 
-              <!-- Muret -->
               <rect x="360" y="16" width="14" height="20" rx="3" fill="var(--card-border-subtle)" stroke="var(--accent-amber)"/>
               <text x="340" y="48" fill="var(--text-dim)" font-size="7.5">Muret</text>
             </svg>
 
             <div style="display:flex; justify-content:center; gap:8px;">
-              <button class="btn-slide-clean" onclick="handleOptionSelected({text:'Dérivation vers le muret pour protéger les piétons', aiReply:'Vous priorisez la protection des piétons les plus vulnérables. C\'est la doctrine de sécurité publique.'}, 'VID-05')">
+              <button class="btn-slide-clean" onclick="handleCarChoice('muret')">
                 <span>🧱 Dérivation muret</span>
               </button>
-              <button class="btn-slide-clean" onclick="handleOptionSelected({text:'Freinage direct pour préserver le passager', aiReply:'Vous privilégiez la protection de l\'usager à bord du véhicule.'}, 'VID-05')">
+              <button class="btn-slide-clean" onclick="handleCarChoice('frein')">
                 <span>🛑 Freinage direct</span>
               </button>
             </div>
@@ -2017,7 +2203,7 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
     }
 
     // ========================================================================
-    // 9. INTERACTIONS DANS LES SLIDES
+    // 10. INTERACTIONS DANS LES SLIDES
     // ========================================================================
     function selectSchoolVisual(schoolKey) {
       ['deonto', 'vertu', 'util'].forEach(k => {
@@ -2078,66 +2264,26 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
       alert("✅ Pitch exécutif copié dans le presse-papier !");
     }
 
-    // ========================================================================
-    // 10. SYNTHÈSE VOCALE (TTS) & RECONNAISSANCE VOCALE (STT 44px)
-    // ========================================================================
+    function handleCarChoice(choice) {
+      if (choice === 'muret') {
+        handleOptionSelected({
+          text: "Dérivation vers le muret pour protéger les piétons",
+          aiReply: "Vous priorisez la protection des piétons les plus vulnérables. C'est la doctrine de sécurité publique la plus exigeante."
+        }, 'VID-05');
+      } else {
+        handleOptionSelected({
+          text: "Freinage direct d'urgence pour préserver le passager",
+          aiReply: "Vous privilégiez la protection de l'usager à bord du véhicule."
+        }, 'VID-05');
+      }
+    }
+
     function setMentorSpeakingState(isSpeaking) {
       APP.isSpeaking = isSpeaking;
       const pane = document.getElementById('mentor-pane');
       const tag = document.getElementById('mentor-pulse-tag');
       if (pane) pane.classList.toggle('speaking', isSpeaking);
       if (tag) tag.innerText = isSpeaking ? "🗣️ Parle..." : "🎧 En écoute";
-    }
-
-    function speakAudioText(text, onComplete) {
-      if (!('speechSynthesis' in window)) {
-        if (onComplete) onComplete();
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const cleanText = text.replace(/<[^>]*>/g, '').trim();
-      const utter = new SpeechSynthesisUtterance(cleanText);
-      utter.lang = 'fr-CA';
-      utter.rate = 1.05;
-
-      utter.onend = () => {
-        setMentorSpeakingState(false);
-        if (onComplete) onComplete();
-      };
-      utter.onerror = () => {
-        setMentorSpeakingState(false);
-        if (onComplete) onComplete();
-      };
-
-      APP.speechSynthesisUtterance = utter;
-      setMentorSpeakingState(true);
-      window.speechSynthesis.speak(utter);
-    }
-
-    function stopAudioSpeaking() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-      setMentorSpeakingState(false);
-    }
-
-    function replayActiveAudio() {
-      const step = WIZARD_STEPS[APP.currentStepId];
-      if (step) {
-        stopAudioSpeaking();
-        speakAudioText(step.script);
-      }
-    }
-
-    function toggleAudioMute() {
-      APP.isAudioMuted = !APP.isAudioMuted;
-      const btn = document.getElementById('btn-audio-mute');
-      if (APP.isAudioMuted) {
-        stopAudioSpeaking();
-        if (btn) btn.innerText = "🔇 Muet";
-      } else {
-        if (btn) btn.innerText = "🔊 Son";
-      }
     }
 
     // RECONNAISSANCE VOCALE (STT) SUR GRAND BOUTON 44px
@@ -2194,7 +2340,7 @@ Félicitations pour votre engagement tout au long de cet atelier !`,
         recognition.stop();
         stopMicRecording();
       } else {
-        stopAudioSpeaking();
+        audioPlayer.pause();
         try {
           recognition.start();
         } catch(e) {
